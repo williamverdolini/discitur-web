@@ -13,7 +13,7 @@ describe("Unit - module:Common - Testing Services", function() {
     });
   });
 
-  it('should contain an LabelService service', function() {
+  it('should contain a LabelService service', function() {
     expect($LabelService).not.toBe(null);
   });
 
@@ -55,13 +55,28 @@ describe("Unit - module:Lesson - Testing Services", function () {
       // I want the real service to read from DB, so it has to be async service
       // So in Angular.js it should return a promise 
       it('should LessonService.search return a promise', function() {
-        var promise = _LessonService.search();
+        var promise = _LessonService.search({});
         expect(angular.isFunction(promise.then)).toBe(true);
         expect(angular.isFunction(promise.catch)).toBe(true);
         expect(angular.isFunction(promise.finally)).toBe(true);
       });
 
       describe('LessonService [signature-parameters]', function () {
+          it('Should LessonService.search() not accept no parameter, throw exception otherwise', function () {
+              var invalidParamEx;
+              //make the call.
+              try {
+                  var returnedPromise = _LessonService.search();
+              }
+              catch (ex) {
+                  invalidParamEx = ex;
+              }
+
+              expect(invalidParamEx).toBeDefined();
+              expect(invalidParamEx.code).toBeDefined();
+              expect(invalidParamEx.code).toEqual(20001);
+          })
+
           it('Should LessonService.search() accept no strings, throw exception otherwise', function () {
               var invalidParamEx;
               //make the call.
@@ -140,7 +155,6 @@ describe("Unit - module:Lesson - Testing Services", function () {
               expect(invalidParamEx.code).toEqual(20002);
           })
 
-
       })
 
   })
@@ -155,7 +169,8 @@ describe("Unit - module:Lesson - Testing Services", function () {
     var _MockedData,
         _httpBackend,
         _LessonService,
-        _DisciturSettings;
+        _DisciturSettings,
+        _defQueryString;
 
     // Befaore each test in the suite I inject the modules needed
     beforeEach(function () {
@@ -170,6 +185,8 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _LessonService = LessonService;
         _DisciturSettings = DisciturSettings;
       });
+
+      _defQueryString = '?orderBy=PublishDate&orderDir=DESC';
     })
     
     //make sure no expectations were missed in your tests.
@@ -180,7 +197,39 @@ describe("Unit - module:Lesson - Testing Services", function () {
     });
  
     //-------- TEST CASES:
-    it('Should the LessonService.search() return all the lessons', function () {
+    it('Should the LessonService.search({}) pass default parameters', function () {
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson' + _defQueryString).respond(_MockedData.lessons)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var returnedPromise = _LessonService.search({});
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.search({}) return all the lessons', function () {
       //create an object with a function to spy on.
       var _test = {
         successCB: function () { },
@@ -192,11 +241,11 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
       // Create mocked api route.
       // I want to emulate what I will do in real app code, so I use the same config as in the real code
-      _httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson').respond(_MockedData.lessons)
+      _httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson' + _defQueryString).respond(_MockedData.lessons)
 
       //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
       //make the call.
-      var returnedPromise = _LessonService.search();
+      var returnedPromise = _LessonService.search({});
       
       //use the handler you're spying on to handle the resolution of the promise.
       returnedPromise.then(_test.successCB);
@@ -212,7 +261,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
       expect(_test.errorCB).not.toHaveBeenCalled();
     });
 
-    it('Should the LessonService.search() return all the lessons in DT Object Model', function () {
+    it('Should the LessonService.search({}) return all the lessons in DT Object Model', function () {
       // Create a test client to explore returned data
       // DO NOT USE Spy (It prevents to callback in promise chain)
       var _test = {
@@ -236,10 +285,10 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
       // Create mocked api route.
       // I want to emulate what I will do in real app code, so I use the same config as in the app code
-      _httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson').respond(_MockedData.lessons)
+      _httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson' + _defQueryString).respond(_MockedData.lessons)
 
       //make the call.
-      var returnedPromise = _LessonService.search();
+      var returnedPromise = _LessonService.search({});
 
       //use the handler you're spying on to handle the resolution of the promise.
       returnedPromise.then(_test.successCB);
@@ -247,14 +296,6 @@ describe("Unit - module:Lesson - Testing Services", function () {
       //flush the backend to "execute" the request to do the expectedGET assertion.
       _httpBackend.flush();
     });
-
-
-
-/*
-    it('Should LessonService.search() accept just discipline input parameter and use it in API', function () {
-
-    })
-*/
 
   })
 
@@ -271,7 +312,8 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
         _rootScope,
         _$controller,
         _DisciturSettings,
-        _scope;
+        _scope,
+        _defQueryString;
 
     // Befaore each test in the suite I inject the modules needed
     beforeEach(function () {
@@ -290,6 +332,8 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
             _$httpBackend = $httpBackend;
             _DisciturSettings = DisciturSettings
         });
+
+        _defQueryString = '?orderBy=PublishDate&orderDir=DESC';
     })
 
     //make sure no expectations were missed in your tests.
@@ -323,7 +367,6 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
             });
         })
 
-
         it("Should LessonNewsCtrl have lessons array in its $scope", function () {
             var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
             expect(_scope.lessons).toBeDefined();
@@ -335,11 +378,11 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
         it("Should LessonNewsCtrl.lessons be populated with lessonNewsData array in input", function () {
             // Create mocked api route with faked response data
             // I want to emulate what I will do in real app code, so I use the same config as in the app code
-            _$httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson').respond(_MockedData.lessons)
+            _$httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson' + _defQueryString).respond(_MockedData.lessons)
 
             //make the call.
             //var returnedPromise = _LessonService.search();
-            _LessonService.search().then(function (data) { _lessonNewsData = data })
+            _LessonService.search({}).then(function (data) { _lessonNewsData = data })
             //flush the backend to "execute" the request to do the expectedGET assertion.
             _$httpBackend.flush();
 
@@ -377,9 +420,9 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
             expect(angular.isFunction(_scope.search)).toBe(true);
         })
 
-        it('Should $scope.search method broadcast LessonSearchEvent event (if in $state= \'lessonNews\')', function () {
+        it('Should $scope.search method broadcast LessonSearchEvent event (if in $state= \'lessonSearch\')', function () {
             var _$stateIn = {
-                is: function (state) { return true; }, // mock case of lessonNews or LessonSearch
+                is: function (state) { return true; }, // mock case of lessonNews or lessonSearch
                 go: function (newState, stateParams) { }
             }
 
@@ -388,7 +431,7 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
             spyOn(_rootScope, '$broadcast');
 
             _scope.keyword = 'keywordToSearch'
-            _scope.search();
+            _scope.search({});
 
             expect(_rootScope.$broadcast).toHaveBeenCalled();
             expect(_rootScope.$broadcast).toHaveBeenCalledWith('LessonSearchEvent', { keyword: 'keywordToSearch' });
@@ -406,60 +449,14 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
             spyOn(_$stateIn, 'go');
 
             _scope.keyword = 'keywordToSearch'
-            _scope.search();
+            _scope.search({});
 
             expect(_$stateIn.go).toHaveBeenCalled();
             expect(_$stateIn.go).toHaveBeenCalledWith('lessonSearch', { keyword: 'keywordToSearch' });
         })
 
-
-
-
     })
     
-
-
 })
 
 
-
-
-/*
-
-  it('should contain an $appYoutubeSearcher service', inject(function($appYoutubeSearcher) {
-    expect($appYoutubeSearcher).not.to.equal(null);
-  }));
-
-  it('should have a owrking $appYoutubeSearcher service', inject(['$appYoutubeSearcher',function($yt) {
-    expect($yt.prefixKey).not.to.equal(null);
-    expect($yt.resize).not.to.equal(null);
-    expect($yt.prepareImage).not.to.equal(null);
-    expect($yt.getWatchedVideos).not.to.equal(null);
-  }]));
-
-  it('should have a working service that resizes dimensions', inject(['$appYoutubeSearcher',function($yt) {
-    var w = 100;
-    var h = 100;
-    var mw = 50;
-    var mh = 50;
-    var sizes = $yt.resize(w,h,mw,mh);
-    expect(sizes.length).to.equal(2);
-    expect(sizes[0]).to.equal(50);
-    expect(sizes[1]).to.equal(50);
-  }]));
-
-  it('should store and save data properly', inject(['$appStorage',function($storage) {
-    var key = 'key', value = 'value';
-    $storage.enableCaching();
-    $storage.put(key, value);
-    expect($storage.isPresent(key)).to.equal(true);
-    expect($storage.get(key)).to.equal(value);
-
-    $storage.erase(key);
-    expect($storage.isPresent(key)).to.equal(false);
-
-    $storage.put(key, value);
-    $storage.flush();
-    expect($storage.isPresent(key)).to.equal(false);
-  }]));
-*/

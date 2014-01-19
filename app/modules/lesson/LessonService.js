@@ -70,7 +70,7 @@
               // Retrieve Async data for lesson id in input 
               // and return a LessonDTO instance
               get: function (inputParams) {
-                  DiscUtil.checkInputObj(
+                  DiscUtil.validateInput(
                       'LessonService.get',   // function name for logging purposes
                       { id: 1},              // hashmap to check inputParameters
                       inputParams            // actual input params
@@ -96,7 +96,7 @@
                   return deferred.promise;
               },
               search: function (inputParams) {                  
-                  DiscUtil.checkInputObj(
+                  DiscUtil.validateInput(
                       'LessonService.search',       // function name for logging purposes
                       {                             // hashmap to check inputParameters e set default values
                           keyword: null,
@@ -105,7 +105,7 @@
                           startRow: null,
                           pagesize: null,
                           orderBy: "PublishDate",
-                          orderDir: "ASC"
+                          orderDir: "DESC"
                       }, 
                       inputParams                   // actual input params
                       );

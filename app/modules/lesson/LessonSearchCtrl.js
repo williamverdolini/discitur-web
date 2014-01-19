@@ -21,7 +21,7 @@
             ///        otherwise change state to lessonSearch with keyword param
             $scope.search = function () {
                 if ($state.is('lessonNews') || $state.is('lessonSearch'))
-                    $rootScope.$broadcast('LessonSearchEvent', { keyword: $scope.keyword, pagesize : 3 })
+                    $rootScope.$broadcast('LessonSearchEvent', { keyword: $scope.keyword })
                 else
                     $state.go('lessonSearch', { keyword: $scope.keyword })
                     //$state.go('lessonSearch', { q: { keyword: $scope.keyword } })

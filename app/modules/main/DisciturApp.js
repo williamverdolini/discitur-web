@@ -47,11 +47,12 @@
     })
     .factory('DiscUtil', function () {
         return {
-            checkInputObj: function (functionName, validInput, actualInput) {
-                // accept or no params or Object (for searching parameters)
-                if (!angular.isUndefined(actualInput) && !(actualInput.constructor === Object))
+            validateInput: function (functionName, validInput, actualInput) {
+                // accept only Object
+                if (angular.isUndefined(actualInput) || actualInput.constructor !== Object)
                     throw { code: 20001, message: 'invalid Input Type for ' + functionName + ' :' + actualInput }
                 if (angular.isDefined(actualInput)) {
+                    // loop to check if input.properties (aka parametrs) are expected by the service validInput template
                     for (key in actualInput) {
                         if (!validInput.hasOwnProperty(key))
                             throw { code: 20002, message: 'invalid Input Parameter for ' + functionName + ' :' + actualInput }
@@ -59,14 +60,15 @@
                         //if (angular.isUndefined(actualInput[key]) && validInput[key] != null)
                         //    actualInput[key] = validInput[key];
                     }
-                }
-                // If not passed in actualInput and if defined in validInput, set default value
-                for (key in validInput) {
-                    if (angular.isUndefined(actualInput[key]) && validInput[key] != null)
-                        actualInput[key] = validInput[key];
+                    // loop to set default values, if not set in actualInput
+                    for (key in validInput) {
+                        if (angular.isUndefined(actualInput[key]) && validInput[key] != null)
+                            actualInput[key] = validInput[key];
+                    }
                 }
 
             }
+
 
         }
 

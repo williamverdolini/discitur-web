@@ -23,7 +23,6 @@
             //--------- model initialization ------
             $scope.lessons = lessonNewsData;
             $scope.search = function (inputParams) {
-                console.log(inputParams)
                 LessonService.search(inputParams).then(function (data) { $scope.lessons = data; })
             }
 
