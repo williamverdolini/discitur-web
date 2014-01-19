@@ -1,0 +1,21 @@
+﻿<!--
+    La struttura esterna della pagina è gestita con grid system FIX (container, row).
+    Le strutture interne con grid system fluid (container-fluid, row-fluid) per gestire un layout %
+-->
+<!-- HEADER AREA -->
+<div class="navbar navbar-inverse navbar-fixed-top" ng-include="'modules/navigation/navbar.html'" ng-controller="NavCtrl">
+</div>
+<!-- LOADING MODAL DIALOG -->
+<div class="alert alert-info modal" ng-show="loading">Loading...</div>
+
+<!-- CONTENT AREA -->
+<div class="container" ui-view>
+</div>
+
+<!-- FOOTER AREA -->
+<div class="container">
+    <hr />
+    <footer>
+        <p>© <a href="http://it.linkedin.com/in/williamverdolini/" target="_blank">William Verdolini</a> 2014</p>
+    </footer>
+</div>

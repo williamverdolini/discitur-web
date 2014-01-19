@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html ng-app="Discitur" ng-controller="DisciturRootCtrl" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/flatly-bootstrap.min.css" media="screen">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="screen">
+    
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-0.7.0.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <!-- endbuild -->
+    <!-- build:js scripts/modules.js -->
+    <!-- endbuild -->
+
+    <!-- Loading dell'applicazione e delle sue configurazioni di Routing (TO-DO: riorganizzare tramite Require.js)  -->
+    <script src="modules/common/CommonConfig.js"></script>
+    <script src="modules/common/LabelDictionary.js"></script>
+    <script src="modules/common/LabelService.js"></script>
+    <script src="modules/lesson/LessonConfig.js"></script>
+    <script src="modules/lesson/LessonService.js"></script>
+    <script src="modules/lesson/LessonCtrl.js"></script>
+    <script src="modules/lesson/Lesson404Ctrl.js"></script>
+    <script src="modules/lesson/LessonNewsCtrl.js"></script>
+    <script src="modules/lesson/LessonSearchCtrl.js"></script>
+    <!--
+        -->
+
+    <!--
+        <script src="modules/main/route.js"></script>
+    -->
+    <script src="modules/main/DisciturApp.js"></script>
+    <script src="modules/main/DisciturRootCtrl.js"></script>
+    <script src="modules/navigation/NavCtrl.js"></script>
+
+
+    <!--            BACKEND-LESS DEVELOPMENT                      -->
+    <!-- Da eliminare man mano che si tolgono i mocks dei servizi -->
+    
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="../mock/modules/lesson/mocks.js"></script>
+    
+    <!--<link rel="stylesheet" type="text/css" href="Content/bootstrap-theme.css" />-->
+    <style>
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+
+        /* Enable use of floated navbar text */
+        /*
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+        */
+    </style>
+    <title>{{labels.appTitle}}</title>
+</head>
+<body>
+    <div ui-view></div>
+</body>
+</html>
