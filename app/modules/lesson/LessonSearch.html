@@ -1,5 +1,5 @@
 ﻿<div ng-controller="LessonSearchCtrl">
-    <form class="navbar-search navbar" ng-submit="search()">
+    <form class="navbar-search navbar" ng-submit="search()" id="lessonSearch">
         <div class="input-append">
             <input class="span4" id="appendedInputButtons" type="text" placeholder="{{labels.keywordPlaceholder}}" ng-model="keyword">
             <button class="btn" type="button" ng-click="search()">{{labels.searchButton}}</button>
