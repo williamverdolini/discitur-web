@@ -65,6 +65,17 @@
             }
             return lessons;
           }
+          var _pageDataTransfer = function (resultPage) {
+              var page = {
+                  startRow : resultPage.StartRow,
+                  count: resultPage.Count,
+                  pageSize: resultPage.PageSize,
+                  lessons: _arrayDataTransfer(resultPage.Records)
+              }
+              
+              return page;
+          }
+
 
           return {
               // Retrieve Async data for lesson id in input 
@@ -102,8 +113,8 @@
                           keyword: null,
                           discipline: null,
                           school: null,
-                          startRow: null,
-                          pagesize: null,
+                          startRow: 0,
+                          pageSize: 3,
                           orderBy: "PublishDate",
                           orderDir: "DESC"
                       }, 
@@ -118,7 +129,8 @@
                       .success(
                           // Success Callback: Data Transfer Object Creation
                           function (result) {
-                            deferred.resolve(_arrayDataTransfer(result))
+                              //deferred.resolve(_arrayDataTransfer(result))
+                              deferred.resolve(_pageDataTransfer(result))                              
                           })
                       .error(
                           // Error Callback

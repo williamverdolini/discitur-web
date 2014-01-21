@@ -1,18 +1,20 @@
 ﻿<div ng-controller="LessonSearchCtrl">
-    <form class="navbar-search navbar" ng-submit="search()" id="lessonSearch">
+    <form class="navbar-search navbar" ng-submit="search()" id="lessonSearch" ng-init="viewAdvSearch=false;">
         <div class="input-append">
             <input class="span4" id="appendedInputButtons" type="text" placeholder="{{labels.keywordPlaceholder}}" ng-model="keyword">
-            <button class="btn" type="button" ng-click="search()">{{labels.searchButton}}</button>
+            <button class="btn" type="submit" ng-click="search()">{{labels.searchButton}}</button>
         </div>
-        <a href="#" class="navbar-text"><small>{{labels.advancedSearchButton}}</small></a>
+
+        <a class="navbar-text" ng-click="viewAdvSearch=!viewAdvSearch;">
+        <small>{{labels.advancedSearchButton}}</small>
+        </a>
+
+
+        <div  class="form-control" ng-show="viewAdvSearch" style="display:table; width:100%;" >
+            <input type="text" placeholder="Disciplina">
+            <input type="text" placeholder="Scuola">
+            <input type="text" placeholder="Classe">
+            <input type="text" placeholder="Autore">
+        </div>
     </form>
-    <div ng-show="false" style="display:table; width:100%">
-        <ul>
-            <li>ng-show="keyword"</li>
-            <li>asdasdasdasdasd</li>
-            <li>asdasdasdasdasd</li>
-            <li>asdasdasdasdasd</li>
-            <li>asdasdasdasdasd</li>
-        </ul>
-    </div>
 </div>
