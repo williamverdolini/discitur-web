@@ -30,30 +30,41 @@
             */
 
             //------- label initialization -------//
-            _getLabel = function (label) {
+            var _getLabel = function (label) {
                 return LabelService.get('DisciturMasterCtrl', label);
             }
+
             $scope.labels = {
                 appTitle: _getLabel('appTitle')
             };
 
+            var _getMessage = function (obj) {
+                var _message = "";
+                for (var key in obj) {
+                    if (obj[key].constructor === Object)
+                        _message += _getMessage(obj[key])
+                    else
+                        _message += obj[key] + " ";
+                }
+                return _message;
+            }
 
             //------- Event Global Broadcasting -------//
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 //if (toState.resolve) {
-                    // Show a loading message until promises are not resolved
                     console.log("$stateChangeStart")
-                    $scope.loading = true;
+                // Show a loading message until promises are not resolved
+                $scope.loading = true;
                 //}
             });
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-                // Hide loading message
                 console.log("$stateChangeSuccess")
+                // Hide loading message
                 $scope.loading = false;
             });
             $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
+                console.warn('$stateChangeError: ' + _getMessage(error))
                 // Hide loading message
-                console.warn('$stateChangeError: ' + error)
                 $scope.loading = false;
             });
 
