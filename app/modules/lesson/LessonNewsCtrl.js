@@ -4,15 +4,16 @@
         'LabelService',
         'lessonNewsData',
         'LessonService',
+        '$state',
         function (
             $scope,
             LabelService,
             lessonNewsData,
-            LessonService
+            LessonService,
+            $state
             ) {
             //-------- $scope properties ----
             $scope.labels;
-            $scope.searchInput;
             $scope.lessons;
             $scope.totalLessons;
             $scope.currentPage;
@@ -28,22 +29,28 @@
                 $scope.currentPage = (lessonsPage.startRow - lessonsPage.startRow % lessonsPage.pageSize) / lessonsPage.pageSize + 1
                 $scope.pageSize = lessonsPage.pageSize
             }
-
+            /*
             //-------- public method -------
+            // Invoke search service
             $scope.search = function (inputParams) {
-                $scope.searchInput = inputParams;
+                //$scope.$emit('LessonSearchEvent', { keyword: $scope.keyword })
 
                 LessonService.search(inputParams).then(
                     function (data) {
-                        //$scope.lessons = data.lessons;
                         _setPageData(data)
                     })
             }
-
+            */
+            // Invoke search service for paging through state transition to preserve paging history
+            // the state transition is forced cause the same params could be used in previous navigations
             $scope.getPage = function (pager) {
-                var input = $scope.searchInput;
-                input.startRow = (pager.pageNum - 1) * $scope.pageSize;
-                $scope.search(input);
+                $state.go('lessonSearch', LessonService.getPage(pager), { reload: true })               
+                /*
+                LessonService.getPage(pager).then(
+                    function (data) {
+                        _setPageData(data)
+                    })
+                */
             }
 
             //--------- model initialization ------
@@ -51,11 +58,10 @@
                 publishedOn: _getLabel('publishedOn'),
                 viewMore: _getLabel('viewMore')
             };
-            //$scope.lessons = lessonNewsData.lessons;
-            //$scope.count = lessonNewsData.count
-            //$scope.page = lessonNewsData.startRow % lessonNewsData.pageSize
+
             _setPageData(lessonNewsData)
 
-            $scope.$on('LessonSearchEvent', function (event, args) { $scope.search(args) })
+            //$scope.$on('LessonSearchEvent', function (event, args) { $scope.search(args) })
+            //$scope.$on('LessonPagingEvent', function (event, args) { $scope.getPage(args) })
         }
     ]);

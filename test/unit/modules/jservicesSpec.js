@@ -186,7 +186,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _DisciturSettings = DisciturSettings;
       });
 
-      _defQueryString = '?orderBy=PublishDate&orderDir=DESC';
+      _defQueryString = '?orderBy=PublishDate&orderDir=DESC&pageSize=3&startRow=0';
     })
     
     //make sure no expectations were missed in your tests.
@@ -313,7 +313,9 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
         _$controller,
         _DisciturSettings,
         _scope,
-        _defQueryString;
+        _defQueryString,
+        _LabelService,
+        _$state;
 
     // Befaore each test in the suite I inject the modules needed
     beforeEach(function () {
@@ -323,17 +325,25 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
 
         //get your service, also get $httpBackend
         //$httpBackend will be a mock, thanks to angular-mocks.js
-        inject(function ($rootScope, $controller, MockedData, LessonService, $httpBackend, DisciturSettings) {
+        inject(function ($rootScope, $controller, MockedData, LessonService, $httpBackend, DisciturSettings, LabelService) {
             _rootScope = $rootScope;
             _scope = _rootScope.$new();
             _$controller = $controller;
             _MockedData = MockedData;
             _LessonService = LessonService;
             _$httpBackend = $httpBackend;
-            _DisciturSettings = DisciturSettings
+            _DisciturSettings = DisciturSettings;
+            _LabelService = LabelService;
+            //_$state = $state
         });
 
-        _defQueryString = '?orderBy=PublishDate&orderDir=DESC';
+        _defQueryString = '?orderBy=PublishDate&orderDir=DESC&pageSize=3&startRow=0';
+        
+        _$state = {
+            is: function () { },
+            go: function () { }
+        }
+        
     })
 
     //make sure no expectations were missed in your tests.
@@ -346,32 +356,37 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
 
     describe('- LessonNewsCtrl -', function () {
         it("Should Exists LessonNewsCtrl controller", function () {
-            var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
+            var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: [], LessonService: _LessonService, $state: _$state });
             expect(_ctrl).toBeDefined();
         });
 
         describe("Labels", function () {
             it("Should LessonNewsCtrl have labels object in its $scope", function () {
-                var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
+                //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
+                var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: [], LessonService: _LessonService, $state: _$state });
                 expect(_scope.labels).toBeDefined();
             });
 
             it("Should LessonNewsCtrl have publishedOn label", function () {
-                var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
+                //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
+                var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: [], LessonService: _LessonService, $state: _$state });
                 expect(_scope.labels.publishedOn).toBeDefined();
             });
 
             it("Should LessonNewsCtrl have viewMore label", function () {
-                var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
+                //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
+                var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: [], LessonService: _LessonService, $state: _$state });
                 expect(_scope.labels.viewMore).toBeDefined();
             });
         })
 
         it("Should LessonNewsCtrl have lessons array in its $scope", function () {
-            var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
+            //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: {lessons:[]} });
+            var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: {lessons:[]}, LessonService: _LessonService, $state: _$state });
             expect(_scope.lessons).toBeDefined();
         });
 
+        
         // At first I have to create mock data, but maybe I already have it (MockedData)!
         // With this test I have to start thinking about Service and resolving Data for the Controller
         // So I pause the this test and begin about services
@@ -386,12 +401,13 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
             //flush the backend to "execute" the request to do the expectedGET assertion.
             _$httpBackend.flush();
 
-            _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: _lessonNewsData });
-
-            expect(_scope.lessons).toEqual(_lessonNewsData)
+            //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: _lessonNewsData });
+            var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: _lessonNewsData, LessonService: _LessonService, $state: _$state });
+            debugger;
+            expect(_scope.lessons).toEqual(_lessonNewsData.lessons)
 
         });
-
+        
 
     })
 
@@ -420,6 +436,8 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
             expect(angular.isFunction(_scope.search)).toBe(true);
         })
 
+        // Removed search method always call $state managent (ui-router)
+        /*
         it('Should $scope.search method broadcast LessonSearchEvent event (if in $state= \'lessonSearch\')', function () {
             var _$stateIn = {
                 is: function (state) { return true; }, // mock case of lessonNews or lessonSearch
@@ -454,7 +472,7 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
             expect(_$stateIn.go).toHaveBeenCalled();
             expect(_$stateIn.go).toHaveBeenCalledWith('lessonSearch', { keyword: 'keywordToSearch' });
         })
-
+        */
     })
     
 })
