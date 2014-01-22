@@ -62,7 +62,7 @@
                     }
                     // loop to set default values, if not set in actualInput
                     for (key in validInput) {
-                        if (angular.isUndefined(actualInput[key]) && validInput[key] != null)
+                        if ((angular.isUndefined(actualInput[key]) || actualInput[key]==null)  && validInput[key] != null)
                             actualInput[key] = validInput[key];
                     }
                 }
