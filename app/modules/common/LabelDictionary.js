@@ -18,6 +18,9 @@
         noLessonFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:support@discitur.org'>supporto tecnico</a>",
         viewMore: "Approfondisci >>",
         keywordPlaceholder: "Ricerca la lezione per titolo, scuola, classe ed altro...",
+        disciplinePlaceholder: "Disciplina",
+        schoolPlaceholder: "Scuola",
+        classroomPlaceholder: "Classe",
         searchButton: "Cerca",
         advancedSearchButton : "Ricerca Avanzata"
     }

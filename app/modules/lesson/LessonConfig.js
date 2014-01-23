@@ -39,7 +39,7 @@
         */
             .state('lessonSearch', {
                 //url: '/lesson?keyword',
-                url: '/lesson?keyword?discipline?school?startRow?pageSize?orderBy?orderDir',
+                url: '/lesson?keyword?discipline?school?classroom?rate?startRow?pageSize?orderBy?orderDir',
                 parent: 'master.2cl',
                 onEnter: function () {
                     console.log("Entering Lesson Search");

@@ -118,8 +118,11 @@
                         'LessonService.search',       // function name for logging purposes
                         {                             // hashmap to check inputParameters e set default values
                             keyword: null,
+                            inContent: null,
                             discipline: null,
                             school: null,
+                            classroom: null,
+                            rate: null,
                             startRow: 0,
                             pageSize: 3,
                             orderBy: "PublishDate",
@@ -154,7 +157,7 @@
                     DiscUtil.validateInput(
                         'LessonService.getPage',    // function name for logging purposes
                         {                           // hashmap to check inputParameters e set default values
-                            pageNum: null,
+                            pageNum: null
                         },
                         pageinput                   // actual input params
                         );
@@ -162,6 +165,41 @@
                     _currentInput.startRow = (pageinput.pageNum - 1) * _currentInput.pageSize
                     return _currentInput;
                     //return this.search(_currentInput)
+                },
+                // Get Async list of disciplines
+                getDistinctValues: function (type, inputParams) {
+                    switch (type) {
+                        case('discipline') :
+                            DiscUtil.validateInput('LessonService.getDistinctValues.discipline', { disciplineQ: null }, inputParams);
+                            break;
+                        case ('school'):
+                            DiscUtil.validateInput('LessonService.getDistinctValues.school', { schoolQ: null }, inputParams);
+                            break;
+                        case ('classroom'):
+                            DiscUtil.validateInput('LessonService.getDistinctValues.classroom', { classroomQ: null }, inputParams);
+                            break;
+                        default:
+                            throw { code: 20003, message: 'invalid type string for LessonService.getDistinctValues :' + type }
+                    }
+
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson', params: inputParams })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                deferred.resolve(result)
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error for LessonService.getDistinctValues:" + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+
                 }
             };
       }]);

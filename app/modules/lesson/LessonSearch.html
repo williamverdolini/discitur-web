@@ -1,20 +1,28 @@
 ﻿<div ng-controller="LessonSearchCtrl">
     <form class="navbar-search navbar" ng-submit="search()" id="lessonSearch" ng-init="viewAdvSearch=false;">
-        <div class="input-append">
-            <input class="span4" id="appendedInputButtons" type="text" placeholder="{{labels.keywordPlaceholder}}" ng-model="keyword">
-            <button class="btn" type="submit" ng-click="search()">{{labels.searchButton}}</button>
-        </div>
 
-        <a class="navbar-text" ng-click="viewAdvSearch=!viewAdvSearch;">
-        <small>{{labels.advancedSearchButton}}</small>
+        <div class="input-append">
+            <input class="span4" type="text" placeholder="{{labels.keywordPlaceholder}}" ng-model="keyword">
+            <button class="btn" type="submit">{{labels.searchButton}}</button>
+        </div>
+        <a class="navbar-text" ng-click="viewAdvSearch=!viewAdvSearch;" ng-href="javascript:void()">
+            <small>{{labels.advancedSearchButton}}</small>
         </a>
 
-
-        <div  class="form-control" ng-show="viewAdvSearch" style="display:table; width:100%;" >
-            <input type="text" placeholder="Disciplina">
-            <input type="text" placeholder="Scuola">
-            <input type="text" placeholder="Classe">
-            <input type="text" placeholder="Autore">
+        <div ng-show="viewAdvSearch" class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-header">
+                <h3>{{labels.advancedSearchButton}}</h3>
+            </div>
+            <div class="modal-body">
+                <input class="span4" type="text" placeholder="{{labels.keywordPlaceholder}}" ng-model="keyword">
+                <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getDisciplines($viewValue) | filter:$viewValue" ng-model="discipline" placeholder="{{labels.disciplinePlaceholder}}" typeahead-on-select="select()" typeahead-editable='false'>
+                <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getSchools($viewValue) | filter:$viewValue" ng-model="school" placeholder="{{labels.schoolPlaceholder}}">
+                <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getClassRooms($viewValue) | filter:$viewValue" ng-model="classroom" placeholder="{{labels.classroomPlaceholder}}">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit">{{labels.searchButton}}</button>
+                <a class="btn btn-warning" ng-click="viewAdvSearch=!viewAdvSearch;">Cancel</a>
+            </div>
         </div>
     </form>
 </div>

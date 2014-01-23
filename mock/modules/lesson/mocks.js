@@ -29,7 +29,7 @@
         //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/1').respond(mockedLessonData[0]);
 
         //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/').respond(MockedData.lessons);
-        $httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/1').respond(MockedData.lessons[0]);
+        $httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/1').respond(MockedData.lessons.Records[0]);
         
 
         //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/').passThrough();
