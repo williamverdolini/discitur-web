@@ -42,10 +42,9 @@
                 $scope.addSearchedTag();
             }
 
-            $scope.select = function () {
-                console.log('ok');
+            $scope.select = function (err) {
+                $scope.local.errors[err] = false;
             }
-
 
             $scope.ok = function () {
                 $modalInstance.close(1);
@@ -56,35 +55,53 @@
             };            
 
             $scope.search = function () {
-                $state.go('lessonSearch',
-                    {
-                        keyword: $scope.local.keyword,
-                        discipline: $scope.local.discipline,
-                        school: $scope.local.school,
-                        classroom: $scope.local.classroom,
-                        tags: $scope.local.searchedTags.join()
-                    });
-                $scope.local.keyword = null;
-                $scope.local.discipline = null;
-                $scope.local.school = null
-                $scope.local.classroom = null;
-                $modalInstance.close(1);
+                if ($scope.local.searchForm.$valid) {
+                    $state.go('lessonSearch',
+                        {
+                            keyword: $scope.local.keyword,
+                            discipline: $scope.local.discipline,
+                            school: $scope.local.school,
+                            classroom: $scope.local.classroom,
+                            tags: $scope.local.searchedTags.join()
+                        });
+                    $scope.local.keyword = null;
+                    $scope.local.discipline = null;
+                    $scope.local.school = null
+                    $scope.local.classroom = null;
+                    $modalInstance.close(1);
+                }
+                else {
+                    if ($scope.local.searchForm.discipline.$invalid)
+                        $scope.local.errors.discipline = true;
+                    if ($scope.local.searchForm.school.$invalid)
+                        $scope.local.errors.school = true;
+                    if ($scope.local.searchForm.classroom.$invalid)
+                        $scope.local.errors.classroom = true;
+                }
             };
 
             //--------- model initialization ------
             // Modal Dialog is inherited scope, so it's important to set internal object, 
             // otherwhise Javascript search properties in parent scope if not exists in this scope
+            // very very very important for form validation!! (https://github.com/angular-ui/bootstrap/issues/969)
             $scope.local = {
                 keyword: null,
                 discipline: null,
                 school: null,
                 classroom: null,
                 searchedTags: [],
-                tag: null
+                tag: null,
+                searchForm: {},
+                showErrors: false,
+                errors: {
+                    discipline: false,
+                    school: false,
+                    classroom: false
+                }
             };
 
             $scope.labels = {
-                keywordPlaceholder: _getLabel('keywordPlaceholder'),
+                advKeywordPlaceholder: _getLabel('advKeywordPlaceholder'),
                 disciplinePlaceholder: _getLabel('disciplinePlaceholder'),
                 schoolPlaceholder: _getLabel('schoolPlaceholder'),
                 classroomPlaceholder: _getLabel('classroomPlaceholder'),
@@ -92,7 +109,8 @@
                 buttonAdd: _getLabel('buttonAdd'),
                 buttonDel: _getLabel('buttonDel'),
                 searchButton: _getLabel('searchButton'),
-                advancedSearchButton: _getLabel('advancedSearchButton')
+                advancedSearchButton: _getLabel('advancedSearchButton'),
+                validationError: _getLabel('validationError')
             };
         }
     ]);

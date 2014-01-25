@@ -1,17 +1,54 @@
 ﻿<script type="text/ng-template" id="LessonAdvSearch">
-    <form ng-submit="search()">
+    <form name="local.searchForm" ng-submit="search()" novalidate>
         <div class="modal-header">
             <h3>{{labels.advancedSearchButton}}</h3>
         </div>
         <div class="modal-body">
-            <input class="span4" type="text" placeholder="{{labels.keywordPlaceholder}}" ng-model="local.keyword">
-            <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getDisciplines($viewValue) | filter:$viewValue" ng-model="local.discipline" placeholder="{{labels.disciplinePlaceholder}}" typeahead-on-select="select()" typeahead-editable='false'>
-            <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getSchools($viewValue) | filter:$viewValue" ng-model="local.school" placeholder="{{labels.schoolPlaceholder}}">
-            <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getClassRooms($viewValue) | filter:$viewValue" ng-model="local.classroom" placeholder="{{labels.classroomPlaceholder}}">
+            <label>{{labels.advKeywordPlaceholder}}</label>
+            <input class="span4" type="text" name="keyword" ng-model="local.keyword">
+            <label>{{labels.disciplinePlaceholder}}</label>  
             <div class="input-append">
-                <input class="span3" type="text" typeahead-wait-ms="300" typeahead="k for k in getTags($viewValue) | filter:$viewValue" ng-model="local.tag" placeholder="{{labels.tagPlaceholder}}" typeahead-on-select="selectTag()">
-                <a class="btn" ng-click="addSearchedTag()">{{labels.buttonAdd}}</a>
+                <input class="span4" type="text" 
+                       name="discipline"
+                       ng-model="local.discipline"
+                       typeahead-wait-ms="300"
+                       typeahead="k for k in getDisciplines($viewValue) | filter:$viewValue"
+                       typeahead-on-select="select('discipline')"
+                       typeahead-editable='false'>
+                <span class="add-on alert-error" ng-show="local.discipline!='' && local.errors.discipline">{{labels.validationError}}</span>
             </div>
+            <label>{{labels.schoolPlaceholder}}</label>
+            <div class="input-append">
+                <input class="span4" type="text"
+                       name="school"
+                       ng-model="local.school"
+                       typeahead-wait-ms="300"
+                       typeahead="k for k in getSchools($viewValue) | filter:$viewValue"
+                       typeahead-on-select="select('school')"
+                       typeahead-editable='false'>
+                <span class="add-on alert-error" ng-show="local.school!='' && local.errors.school" >{{labels.validationError}}</span>
+            </div>
+            <label>{{labels.classroomPlaceholder}}</label>
+            <div class="input-append">
+                <input class="span4" type="text"
+                       name="classroom"
+                       ng-model="local.classroom"
+                       typeahead-wait-ms="300"
+                       typeahead="k for k in getClassRooms($viewValue) | filter:$viewValue"
+                       typeahead-on-select="select('classroom')"
+                       typeahead-editable='false'>
+                <span class="add-on alert-error" ng-show="local.classroom!='' && local.errors.classroom">{{labels.validationError}}</span>
+            </div>
+            
+            <label>{{labels.tagPlaceholder}}</label>
+            <!--<div class="input-append">-->
+                <input class="span4" type="text"
+                       ng-model="local.tag"
+                       typeahead-wait-ms="300"
+                       typeahead="k for k in getTags($viewValue) | filter:$viewValue"
+                       typeahead-on-select="selectTag()">
+                <!--<a class="btn" ng-click="addSearchedTag()">{{labels.buttonAdd}}</a>-->
+            <!--</div>-->
             <div class="row-fluid">
                 <span ng-repeat="tag in local.searchedTags">
                     <div class="input-append">
