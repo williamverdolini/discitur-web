@@ -1,0 +1,30 @@
+﻿<script type="text/ng-template" id="LessonAdvSearch">
+    <form ng-submit="search()">
+        <div class="modal-header">
+            <h3>{{labels.advancedSearchButton}}</h3>
+        </div>
+        <div class="modal-body">
+            <input class="span4" type="text" placeholder="{{labels.keywordPlaceholder}}" ng-model="local.keyword">
+            <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getDisciplines($viewValue) | filter:$viewValue" ng-model="local.discipline" placeholder="{{labels.disciplinePlaceholder}}" typeahead-on-select="select()" typeahead-editable='false'>
+            <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getSchools($viewValue) | filter:$viewValue" ng-model="local.school" placeholder="{{labels.schoolPlaceholder}}">
+            <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getClassRooms($viewValue) | filter:$viewValue" ng-model="local.classroom" placeholder="{{labels.classroomPlaceholder}}">
+            <div class="input-append">
+                <input class="span3" type="text" typeahead-wait-ms="300" typeahead="k for k in getTags($viewValue) | filter:$viewValue" ng-model="local.tag" placeholder="{{labels.tagPlaceholder}}" typeahead-on-select="selectTag()">
+                <a class="btn" ng-click="addSearchedTag()">{{labels.buttonAdd}}</a>
+            </div>
+            <div class="row-fluid">
+                <span ng-repeat="tag in local.searchedTags">
+                    <div class="input-append">
+                        <button type="button" class="btn btn-success btn-small disabled" disabled="disabled">{{tag}}</button>
+                        <a class="btn btn-default btn-small" ng-click="local.searchedTags.splice($index, 1)">{{labels.buttonDel}}</a>
+                    </div>
+                </span>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit">{{labels.searchButton}}</button>
+            <a class="btn btn-warning" ng-click="cancel()">Cancel</a>
+        </div>
+    </form>
+</script>

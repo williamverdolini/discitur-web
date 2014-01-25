@@ -28,7 +28,10 @@
     <hr ng-hide="($index+1)==lessons.length" />
 </div>
 <div class="row-fluid">
-    <div class="span8">
+    <div class="span12" ng-show="totalLessons==0">
+        <h4>{{labels.noLessonFound}}</h4>        
+    </div>
+    <div class="span8" ng-hide="totalLessons<=pageSize">
         <pager total-items="totalLessons" page="currentPage" items-per-page="pageSize" on-select-page="getPage({ pageNum: page })" previous-text="<" next-text=">"></pager>
     </div>
 </div>

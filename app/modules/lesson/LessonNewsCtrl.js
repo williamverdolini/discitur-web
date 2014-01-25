@@ -56,7 +56,8 @@
             //--------- model initialization ------
             $scope.labels = {
                 publishedOn: _getLabel('publishedOn'),
-                viewMore: _getLabel('viewMore')
+                viewMore: _getLabel('viewMore'),
+                noLessonFound: _getLabel('noLessonFound'),
             };
 
             _setPageData(lessonNewsData)

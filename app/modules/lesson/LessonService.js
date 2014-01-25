@@ -123,6 +123,7 @@
                             school: null,
                             classroom: null,
                             rate: null,
+                            tags: null,
                             startRow: 0,
                             pageSize: 3,
                             orderBy: "PublishDate",
@@ -177,6 +178,9 @@
                             break;
                         case ('classroom'):
                             DiscUtil.validateInput('LessonService.getDistinctValues.classroom', { classroomQ: null }, inputParams);
+                            break;
+                        case ('tag'):
+                            DiscUtil.validateInput('LessonService.getDistinctValues.tag', { tagQ: null }, inputParams);
                             break;
                         default:
                             throw { code: 20003, message: 'invalid type string for LessonService.getDistinctValues :' + type }

@@ -2,7 +2,8 @@
     [
         'ui.router',
         'Common',
-        'Lesson'
+        'Lesson',
+        'ui.bootstrap'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
         // For any unmatched url, redirect to HomePage
@@ -46,16 +47,27 @@
         apiUrl: 'http://localhost:59739/api/'
     })
     .factory('DiscUtil', function () {
+        var _getMessage = function (obj) {
+            var _message = "";
+            for (var key in obj) {
+                if (obj[key].constructor === Object)
+                    _message += _getMessage(obj[key])
+                else
+                    _message += key + ":" + obj[key] + " ";
+            }
+            return _message;
+        }
+
         return {
             validateInput: function (functionName, validInput, actualInput) {
                 // accept only Object
                 if (angular.isUndefined(actualInput) || actualInput.constructor !== Object)
-                    throw { code: 20001, message: 'invalid Input Type for ' + functionName + ' :' + actualInput }
+                    throw { code: 20001, message: 'invalid Input Type for ' + functionName + ' :' + _getMessage(actualInput) }
                 if (angular.isDefined(actualInput)) {
                     // loop to check if input.properties (aka parametrs) are expected by the service validInput template
                     for (key in actualInput) {
                         if (!validInput.hasOwnProperty(key))
-                            throw { code: 20002, message: 'invalid Input Parameter for ' + functionName + ' :' + actualInput }
+                            throw { code: 20002, message: 'invalid Input Parameter for ' + functionName + ' :' + _getMessage(actualInput) }
                         // If not passed in actualInput and if defined in validInput, set default value
                         //if (angular.isUndefined(actualInput[key]) && validInput[key] != null)
                         //    actualInput[key] = validInput[key];

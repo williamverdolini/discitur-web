@@ -11,7 +11,7 @@
             }
 
             $scope.labels = {
-                noLessonFound: _getLabel('noLessonFound')
+                noLessonIdFound: _getLabel('noLessonIdFound')
             };
             
             console.log('404 Controller')

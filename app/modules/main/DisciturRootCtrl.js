@@ -44,7 +44,7 @@
                     if (obj[key].constructor === Object)
                         _message += _getMessage(obj[key])
                     else
-                        _message += obj[key] + " ";
+                        _message += key + ":" + obj[key] + " ";
                 }
                 return _message;
             }

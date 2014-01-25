@@ -15,14 +15,17 @@
         noLessonGoods : "Nessun aspetto positivo rilevato...",
         noLessonBads: "Nessun aspetto negativo rilevato!",
         conclusion: "Conclusioni",
-        noLessonFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:support@discitur.org'>supporto tecnico</a>",
+        noLessonIdFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:support@discitur.org'>supporto tecnico</a>",
         viewMore: "Approfondisci >>",
         keywordPlaceholder: "Ricerca la lezione per titolo, scuola, classe ed altro...",
         disciplinePlaceholder: "Disciplina",
         schoolPlaceholder: "Scuola",
         classroomPlaceholder: "Classe",
+        tagPlaceholder: "Caratteristica",
         searchButton: "Cerca",
-        advancedSearchButton : "Ricerca Avanzata"
+        advancedSearchButton: "Ricerca Avanzata",
+        buttonAdd : "+",
+        buttonDel: "x"
     }
 )
 .value('overrides',
@@ -32,7 +35,8 @@
             lessonBads: "Cosa è andato male :("
         },
         'LessonNewsCtrl': {
-            publishedOn: "Pubblicato il"
+            publishedOn: "Pubblicato il",
+            noLessonFound: "Nessuna Lezione trovata."
         },
     }
 )

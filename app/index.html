@@ -26,6 +26,7 @@
     <script src="modules/lesson/Lesson404Ctrl.js"></script>
     <script src="modules/lesson/LessonNewsCtrl.js"></script>
     <script src="modules/lesson/LessonSearchCtrl.js"></script>
+    <script src="modules/lesson/LessonAdvSearchCtrl.js"></script>
     <!--
         -->
 
@@ -40,6 +41,7 @@
     <!--            BACKEND-LESS DEVELOPMENT                      -->
     <!-- Da eliminare man mano che si tolgono i mocks dei servizi -->
     
+    
     <script src="bower_components/angular-mocks/angular-mocks.js"></script>
     <script src="../mock/modules/lesson/mocks.js"></script>
     
@@ -50,14 +52,19 @@
             padding-bottom: 40px;
         }
 
-        #lessonSearch {
-            margin-top: 0px;
+       
+         #lessonSearch {
+            margin-top: 6px;
         }
 
         #lessonSearch > div {
             margin-bottom: 0px;
         }
 
+        /* let modl dialog to open combobox correctly (angular autocomplete)*/
+        .modal-body {
+            position: static;
+        }
         /* Enable use of floated navbar text */
         /*
         .sidebar-nav {
