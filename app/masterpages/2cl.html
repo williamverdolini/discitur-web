@@ -1,25 +1,11 @@
 ﻿<div class="row">
     <!-- SIDE BAR AREA -->
-    <div class="span3">
-        <!--
-        <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-                <li class="nav-header">Le ultime Lezioni</li>
-                <li><a href="#/lesson/1">La rivoluzione Francese secondo Robespierre</a></li>
-                <li><a href="#/lesson/2">Impegno Civile</a></li>
-                <li><a href="#/lesson/3">La Carta Geografica</a></li>
-                <li class="nav-header">{{prova}}</li>
-                <li><a href="#">Link</a></li>
-                <li><a href="#">Link</a></li>
-                <li><a href="#">Link</a></li>
-            </ul>
-        </div>
-        -->
+    <div class="col-md-3">
         <div ui-view="sidebar"></div>
     </div>
 
     <!-- MAIN CONTENT AREA -->
-    <div class="span9">
+    <div class="col-md-9">
         <div ui-view="main"></div>
     </div>
 </div>

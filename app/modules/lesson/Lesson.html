@@ -1,17 +1,24 @@
 ﻿<style>
+    /*
     #lessonGoods {
         background-color: lightblue;
         border-radius: 10px;
-        padding: 10px;
-        height: 100%;
     }
+
     #lessonBads {
         background-color: #FFE4C4;
         border-radius: 10px;
+    }
+    */
+
+    /*
         padding: 10px;
         height: 100%;
-    }
 
+        padding: 10px;
+        height: 100%;
+
+    */
     .mypanel {
         background-color: #F5F5F5;
         -webkit-border-radius: 10px 0 10px 0;
@@ -47,59 +54,78 @@
 </style>
 <!--<div id="LessonContainer">-->
 
-    <div id="LessonHeading" class="hero-unit">
+    <div id="LessonHeading" class="jumbotron">
         <input type="hidden" name="lesson.id" value="{{lesson.lessonId}}" />
         <h1>{{lesson.title}}</h1>
-        <p></p>
-        <div class="row-fluid">
-            <div class="span12">
-                <span class="Lesson-Features span12">
-                    {{labels.specifics}}
-                </span>
-                <dl class="dl-horizontal small">
-                    <dt>{{labels.discipline}} :</dt><dd>{{lesson.discipline}}</dd>
-                    <dt>{{labels.school}} :</dt><dd>{{lesson.school}}</dd>
-                    <dt>{{labels.classroom}} :</dt><dd>{{lesson.classroom}}</dd>
-                    <dt>{{labels.author}} :</dt><dd><a><span tooltip-html-unsafe="{{lesson.author.name}}<br>{{lesson.author.surname}}">{{lesson.author.name + " " + lesson.author.surname}}</span></a></dd>
-                    <dt>{{labels.publishedOn}} :</dt><dd>{{lesson.publishedOn | date:'dd/MM/yyyy'}}</dd>
-                    <dt>{{labels.rating}} :</dt><dd><rating value="lesson.rate" readonly="true"></rating><span class="badge badge-info">{{lesson.rate}}</span></dd>
-                </dl>
+        <div class="row">
+            <div class="col-md-12">
+                <span class="Lesson-Features col-md-12">{{labels.specifics}}</span>
+                <h4>
+                    <dl class="dl-horizontal">
+                    <dt>{{labels.discipline}} :</dt>
+                    <dd>{{lesson.discipline}}</dd>
+                    <dt>{{labels.school}} :</dt>
+                    <dd>{{lesson.school}}</dd>
+                    <dt>{{labels.classroom}} :</dt>
+                    <dd>{{lesson.classroom}}</dd>
+                    <dt>{{labels.author}} :</dt>
+                    <dd><a><span tooltip-html-unsafe="{{lesson.author.name}}<br>{{lesson.author.surname}}">{{lesson.author.name + " " + lesson.author.surname}}</span></a></dd>
+                    <dt>{{labels.publishedOn}} :</dt>
+                    <dd>{{lesson.publishedOn | date:'dd/MM/yyyy'}}</dd>
+                    <dt>{{labels.rating}} :</dt>
+                    <dd><rating value="lesson.rate" readonly="true"></rating><span class="label label-info">{{lesson.rate}}</span></dd>
+                    </dl>
+                </h4>
             </div>
-
         </div>
-        <div class="row-fluid">
+        <div class="row">
             <span ng-repeat="tag in lesson.tags">
-                <button type="button" class="btn btn-success btn-small disabled" disabled="disabled">{{tag}}</button>
+                <button type="button" class="btn btn-success btn-sm disabled" disabled="disabled">{{tag}}</button>
             </span>
-
         </div>
     </div>
 
-    <div id="LessonContent" class="row-fluid">
-        <h2 tooltip="{{lesson.publishedBy.username}}">{{labels.content}}</h2>
-        <span class="row-fluid" ng-bind-html="lesson.content"></span>
-    </div>
-
-    <div id="LessonSummary" class="row-fluid">
-        <div id="lessonGoods" class="span6" ng-switch="lesson.goods && lesson.goods.length>0">
-            <h3>{{labels.lessonGoods}}</h3>
-            <ol ng-switch-when="true">
-                <li ng-repeat="item in lesson.goods">{{item}}</li>
-            </ol>
-            <div ng-switch-when="false">{{labels.noLessonGoods}}</div>
-        </div>
-        <div id="lessonBads" class="span6" ng-switch="lesson.bads && lesson.bads.length>0">
-            <h3>{{labels.lessonBads}}</h3>
-            <ol ng-switch-when="true">
-                <li ng-repeat="item in lesson.bads">{{item}}</li>
-            </ol>
-            <div ng-switch-when="false">{{labels.noLessonBads}}</div>
+    <div id="LessonContent" class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">                
+                <div class="panel-body"><h2>{{labels.content}}</h2></div>
+                <div class="panel-body" ng-bind-html="lesson.content"></div>
+            </div>
         </div>
     </div>
 
-    <div id="Conclusion" class="lead row-fluid">
-        <h2>{{labels.conclusion}}</h2>
-        {{lesson.conclusion}}
+    <div id="LessonSummary" class="row">
+        <div id="lessonGoods" class="col-md-6" ng-switch="lesson.goods && lesson.goods.length>0">
+            <div class="panel panel-info">
+                <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
+                <div class="panel-body">
+                    <ol ng-switch-when="true">
+                        <li ng-repeat="item in lesson.goods">{{item}}</li>
+                    </ol>
+                    <div ng-switch-when="false">{{labels.noLessonGoods}}</div>
+                </div>
+            </div>
+        </div>
+        <div id="lessonBads" class="col-md-6" ng-switch="lesson.bads && lesson.bads.length>0">
+            <div class="panel panel-warning">
+                <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
+                <div class="panel-body">
+                    <ol ng-switch-when="true">
+                        <li ng-repeat="item in lesson.bads">{{item}}</li>
+                    </ol>
+                    <div ng-switch-when="false">{{labels.noLessonBads}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="Conclusion" class="lead row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body"><h2>{{labels.conclusion}}</h2></div>
+                <div class="panel-body" ng-bind-html="lesson.conclusion"></div>
+            </div>
+        </div>
     </div>
 
 <!-- </div>-->

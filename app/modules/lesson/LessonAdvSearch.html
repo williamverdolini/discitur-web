@@ -1,33 +1,61 @@
 ﻿<script type="text/ng-template" id="LessonAdvSearch">
+    <!--
+        <div class="modal-dialog">
+            <div class="modal-content">
+    -->
     <form name="local.searchForm" ng-submit="advSearch()" novalidate>
         <div class="modal-header">
-            <h3>{{labels.advancedSearchButton}}</h3>
+            <button type="button" ng-click="cancel()" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 class="modal-title">{{labels.advancedSearchButton}}</h3>
         </div>
         <div class="modal-body">
-            <label>{{labels.advKeyword}}</label>
-            <input class="span4" type="text" name="keyword" ng-model="local.keyword">
-            <label>{{labels.discipline}}</label>
-            <div class="input-append">
-                <input class="span4" type="text"
-                       name="discipline"
-                       ng-model="local.discipline"
-                       typeahead-wait-ms="300"
-                       typeahead="k for k in getDisciplines($viewValue) | filter:$viewValue"
-                       typeahead-on-select="select('discipline')"
-                       typeahead-editable='false'>
-                <span class="add-on alert-error" ng-show="local.discipline!='' && local.errors.discipline">{{labels.validationError}}</span>
+            <div class="form-group">
+                <label class="control-label">{{labels.advKeyword}}</label>
+                <input class="form-control input-sm" type="text" name="keyword" ng-model="local.keyword">
             </div>
-            <label>{{labels.school}}</label>
-            <div class="input-append">
-                <input class="span4" type="text"
-                       name="school"
-                       ng-model="local.school"
-                       typeahead-wait-ms="300"
-                       typeahead="k for k in getSchools($viewValue) | filter:$viewValue"
-                       typeahead-on-select="select('school')"
-                       typeahead-editable='false'>
-                <span class="add-on alert-error" ng-show="local.school!='' && local.errors.school">{{labels.validationError}}</span>
+
+            <div class="form-group">
+                <label class="control-label">{{labels.discipline}}</label>
+                <div class="input-group">
+                    <input class="form-control input-sm" type="text"
+                           name="discipline"
+                           ng-model="local.discipline"
+                           typeahead-wait-ms="300"
+                           typeahead="k for k in getDisciplines($viewValue) | filter:$viewValue"
+                           typeahead-on-select="select('discipline')"
+                           typeahead-editable='false'>
+                    <span class="input-group-addon text-danger input-sm" ng-style="(local.discipline!='' && local.errors.discipline) ? {visibility: 'visible'} : {visibility: 'hidden'}">{{labels.validationError}}</span>
+                </div>
             </div>
+
+            <div class="form-group">
+                <label class="control-label">{{labels.school}}</label>
+                <div class="input-group">
+                    <input class="form-control input-sm" type="text"
+                           name="school"
+                           ng-model="local.school"
+                           typeahead-wait-ms="300"
+                           typeahead="k for k in getSchools($viewValue) | filter:$viewValue"
+                           typeahead-on-select="select('school')"
+                           typeahead-editable='false'>
+                    <span class="input-group-addon text-danger input-sm" ng-style="local.school!='' && local.errors.school ? {visibility: 'visible'} : {visibility: 'hidden'}">{{labels.validationError}}</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">{{labels.classroom}}</label>
+                <div class="input-group">
+                    <input class="form-control input-sm" type="text"
+                           name="classroom"
+                           ng-model="local.classroom"
+                           typeahead-wait-ms="300"
+                           typeahead="k for k in getClassRooms($viewValue) | filter:$viewValue"
+                           typeahead-on-select="select('classroom')"
+                           typeahead-editable='false'>
+                    <span class="input-group-addon text-danger input-sm" ng-style="local.classroom!='' && local.errors.classroom ? {visibility: 'visible'} : {visibility: 'hidden'}">{{labels.validationError}}</span>
+                </div>
+            </div>
+            <!--
             <label>{{labels.classroom}}</label>
             <div class="input-append">
                 <input class="span4" type="text"
@@ -39,25 +67,31 @@
                        typeahead-editable='false'>
                 <span class="add-on alert-error" ng-show="local.classroom!='' && local.errors.classroom">{{labels.validationError}}</span>
             </div>
+            -->
+            <div class="form-group">
+                <label class="control-label">{{labels.rating}}</label>
+                <div class="input-group">
+                    <h4>
+                        <rating value="local.rate" max="5" readonly="false" on-hover="hoveringOver(value)" on-leave="local.overStar = null"></rating>
+                        <a class="badge" ng-click="local.rate = 0">{{labels.cancel}}</a>
+                        <span class="label label-info" ng-show="local.overStar == null && local.rate>0">{{local.rate}}</span>
+                        <span class="label label-info" ng-show="local.overStar != null">{{local.overStar}}</span>
+                    </h4>
+                </div>
 
-            <label>{{labels.rating}}</label>
-            <rating value="local.rate" max="5" readonly="false" on-hover="hoveringOver(value)" on-leave="local.overStar = null"></rating>
-            <a class="badge" ng-click="local.rate = 0">{{labels.cancel}}</a>
-            <span class="badge badge-info btn-small" ng-show="local.overStar == null && local.rate>0">{{local.rate}}</span>
-            <span class="badge badge-info btn-small" ng-show="local.overStar != null">{{local.overStar}}</span>
+            </div>
 
-
-            <label>{{labels.tag}}</label>
-            <input class="span4" type="text"
-                   ng-model="local.tag"
-                   typeahead-wait-ms="300"
-                   typeahead="k for k in getTags($viewValue) | filter:$viewValue"
-                   typeahead-on-select="selectTag()">
-            <div class="row-fluid">
+            <div class="form-group">
+                <label class="control-label">{{labels.tag}}</label>
+                <input class="form-control input-sm" type="text"
+                        ng-model="local.tag"
+                        typeahead-wait-ms="300"
+                        typeahead="k for k in getTags($viewValue) | filter:$viewValue"
+                        typeahead-on-select="selectTag()">
                 <span ng-repeat="tag in local.searchedTags">
-                    <div class="input-append">
-                        <button type="button" class="btn btn-success btn-small disabled" disabled="disabled">{{tag}}</button>
-                        <a class="btn btn-default btn-small" ng-click="local.searchedTags.splice($index, 1)">{{labels.buttonDel}}</a>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs" disabled="disabled">{{tag}}</button>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="local.searchedTags.splice($index, 1)">{{labels.buttonDel}}</button>
                     </div>
                 </span>
             </div>
@@ -68,4 +102,9 @@
             <a class="btn btn-warning" ng-click="cancel()">Cancel</a>
         </div>
     </form>
+
+    <!--
+                   </div>
+        </div>
+    -->
 </script>

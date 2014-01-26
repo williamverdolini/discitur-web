@@ -2,15 +2,20 @@
 <html ng-app="Discitur" ng-controller="DisciturRootCtrl" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/flatly-bootstrap.min.css" media="screen">
+
+    <!--
     <link rel="stylesheet" href="css/flatly-bootstrap.min.css" media="screen">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="screen">
-    
+    -->
     <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-0.7.0.js"></script>
+    <!--<script src="bower_components/angular-bootstrap/ui-bootstrap-0.7.0.js"></script>-->
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbuild -->
     <!-- build:js scripts/modules.js -->
@@ -47,11 +52,20 @@
     
     <!--<link rel="stylesheet" type="text/css" href="Content/bootstrap-theme.css" />-->
     <style>
+        /*
+        body {
+            min-height: 2000px;
+        }
+        */
+        .navbar-static-top {
+            margin-bottom: 19px;
+        }
+        /*
         body {
             padding-top: 60px;
             padding-bottom: 40px;
         }
-
+        */
        
          #lessonSearch {
             margin-top: 6px;
@@ -61,10 +75,20 @@
             margin-bottom: 0px;
         }
 
+        #lessonSearch > p {
+            margin-bottom: 0px;
+            margin-top: 10px;
+            margin-left: 0px;
+        }
+
         /* let modl dialog to open combobox correctly (angular autocomplete)*/
         .modal-body {
             position: static;
             max-height:450px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
         }
         /* Enable use of floated navbar text */
         /*

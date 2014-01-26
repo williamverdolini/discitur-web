@@ -1,37 +1,41 @@
 ﻿<style>
-.lesson-specs {
-    margin-left: 0px;
-}
+    .lesson-specs {
+        margin-left: 0px;
+        margin-right: 5px;
+    }
 </style>
-<div id="LessonNews2" class="row-fluid" ng-repeat="lesson in lessons">
+<div id="LessonNews2" class="row" ng-repeat="lesson in lessons">
     <div>
-        <h3>
-            {{lesson.title}} <rating value="lesson.rate" readonly="true"></rating><span class="badge badge-info">{{lesson.rate}}</span><br />
-            <small>{{lesson.author.name}} {{lesson.author.surname}} - {{labels.publishedOn}}: {{lesson.publishedOn | date}}</small>
-        </h3>
+        <h2>
+            {{lesson.title}} 
+            <h4><rating value="lesson.rate" readonly="true"></rating><span class="label label-info">{{lesson.rate}}</span></h4>
+            <h4><small>{{lesson.author.name}} {{lesson.author.surname}} - {{labels.publishedOn}}: {{lesson.publishedOn | date}}</small></h4>
+        </h2>
     </div>
-    <div class="row-fluid">
-        <div class="span8">
+    <div class="row">
+        <div class="col-md-8">
             <div>
                 <p>{{lesson.conclusion}} </p>
-                <p><a class="btn" ng-href="#/lesson/{{lesson.lessondId}}">{{labels.viewMore}}</a></p>
+                <p><a class="btn btn-default" ng-href="#/lesson/{{lesson.lessondId}}">{{labels.viewMore}}</a></p>
             </div>
         </div>
-        <div class="span4">
-            <ul class="alert alert-info lesson-specs">
-                <li><h5>{{lesson.discipline}}</h5></li>
-                <li><h5>{{lesson.school}}</h5></li>
-                <li><h5>{{lesson.classroom}}</h5></li>
-            </ul>
+        <div class="col-md-4">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h5>{{lesson.discipline}}</h5>
+                    <h5>{{lesson.school}}</h5>
+                    <h5>{{lesson.classroom}}</h5>
+                </div>
+            </div>
         </div>
     </div>
     <hr ng-hide="($index+1)==lessons.length" />
 </div>
-<div class="row-fluid">
-    <div class="span12" ng-show="totalLessons==0">
-        <h4>{{labels.noLessonFound}}</h4>        
+<div class="row">
+    <div class="col-md-12" ng-show="totalLessons==0">
+        <h4>{{labels.noLessonFound}}</h4>
     </div>
-    <div class="span8" ng-hide="totalLessons<=pageSize">
+    <div class="col-md-8" ng-hide="totalLessons<=pageSize">
         <pager total-items="totalLessons" page="currentPage" items-per-page="pageSize" on-select-page="getPage({ pageNum: page })" previous-text="<" next-text=">"></pager>
     </div>
 </div>

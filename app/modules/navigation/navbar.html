@@ -1,13 +1,15 @@
-﻿<div class="navbar-inner">
-    <div class="container">
-        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="brand" href="#">Discitur</a>
-        <div ng-class="{'nav-collapse' : true, in : !navCollapsed, collapse : true }" ng-style="!navCollapsed?{height:'auto'}:{}">
-            <ul class="nav">
+﻿    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+                <span class="sr-only">Toglle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Discitur</a>
+        </div>
+        <div ng-class="{'navbar-collapse' : true, in : !navCollapsed, collapse : true }" ng-style="!navCollapsed?{height:'auto'}:{}">
+            <ul class="nav navbar-nav">
                 <li ng-repeat="item in menu" ng-class="{active : isActiveMenu($index), dropdown: hasSubMenu($index)}" ng-switch="item.subMenu">
                     <a ng-switch-when="undefined" ng-href="#{{item.route}}">{{item.title}}</a>
                     <a ng-switch-default ng-href="#{{item.route}}" class="dropdown-toggle">{{item.title}}<b class="caret"></b></a>
@@ -16,7 +18,6 @@
                     </ul>
                 </li>
             </ul>
+            <div class="container" ng-include="'modules/lesson/LessonSearch.html'"></div>
         </div><!--/.nav-collapse -->
-        <div class="container" ng-include="'modules/lesson/LessonSearch.html'"></div> 
     </div>
-</div>
