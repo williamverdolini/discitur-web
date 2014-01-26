@@ -46,15 +46,19 @@
                 $scope.local.errors[err] = false;
             }
 
+            $scope.hoveringOver = function (value) {
+                $scope.local.overStar = value;
+            };
+
             $scope.ok = function () {
-                $modalInstance.close(1);
+                $modalInstance.close(0);
             };
 
             $scope.cancel = function () {
                 $modalInstance.dismiss('cancel');
             };            
 
-            $scope.search = function () {
+            $scope.advSearch = function () {
                 if ($scope.local.searchForm.$valid) {
                     $state.go('lessonSearch',
                         {
@@ -62,13 +66,14 @@
                             discipline: $scope.local.discipline,
                             school: $scope.local.school,
                             classroom: $scope.local.classroom,
-                            tags: $scope.local.searchedTags.join()
+                            rate: $scope.local.rate > 0 ? $scope.local.rate : null,
+                            tags: $scope.local.searchedTags.length == 0 ? null : $scope.local.searchedTags.join()
                         });
                     $scope.local.keyword = null;
                     $scope.local.discipline = null;
                     $scope.local.school = null
                     $scope.local.classroom = null;
-                    $modalInstance.close(1);
+                    $scope.ok();
                 }
                 else {
                     if ($scope.local.searchForm.discipline.$invalid)
@@ -89,6 +94,7 @@
                 discipline: null,
                 school: null,
                 classroom: null,
+                rate: 0,
                 searchedTags: [],
                 tag: null,
                 searchForm: {},
@@ -101,11 +107,13 @@
             };
 
             $scope.labels = {
-                advKeywordPlaceholder: _getLabel('advKeywordPlaceholder'),
-                disciplinePlaceholder: _getLabel('disciplinePlaceholder'),
-                schoolPlaceholder: _getLabel('schoolPlaceholder'),
-                classroomPlaceholder: _getLabel('classroomPlaceholder'),
-                tagPlaceholder: _getLabel('tagPlaceholder'),
+                advKeyword: _getLabel('advKeyword'),
+                discipline: _getLabel('discipline'),
+                school: _getLabel('school'),
+                classroom: _getLabel('classroom'),
+                rating: _getLabel('rating'),
+                tag: _getLabel('tag'),
+                cancel: _getLabel('cancel'),
                 buttonAdd: _getLabel('buttonAdd'),
                 buttonDel: _getLabel('buttonDel'),
                 searchButton: _getLabel('searchButton'),

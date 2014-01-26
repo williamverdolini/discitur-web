@@ -1,17 +1,13 @@
 ﻿angular.module('Lesson')
     .controller('LessonSearchCtrl', [
         '$scope',
-        '$rootScope',
         'LabelService',
         '$state',
-        'LessonService',
         '$modal',
         function (
             $scope,
-            $rootScope,
             LabelService,
             $state,
-            LessonService,
             $modal
             ) {
             //--------- Controller private methods ------
@@ -25,14 +21,9 @@
             ///@desc: broadcast globally LessonSearchEvent with keyword in form input in 'lessonNews' or 'lessonSearch' state, 
             ///        otherwise change state to lessonSearch with keyword param
             $scope.search = function () {
-                $state.go('lessonSearch',
-                    {
-                        keyword: $scope.keyword//,
-                        //discipline: $scope.discipline,
-                        //school: $scope.school,
-                        //classroom: $scope.classroom
-                    });
-                $scope.viewAdvSearch = false;
+                // set inherit option to false to avoid conflict with parameters in URL set by advancedSearch
+                $state.go('lessonSearch', { keyword: $scope.keyword }, { inherit: false });
+                //$scope.viewAdvSearch = false;
                 $scope.keyword = null;
                 // If I don't want to preserve search/paging history navigation when the landing state is lessonSearch
                 // I could use the following code, which doesn't change state transition (just event global broadcasting)
@@ -54,7 +45,7 @@
                 });
 
                 modalInstance.result.then(function (selectedItem) {
-                    $scope.selected = selectedItem;
+                    //$scope.selected = selectedItem;
                 }, function () {
                     console.log('Modal dismissed at: ' + new Date());
                 });

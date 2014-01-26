@@ -18,15 +18,16 @@
         noLessonIdFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:support@discitur.org'>supporto tecnico</a>",
         viewMore: "Approfondisci >>",
         keywordPlaceholder: "Ricerca la lezione per titolo, scuola, classe ed altro...",
-        advKeywordPlaceholder: "Titolo",
+        advKeyword: "Titolo",
         disciplinePlaceholder: "Disciplina",
         schoolPlaceholder: "Scuola",
         classroomPlaceholder: "Classe",
-        tagPlaceholder: "Caratteristica",
+        tag: "Caratteristica",
         searchButton: "Cerca",
         advancedSearchButton: "Ricerca Avanzata",
         buttonAdd : "+",
         buttonDel: "x",
+        cancel: "Cancella",
         validationError : "Non Valido!"
     }
 )

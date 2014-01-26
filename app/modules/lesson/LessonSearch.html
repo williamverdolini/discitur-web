@@ -1,50 +1,15 @@
 ﻿<div ng-controller="LessonSearchCtrl">
 
-<!--
-    <script type="text/ng-template" id="ModalAdvSearch">
-        <div class="modal-header">
-            <h3>{{labels.advancedSearchButton}}</h3>
-        </div>
-        <div class="modal-body">
-            <input class="span4" type="text" placeholder="{{labels.keywordPlaceholder}}" ng-model="keyword">
-            <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getDisciplines($viewValue) | filter:$viewValue" ng-model="discipline" placeholder="{{labels.disciplinePlaceholder}}" typeahead-on-select="select()" typeahead-editable='false'>
-            <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getSchools($viewValue) | filter:$viewValue" ng-model="school" placeholder="{{labels.schoolPlaceholder}}">
-            <input class="span4" type="text" typeahead-wait-ms="300" typeahead="k for k in getClassRooms($viewValue) | filter:$viewValue" ng-model="classroom" placeholder="{{labels.classroomPlaceholder}}">
-            <div class="input-append">
-                <input class="span3" type="text" typeahead-wait-ms="300" typeahead="k for k in getTags($viewValue) | filter:$viewValue" ng-model="local.tag" placeholder="{{labels.tagPlaceholder}}">
-                <a class="btn" ng-click="addSearchedTag()">{{labels.buttonAdd}}</a>
-            </div>
-            <div class="row-fluid">
-                <span ng-repeat="tag in local.searchedTags">
-                    <div class="input-append">
-                        <button type="button" class="btn btn-success btn-small disabled" disabled="disabled">{{tag}}</button>
-                        <a class="btn btn-default btn-small" ng-click="local.searchedTags.splice($index, 1)">{{labels.buttonDel}}</a>
-                    </div>
-                </span>
-            </div>
-
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">{{labels.searchButton}}</button>
-            <a class="btn btn-warning" ng-click="cancel()">Cancel</a>
-        </div>
-    </script>
-    
--->
-
-    <form class="navbar-search navbar" ng-submit="search()" id="lessonSearch" ng-init="viewAdvSearch=false;">
-
+    <form class="navbar-search navbar" ng-submit="search()" id="lessonSearch" >
         <div class="input-append">
             <input class="span4" type="text" placeholder="{{labels.keywordPlaceholder}}" ng-model="keyword">
             <button class="btn" type="submit">{{labels.searchButton}}</button>
         </div>
-        <!--  ng-click="viewAdvSearch=!viewAdvSearch;"   -->
     </form>
     
-    <a class="navbar-text" ng-click="openAdvSearch()">
+    <a class="navbar-text" ng-click="openAdvSearch()" style="cursor:pointer">
         <small>{{labels.advancedSearchButton}}</small>
     </a>
 
     <div class="container" ng-include="'modules/lesson/LessonAdvSearch.html'"></div>
-
 </div>

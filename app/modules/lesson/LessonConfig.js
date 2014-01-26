@@ -13,32 +13,7 @@
         //$urlRouterProvider.when('/lesson', '/lesson/1');
 
         $stateProvider
-            /*
-            .state('lessonNews', {
-                url: '/lesson',
-                parent: 'master.2cl',
-                onEnter: function () {
-                    console.log("Entering Lesson News");
-                },
-                views: {
-                    'sidebar': {
-                        templateUrl: 'modules/lesson/sidebar.html'
-                    },
-                    'main': {
-                        templateUrl: 'modules/lesson/LessonNews.html',
-                        controller: 'LessonNewsCtrl',
-                        resolve: {
-                            lessonNewsData: function (LessonService, $stateParams) {
-                                return LessonService.search($stateParams);
-                            }
-
-                        }
-                    }
-                }
-            })
-        */
             .state('lessonSearch', {
-                //url: '/lesson?keyword',
                 url: '/lesson?keyword?discipline?school?classroom?rate?tags?startRow?pageSize?orderBy?orderDir',
                 parent: 'master.2cl',
                 onEnter: function () {
