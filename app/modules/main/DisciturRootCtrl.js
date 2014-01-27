@@ -35,7 +35,8 @@
             }
 
             $scope.labels = {
-                appTitle: _getLabel('appTitle')
+                appTitle: _getLabel('appTitle'),
+                loading: _getLabel('loading')
             };
 
             var _getMessage = function (obj) {
@@ -52,7 +53,7 @@
             //------- Event Global Broadcasting -------//
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 //if (toState.resolve) {
-                    console.log("$stateChangeStart")
+                console.log("$stateChangeStart")
                 // Show a loading message until promises are not resolved
                 $scope.loading = true;
                 //}

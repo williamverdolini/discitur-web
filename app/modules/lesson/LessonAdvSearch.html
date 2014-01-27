@@ -1,8 +1,5 @@
 ﻿<script type="text/ng-template" id="LessonAdvSearch">
-    <!--
-        <div class="modal-dialog">
-            <div class="modal-content">
-    -->
+
     <form name="local.searchForm" ng-submit="advSearch()" novalidate>
         <div class="modal-header">
             <button type="button" ng-click="cancel()" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -55,19 +52,6 @@
                     <span class="input-group-addon text-danger input-sm" ng-style="local.classroom!='' && local.errors.classroom ? {visibility: 'visible'} : {visibility: 'hidden'}">{{labels.validationError}}</span>
                 </div>
             </div>
-            <!--
-            <label>{{labels.classroom}}</label>
-            <div class="input-append">
-                <input class="span4" type="text"
-                       name="classroom"
-                       ng-model="local.classroom"
-                       typeahead-wait-ms="300"
-                       typeahead="k for k in getClassRooms($viewValue) | filter:$viewValue"
-                       typeahead-on-select="select('classroom')"
-                       typeahead-editable='false'>
-                <span class="add-on alert-error" ng-show="local.classroom!='' && local.errors.classroom">{{labels.validationError}}</span>
-            </div>
-            -->
             <div class="form-group">
                 <label class="control-label">{{labels.rating}}</label>
                 <div class="input-group">
@@ -99,12 +83,8 @@
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="submit">{{labels.searchButton}}</button>
-            <a class="btn btn-warning" ng-click="cancel()">Cancel</a>
+            <a class="btn btn-warning" ng-click="cancel()">{{labels.cancel}}</a>
         </div>
     </form>
 
-    <!--
-                   </div>
-        </div>
-    -->
 </script>

@@ -1,7 +1,8 @@
 ﻿angular.module('Common')
 .value('dictionary',
     {
-        appTitle : "Discitur - Insieme si migliora",
+        appTitle: "Discitur - Insieme si migliora",
+        loading: "Caricamento in corso...",
         specifics : "Caratteristiche",
         discipline: "Disciplina",
         school: "Scuola",
@@ -27,15 +28,15 @@
         advancedSearchButton: "Ricerca Avanzata",
         buttonAdd : "+",
         buttonDel: "x",
-        cancel: "Cancella",
+        cancel: "Annulla",
         validationError : "Non Valido!"
     }
 )
 .value('overrides',
     {
         'LessonCtrl': {
-            lessonGoods: "Cosa è andato bene :)",
-            lessonBads: "Cosa è andato male :("
+            lessonGoods: "Cosa è andato bene",
+            lessonBads: "Cosa è andato male"
         },
         'LessonNewsCtrl': {
             publishedOn: "Pubblicato il",
