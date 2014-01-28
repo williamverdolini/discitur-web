@@ -68,7 +68,8 @@
                             classroom: $scope.local.classroom,
                             rate: $scope.local.rate > 0 ? $scope.local.rate : null,
                             tags: $scope.local.searchedTags.length == 0 ? null : $scope.local.searchedTags.join()
-                        });
+                        },
+                        {inherit : false});
                     $scope.local.keyword = null;
                     $scope.local.discipline = null;
                     $scope.local.school = null

@@ -89,7 +89,7 @@
                 get: function (inputParams) {
                     DiscUtil.validateInput(
                         'LessonService.get',   // function name for logging purposes
-                        { id: 1},              // hashmap to check inputParameters
+                        { id: null},              // hashmap to check inputParameters
                         inputParams            // actual input params
                     );
                     // create deferring result

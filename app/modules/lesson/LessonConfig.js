@@ -3,7 +3,6 @@
         'Discitur',
         'Common',
         'ngResource',
-        //'ngRoute',
         'ui.router',
         'ngSanitize',
         'ui.bootstrap'
