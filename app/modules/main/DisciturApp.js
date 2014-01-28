@@ -3,6 +3,7 @@
         'ui.router',
         'Common',
         'Lesson',
+        'disc.user',
         'ui.bootstrap'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {

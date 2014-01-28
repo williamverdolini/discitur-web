@@ -29,7 +29,15 @@
         buttonAdd : "+",
         buttonDel: "x",
         cancel: "Annulla",
-        validationError : "Non Valido!"
+        validationError: "Non Valido!",
+        // User NavBar:
+        userSigIn: "Accedi",
+        username: "User Name",
+        password: "Password",
+        signInTitle: "Accedi a Discitur",
+        loginButtom: "Login",
+        login: "Login",
+        register: "Registrati"
     }
 )
 .value('overrides',

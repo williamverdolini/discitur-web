@@ -1,0 +1,9 @@
+﻿angular.module('disc.user',
+    [
+        'Discitur',
+        'Common',
+        'ngResource',
+        'ui.router',
+        'ngSanitize',
+        'ui.bootstrap'
+    ])
