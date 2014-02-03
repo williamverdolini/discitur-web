@@ -31,13 +31,15 @@
         cancel: "Annulla",
         validationError: "Non Valido!",
         // User NavBar:
-        userSigIn: "Accedi",
+        userSignIn: "Accedi",
         username: "User Name",
         password: "Password",
         signInTitle: "Accedi a Discitur",
         loginButtom: "Login",
         login: "Login",
-        register: "Registrati"
+        register: "Registrati",
+        userProfile: "Il tuo Profilo",
+        userSignOff: "Esci"
     }
 )
 .value('overrides',

@@ -1,4 +1,17 @@
-﻿<ul class="nav navbar-nav navbar-right" ng-controller="UserNavBar">
-    <li><a ng-click="openSignIn()" >{{labels.userSigIn}}</a></li>
-</ul>
+﻿<div ng-controller="UserNavBar">
+    <ul class="nav navbar-nav navbar-right" ng-show="!model.isLogged">
+        <li><a ng-click="actions.openSignIn()">{{labels.userSignIn}}</a></li>
+    </ul>
+
+    <ul class="nav navbar-nav navbar-right" ng-show="model.isLogged">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle">{{model.nome}}<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a>{{labels.userProfile}}</a></li>
+                <li><a ng-click="actions.signOff()">{{labels.userSignOff}}</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
 <div ng-include="'modules/user/UserSignIn.html'"></div>
