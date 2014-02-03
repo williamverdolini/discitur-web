@@ -4,33 +4,29 @@
         'LabelService',
         '$state',
         '$modal',
-        'CurrentUser',
-        'UserService',
+        'AuthService',
         function (
             $scope,
             LabelService,
             $state,
             $modal,
-            CurrentUser,
-            UserService
+            AuthService
             ) {
-            //-------- $scope properties ----
+            //-------- private properties -------
+            var modalInstance;
+            //-------- public properties ----
             $scope.labels;
+            $scope.actions;
 
-            //-------- private method -------
+            //-------- private methods -------
             _getLabel = function (label) {
                 return LabelService.get('UserNavBar', label);
             }
-            //--------- model initialization ------
-            $scope.labels = {
-                userSignIn: _getLabel('userSignIn'),
-                userSignOff: _getLabel('userSignOff'),
-                userProfile: _getLabel('userProfile')
-            };
 
+            //-------- public methods -------
             $scope.actions = {
                 openSignIn : function () {
-                    var modalInstance = $modal.open({
+                    modalInstance = $modal.open({
                         backdrop: true,
                         windowClass: 'modal-signin',
                         templateUrl: 'UserSignIn',
@@ -44,7 +40,7 @@
                     });
                 },
                 signOff: function () {
-                    UserService.logout();
+                    AuthService.logout();
                 }
             }
 
@@ -64,37 +60,22 @@
 
             }
 
-            $scope.signOff = function () {
-
-            }
-
-            
-
+            //--------- model initialization ------
+            $scope.labels = {
+                userSignIn: _getLabel('userSignIn'),
+                userSignOff: _getLabel('userSignOff'),
+                userProfile: _getLabel('userProfile')
+            };
+            // Authentication user data
             $scope.model = {
-                nome: UserService.currentUser.username,
-                isLogged: UserService.currentUser.isLogged
+                nome: AuthService.user.username,
+                isLogged: AuthService.user.isLogged
             }
-            $scope.$watch(function () { return UserService.currentUser.isLogged; },
+            $scope.$watch(function () { return AuthService.user.isLogged; },
                 function () {
-                    $scope.model.nome = UserService.currentUser.username;
-                    $scope.model.isLogged = UserService.currentUser.isLogged;
+                    $scope.model.nome = AuthService.user.username;
+                    $scope.model.isLogged = AuthService.user.isLogged;
                 }
             );
-
-            /*
-            $scope.model = {
-                nome: CurrentUser.username,
-                isLogged: CurrentUser.isLogged
-            }
-            */
-            //$scope.model.nome = CurrentUser.username;
-            /*
-            $scope.$watch(function () { return CurrentUser.isLogged; },
-                function () {
-                    $scope.model.nome = CurrentUser.username;
-                    $scope.model.isLogged = CurrentUser.isLogged;
-                }
-            );
-            */
         }
     ]);

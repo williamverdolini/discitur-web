@@ -37,6 +37,7 @@
         signInTitle: "Accedi a Discitur",
         loginButtom: "Login",
         login: "Login",
+        usernameNotValid: "User Name NON valido: inserisci un indirizzo email corretto",
         register: "Registrati",
         userProfile: "Il tuo Profilo",
         userSignOff: "Esci"

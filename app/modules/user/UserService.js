@@ -10,53 +10,16 @@
         }
         return (UserDTO);
     })
-    // Singleton to manage Current Authenticated User
-    .factory('CurrentUser', [
-        'UserDTO',
-        //'UserService',
-        function (UserDTO) {
-            /*
-            var _token = localStorage.getItem('disc.auth.token');
-            var _cUser = {};
-
-            if (_token) {
-                UserService.getUserInfo().then(
-                    function (successData) {
-                        _cUser = successData;
-                    },
-                    function (errorData) {
-                        // do something...
-                    })
-            }
-            else {
-                _cUser = angular.extend(new UserDTO(), { isLogged: false })
-            }
-            */
-            // Current User is a special UserDTO with authenticaton properties
-            var _cUser = angular.extend(new UserDTO(),{ isLogged: false })
-            return _cUser;
-        }
-    ])
-    // User Service
-    .factory('UserService', [
+    // User Authentication Service
+    .factory('AuthService', [
         '$http',
         '$q',
-        'CurrentUser',
+        //'CurrentUser',
         'DiscUtil',
         'DisciturSettings',
         'UserDTO',
-        function ($http, $q, CurrentUser, DiscUtil, DisciturSettings, UserDTO) {
-            var _token = localStorage.getItem('disc.auth.token');
-
-            // data transfer mapping from Business Domain
-            var _setCurrentUserData = function (apiData) {
-                CurrentUser.username = apiData.UserName;
-                CurrentUser.name = apiData.Name;
-                CurrentUser.surname = apiData.Surname;
-                CurrentUser.email = apiData.Email;
-                return;
-            }
-
+        function ($http, $q, DiscUtil, DisciturSettings, UserDTO) {
+            //-------- private methods -------
             var _setUserData = function (apiData) {
                 var _user = new UserDTO();
                 _user.username = apiData.UserName;
@@ -64,12 +27,6 @@
                 _user.surname = apiData.Surname;
                 _user.email = apiData.Email;
                 return _user;
-            }
-            // data transfer mapping from Authentication Domain (OAuth-AspNetUsers)
-            var _setCurrentUserLoginData = function (apiData) {
-                CurrentUser.username = apiData.userName;
-                CurrentUser.isLogged = true;
-                return;
             }
 
             var _setUserLoginData = function (apiData) {
@@ -79,43 +36,24 @@
                 return _user;
             }
 
-
-            var _setCurrentUserLoginOutData = function () {
-                angular.extend(CurrentUser, new UserDTO());
-                angular.extend(CurrentUser, { isLogged: false })
-                return;
-            }
-
             var _setUserLoginOutData = function () {
                 var _user = {};
                 angular.extend(_user, { isLogged: false })
                 return _user;
             }
 
-
-            /*
-            var _setHeaders = function (token) {
-                if (!token) {
-                    delete $http.defaults.headers.common['X-Token'];
-                    return;
-                }
-                $http.defaults.headers.common['X-Token'] = token.toString();
-            };
-            */
-
             var _setToken = function (token) {
                 if (!token) {
-                    localStorage.removeItem('disc.auth.token');
+                    localStorage.removeItem(DisciturSettings.authToken);
                 } else {
-                    localStorage.setItem('disc.auth.token', token);
+                    localStorage.setItem(DisciturSettings.authToken, token);
                 }
-                //_setHeaders(token);
             };
 
-            //-------- public methods-------
-
             var _authService = {
-                currentUser : angular.extend(new UserDTO(), { isLogged: false }),
+                //-------- public properties-------
+                user: angular.extend(new UserDTO(), { isLogged: false }),
+                //-------- public methods-------
                 login: function (inputParams) {
                     DiscUtil.validateInput(
                         'UserService.login',   // function name for logging purposes
@@ -139,9 +77,9 @@
                             function (result) {
                                 var _user = _setUserLoginData(result);
                                 // Set Auth Token to send to server requests
-                                angular.extend(_authService.currentUser, _user);
+                                angular.extend(_authService.user, _user);
                                 _setToken(result.access_token);
-                                deferred.resolve(_authService.currentUser);
+                                deferred.resolve(_authService.user);
                             })
                         .error(
                             // Error Callback
@@ -161,10 +99,10 @@
                     var deferred = $q.defer();
                     // remove Auth Token
                     _setToken(null);
-                    // unload CurrentUser data
+                    // unload current user data
                     var _user = _setUserLoginOutData();
-                    angular.extend(_authService.currentUser, _user);
-                    deferred.resolve(_authService.currentUser)
+                    angular.extend(_authService.user, _user);
+                    deferred.resolve(_authService.user)
                     return deferred.promise;
                 },
                 getUserInfo: function () {
@@ -180,8 +118,8 @@
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
                                 var _user = _setUserLoginData(result);
-                                angular.extend(_authService.currentUser, _user);
-                                deferred.resolve(_authService.currentUser);
+                                angular.extend(_authService.user, _user);
+                                deferred.resolve(_authService.user);
                             })
                         .error(
                             // Error Callback
@@ -196,95 +134,34 @@
 
                     return deferred.promise;
                 }
-
-
             }
 
-
+            //-------- Singleton Initialization -------
+            // get security token from local storage
+            var _token = localStorage.getItem(DisciturSettings.authToken);
             if (_token) {
                 _authService.getUserInfo().then(
                     function (successData) {
-                        _authService.currentUser = successData;
+                        _authService.user = successData;
                     },
                     function (errorData) {
                         // do something...
                     })
             }
-            else {
-                _cUser = angular.extend(new UserDTO(), { isLogged: false })
-            }
-
-
 
             return _authService;
-
-            /*
-            return {
-                login: function (inputParams) {
-                    DiscUtil.validateInput(
-                        'UserService.login',   // function name for logging purposes
-                        {                      // hashmap to check inputParameters
-                            username: null,
-                            password: null
-                        },
-                        inputParams            // actual input params
-                    );
-
-                    inputParams.grant_type = 'password';
-                    // create deferring result
-                    var deferred = $q.defer();
-
-                    // Retrieve Async data CurrentUser        
-                    // For actual implementation of OAuth Middleware Provider, the parameters must be passed in querystring format
-                    // http://stackoverflow.com/questions/19645171/how-do-you-set-katana-project-to-allow-token-requests-in-json-format
-                    $http.post(DisciturSettings.apiUrl + 'Token', $.param(inputParams))
-                        .success(
-                            // Success Callback: Data Transfer Object Creation
-                            function (result) {
-                                _setCurrentUserLoginData(result);
-                                // Set Auth Token to send to server requests
-                                _setToken(result.access_token);
-                                deferred.resolve(CurrentUser);
-                            })
-                        .error(
-                            // Error Callback
-                            function (error, status) {
-                                var _authErr = {
-                                    code: error.error,
-                                    description: error.error_description,
-                                    status: status
-                                }
-                                deferred.reject(_authErr);
-
-                                //deferred.reject("no Valid Auth Parameters for username:" + inputParams.username);
-                            });
-
-                    return deferred.promise;
-                },
-                logout: function () {
-                    DiscUtil.validateInput('UserService.logout', {}, arguments);
-                    // create deferring result
-                    var deferred = $q.defer();
-                    // remove Auth Token
-                    _setToken(null);
-                    // unload CurrentUser data
-                    _setCurrentUserLoginOutData();
-                    deferred.resolve(CurrentUser)
-                    return deferred.promise;
-                }
-            }
-            */
-
         }
     ])
-    // Authentication Intercepor
+    // Authentication Intercepor:
+    // set Header Authorization Token (if exists)
     .factory('UserAuthInterceptor', [
         '$q',
-        function ($q) {
+        'DisciturSettings',
+        function ($q, DisciturSettings) {
             return {
                 request: function (config) {
                     config.headers = config.headers || {};
-                    var _token = localStorage.getItem('disc.auth.token')
+                    var _token = localStorage.getItem(DisciturSettings.authToken)
                     if (_token) {
                         config.headers.Authorization = 'Bearer ' + _token;
                         //config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
@@ -294,9 +171,3 @@
             }
         }
     ]);
-
-//$httpProvider.interceptors.push('UserAuthInterceptor');
-//Http Intercpetor to check auth failures for xhr requests
-angular.module('disc.user').config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.interceptors.push('UserAuthInterceptor');
-}]);

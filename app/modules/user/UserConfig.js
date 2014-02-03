@@ -7,3 +7,6 @@
         'ngSanitize',
         'ui.bootstrap'
     ])
+    .config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.interceptors.push('UserAuthInterceptor');
+    }]);

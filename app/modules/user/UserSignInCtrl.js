@@ -3,50 +3,68 @@
         '$scope',
         '$modalInstance',
         'LabelService',
-        'UserService',
-        //'$state',
+        'AuthService',
         function (
             $scope,
             $modalInstance,
             LabelService,
-            UserService
-            //$state
+            AuthService
             ) {
-            //--------- Controller private methods ------
-            _getLabel = function (label) {
+            //-------- $scope properties ----
+            $scope.labels;
+            $scope.actions;
+            $scope.local;
+
+            //-------- private methods -------
+            var _getLabel = function (label) {
                 return LabelService.get('UserSignInCtrl', label);
             }
-            //--------- Controller public methods ------   
-            $scope.ok = function () {
-                $modalInstance.close(0);
-            };
-
-            $scope.cancel = function () {
-                $modalInstance.dismiss('cancel');
-            };
-
             var _validLoginCB = function (data) {
                 $scope.local.user = data;
-                $scope.ok();
+                $scope.actions.ok();
             };
             var _invalidLoginCB = function (error) {
                 $scope.local.errors.message = error.description;
                 $scope.local.errors.show = true;
-                console.log(error)
             };
 
-            $scope.doLogin = function () {
-                if ($scope.local.LoginForm.$valid) {
-                    $scope.local.errors.show = false;
-                    UserService.login(
-                        {
-                            username: $scope.local.username,
-                            password: $scope.local.password
-                        })
-                    .then(_validLoginCB, _invalidLoginCB);
+            //--------- public methods ------   
+            $scope.actions = {
+                ok: function () {
+                    $modalInstance.close(0);
+                },
+                cancel: function () {
+                    $modalInstance.dismiss('cancel');
+                },
+                doLogin: function () {
+                    if ($scope.local.LoginForm.$valid) {
+                        $scope.local.errors.show = false;
+                        AuthService.login(
+                            {
+                                username: $scope.local.username,
+                                password: $scope.local.password
+                            })
+                        .then(_validLoginCB, _invalidLoginCB);
+                    }
+                    else {
+                        if ($scope.local.LoginForm.username.$invalid) {
+                            $scope.local.errors.message = ""
+                            $scope.local.errors.message += $scope.local.LoginForm.username.$error.required ? "UserName obbligatorio" : "";
+                            $scope.local.errors.message += $scope.local.LoginForm.username.$error.minlength ? "Inserisci uno User Name di almeno 4 caratteri" : "";
+                            //$scope.local.errors.message = _getLabel('usernameNotValid');
+                            $scope.local.errors.show = true;
+                        }
+                        if ($scope.local.LoginForm.password.$invalid) {
+                            $scope.local.errors.message = _getLabel('passwordNotValid');
+                            $scope.local.errors.show = true;
+                        }
+
+                    }
+                },
+                doLogout: function () {
+                    AuthService.logout();
                 }
-
-            };
+            }
 
             //--------- model initialization ------
             // Modal Dialog is inherited scope, so it's important to set internal object, 
