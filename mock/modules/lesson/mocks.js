@@ -27,7 +27,16 @@
         disciplines: ['Storia', 'Geografia', 'Italiano', 'Matematica', 'Scienze', 'Inglese'],
         schools: ['Scuola Secondaria', 'Liceo Classico', 'Scuola Primaria', 'Liceo Scientifico', 'Magistrali'],
         classrooms: ['I Media', 'II Media', 'III Media', 'IV Ginnasio'],
-        tags: ['DSA','Classe numerosa','Razzismo','Diritti Civili','ultime ore','Attualità','Personaggi Famosi','Classe multi-etnica']
+        tags: ['DSA', 'Classe numerosa', 'Razzismo', 'Diritti Civili', 'ultime ore', 'Attualità', 'Personaggi Famosi', 'Classe multi-etnica'],
+        user: { UserName: 'will@iam.it', Token: 'XXXXXXXXXXXXXXX', Name: 'William', Surname: 'Verdolini', Email: 'william.ver@wi.it' },
+        comments: [
+            { "id": 1, "LessonId": 1, "Author": { "UserId": 1, "UserName": "Fede", "Image": "https://gp3.googleusercontent.com/---NTVhcKLaQ/AAAAAAAAAAI/AAAAAAAAAtk/NQK3bAqL0yI/s48-c-k-no/photo.jpg" }, "Date": "2013-12-08T00:00:00", "Content": "diverso contenuto del commento da capire se con <a href='#'>link</a> o simili", "Parent": null, "Level":0 },
+            { "id": 2, "LessonId": 1, "Author": { "UserId": 1, "UserName": "Fede", "Image": "https://gp3.googleusercontent.com/---NTVhcKLaQ/AAAAAAAAAAI/AAAAAAAAAtk/NQK3bAqL0yI/s48-c-k-no/photo.jpg" }, "Date": "2013-12-08T00:00:00", "Content": "diverso contenuto del commento da capire se con <a href='#'>link</a> o simili", "Parent": 1, "Level": 1 },
+            { "id": 3, "LessonId": 1, "Author": { "UserId": 1, "UserName": "Fede", "Image": "https://gp3.googleusercontent.com/---NTVhcKLaQ/AAAAAAAAAAI/AAAAAAAAAtk/NQK3bAqL0yI/s48-c-k-no/photo.jpg" }, "Date": "2013-12-08T00:00:00", "Content": "diverso contenuto del commento da capire se con <a href='#'>link</a> o simili", "Parent": 1, "Level": 1 },
+            { "id": 4, "LessonId": 1, "Author": { "UserId": 1, "UserName": "Fede", "Image": "https://gp3.googleusercontent.com/---NTVhcKLaQ/AAAAAAAAAAI/AAAAAAAAAtk/NQK3bAqL0yI/s48-c-k-no/photo.jpg" }, "Date": "2013-12-08T00:00:00", "Content": "diverso contenuto del commento da capire se con <a href='#'>link</a> o simili", "Parent": null, "Level": 0 },
+            { "id": 5, "LessonId": 1, "Author": { "UserId": 1, "UserName": "Fede", "Image": "https://gp3.googleusercontent.com/---NTVhcKLaQ/AAAAAAAAAAI/AAAAAAAAAtk/NQK3bAqL0yI/s48-c-k-no/photo.jpg" }, "Date": "2013-12-08T00:00:00", "Content": "diverso contenuto del commento da capire se con <a href='#'>link</a> o simili", "Parent": 4, "Level": 1 },
+            { "id": 6, "LessonId": 1, "Author": { "UserId": 1, "UserName": "Fede", "Image": "https://gp3.googleusercontent.com/---NTVhcKLaQ/AAAAAAAAAAI/AAAAAAAAAtk/NQK3bAqL0yI/s48-c-k-no/photo.jpg" }, "Date": "2013-12-08T00:00:00", "Content": "diverso contenuto del commento da capire se con <a href='#'>link</a> o simili", "Parent": 5, "Level": 2 },
+        ]
     })
 
     .run(function ($httpBackend, DisciturSettings, MockedData) {
@@ -38,6 +47,7 @@
         //$httpBackend.whenGET(new RegExp(DisciturSettings.apiUrl + 'lesson\\?schoolQ=\.*')).respond(MockedData.schools);
         //$httpBackend.whenGET(new RegExp(DisciturSettings.apiUrl + 'lesson\\?classroomQ=\.*')).respond(MockedData.classrooms);
         //$httpBackend.whenGET(new RegExp(DisciturSettings.apiUrl + 'lesson\\?tagQ=\.*')).respond(MockedData.tags);
+        $httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/1/comments').respond(MockedData.comments);
 
 
         //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/').passThrough();
@@ -48,7 +58,11 @@
         $httpBackend.whenGET('modules/navigation/navbar.html').passThrough();
         $httpBackend.whenGET('modules/lesson/404lesson.html').passThrough();
         $httpBackend.whenGET('modules/lesson/detail.html').passThrough();
+
+        
+
         */
+        $httpBackend.whenPOST(DisciturSettings.apiUrl + 'user/login').respond(MockedData.user);
 
         // Don't mock the html views
         $httpBackend.whenGET(/modules\/\w+.*/).passThrough();

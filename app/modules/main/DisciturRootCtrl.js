@@ -3,6 +3,7 @@
         '$scope',
         '$rootScope',
         'LabelService',
+        //'AuthService',
         function ($scope, $rootScope, LabelService) {
             //-----------------------------------------------------------
             // Loading layer management
@@ -42,6 +43,7 @@
             var _getMessage = function (obj) {
                 var _message = "";
                 for (var key in obj) {
+                    var _myKey = key;
                     if (obj[key].constructor === Object)
                         _message += _getMessage(obj[key])
                     else
@@ -64,7 +66,7 @@
                 $scope.loading = false;
             });
             $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-                console.warn('$stateChangeError: ' + _getMessage(error))
+                console.error('$stateChangeError: ' + error)
                 // Hide loading message
                 $scope.loading = false;
             });

@@ -14,7 +14,6 @@
     .factory('AuthService', [
         '$http',
         '$q',
-        //'CurrentUser',
         'DiscUtil',
         'DisciturSettings',
         'UserDTO',

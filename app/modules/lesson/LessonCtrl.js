@@ -2,14 +2,19 @@
     .controller('LessonCtrl', [
         '$scope',
         'LabelService',
+        'LessonService',
         '$sce',
         'lessonData',
-        //'lessonGet',
+        '$rootScope',
+        'AuthService',
         function (
             $scope,
             LabelService,
+            LessonService,
             $sce,
-            lessonData//,lessonGet
+            lessonData,
+            $rootScope,
+            AuthService
             ) {
             //------- label initialization -------//
             _getLabel = function (label) {
@@ -31,10 +36,39 @@
                 noLessonBads: _getLabel('noLessonBads'),
                 conclusion: _getLabel('conclusion')
             };
+
+            $scope.local = {
+                commentText : null
+            }
+
+            $scope.actions = {
+                openSignIn: function () {
+                    $rootScope.$broadcast('disc.login', $scope.actions)
+                },
+                ok: function () {
+                    $scope.local.commentText = 'Inserisci il tuo commento'
+                    //$scope.local.UserCommentForm.CommentTXT.focus();
+                }
+            }
+
+            $scope.isLogged= AuthService.user.isLogged
+            $scope.$watch(function () {
+                return AuthService.user.isLogged;
+            },
+                function () {
+                    $scope.isLogged = AuthService.user.isLogged;
+                }
+            );
+
             /***** model initialization ****/
             // lesson data async
             var currentLesson = lessonData;
             $scope.lesson = currentLesson;
-            $scope.lesson.content = $sce.trustAsHtml(currentLesson.content);            
+            $scope.lesson.content = $sce.trustAsHtml(currentLesson.content);
+            $scope.lesson.comments = [];
+            LessonService.getComments({ id: 1 }).then(
+                function (comments) { $scope.lesson.comments = comments; }) // success
+
+            
         }
     ]);

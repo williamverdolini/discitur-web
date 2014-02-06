@@ -5,13 +5,7 @@
         '$state',
         '$modal',
         'AuthService',
-        function (
-            $scope,
-            LabelService,
-            $state,
-            $modal,
-            AuthService
-            ) {
+        function ($scope,LabelService,$state,$modal,AuthService) {
             //-------- private properties -------
             var modalInstance;
             //-------- public properties ----
@@ -25,7 +19,7 @@
 
             //-------- public methods -------
             $scope.actions = {
-                openSignIn : function () {
+                openSignIn: function (actions) {
                     modalInstance = $modal.open({
                         backdrop: true,
                         windowClass: 'modal-signin',
@@ -34,7 +28,9 @@
                     });
 
                     modalInstance.result.then(function (selectedItem) {
-                        //$scope.selected = selectedItem;
+                        // login caller callback
+                        if (actions.ok)
+                            actions.ok();
                     }, function () {
                         console.log('Modal dismissed at: ' + new Date());
                     });
@@ -43,22 +39,10 @@
                     AuthService.logout();
                 }
             }
-
-            $scope.openSignIn = function () {
-                var modalInstance = $modal.open({
-                    backdrop: true,
-                    windowClass: 'modal-signin',
-                    templateUrl: 'UserSignIn',
-                    controller: 'UserSignInCtrl'
-                });
-
-                modalInstance.result.then(function (selectedItem) {
-                    //$scope.selected = selectedItem;
-                }, function () {
-                    console.log('Modal dismissed at: ' + new Date());
-                });
-
-            }
+            // Login Event management
+            $scope.$on('disc.login', function (event, actions) {
+                $scope.actions.openSignIn(actions);
+            })
 
             //--------- model initialization ------
             $scope.labels = {

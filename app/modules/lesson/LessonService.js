@@ -25,14 +25,30 @@
         }
         return (LessonDTO);
     })
+    .factory('CommentDTO', function () {
+        function CommentDTO() {
+            this.lessonId = null;
+            this.id = null;
+            this.content = null;
+            this.date = null;
+            this.parentId = null;
+            this.level = 0;
+            this.author = {
+                username: null,
+                image: null
+            };
+        }
+        return (CommentDTO);
+    })
     .factory('LessonService', [
         '$resource',
         '$http',
         '$q',
         'LessonDTO',
+        'CommentDTO',
         'DisciturSettings',
         'DiscUtil',
-        function ($resource, $http, $q, LessonDTO, DisciturSettings, DiscUtil) {
+        function ($resource, $http, $q, LessonDTO, CommentDTO, DisciturSettings, DiscUtil) {
             //-------- private methods -------
             // Private methods for DTO purposes
             // Lesson Data Transfer
@@ -77,6 +93,26 @@
                     lessons: _arrayDataTransfer(resultPage.Records)
                 }
                 return page;
+            }
+            // Lesson data Transfer
+            var _commentTransfer = function (commentData) {
+                var comment = new CommentDTO();
+                comment.id = commentData.Id;
+                comment.content = commentData.Content;
+                comment.date = commentData.Date;
+                comment.parentId = commentData.Parent
+                comment.level = commentData.Level
+                comment.author.username = commentData.Author.UserName;
+                comment.author.image = commentData.Author.Image;
+                return comment;
+            }
+            // Lesson Comments array data Transfer
+            var _commentsArrayTransfer = function (commentArrayData) {
+                var comments = [];
+                for (var i = 0; i < commentArrayData.length; i++) {
+                    comments.push(_commentTransfer(commentArrayData[i]));
+                }
+                return comments;
             }
             //-------- private properties -------
             var _currentInput;
@@ -204,6 +240,34 @@
                     // create deferring result
                     return deferred.promise;
 
-                }
+                },
+                // Get Async list of lesson's users comments
+                getComments: function (inputParams) {
+                    DiscUtil.validateInput(
+                        'LessonService.getComments',       // function name for logging purposes
+                        {                             // hashmap to check inputParameters e set default values
+                            id: null
+                        },
+                        inputParams                   // actual input params
+                        );
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson/' + inputParams.id + '/comments' })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                deferred.resolve(_commentsArrayTransfer(result))
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error for getting comments on lesson id:'+ inputParams.id + ' -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+                },
+
             };
       }]);

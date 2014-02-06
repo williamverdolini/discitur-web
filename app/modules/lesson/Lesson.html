@@ -51,81 +51,122 @@
         margin-bottom: 15px;
         font-size: smaller;
     }
+
+    .comment-hr {
+        margin-top: 0px;
+        margin-bottom: 15px;
+    }
 </style>
 <!--<div id="LessonContainer">-->
 
-    <div id="LessonHeading" class="jumbotron">
-        <input type="hidden" name="lesson.id" value="{{lesson.lessonId}}" />
-        <h1>{{lesson.title}}</h1>
-        <div class="row">
-            <div class="col-md-12">
-                <span class="Lesson-Features col-md-12">{{labels.specifics}}</span>
-                <h4>
-                    <dl class="dl-horizontal">
-                    <dt>{{labels.discipline}} :</dt>
-                    <dd>{{lesson.discipline}}</dd>
-                    <dt>{{labels.school}} :</dt>
-                    <dd>{{lesson.school}}</dd>
-                    <dt>{{labels.classroom}} :</dt>
-                    <dd>{{lesson.classroom}}</dd>
-                    <dt>{{labels.author}} :</dt>
-                    <dd><a><span tooltip-html-unsafe="{{lesson.author.name}}<br>{{lesson.author.surname}}">{{lesson.author.name + " " + lesson.author.surname}}</span></a></dd>
-                    <dt>{{labels.publishedOn}} :</dt>
-                    <dd>{{lesson.publishedOn | date:'dd/MM/yyyy'}}</dd>
-                    <dt>{{labels.rating}} :</dt>
-                    <dd><rating value="lesson.rate" readonly="true"></rating><span class="label label-info">{{lesson.rate}}</span></dd>
-                    </dl>
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <span ng-repeat="tag in lesson.tags">
-                <button type="button" class="btn btn-success btn-sm disabled" disabled="disabled">{{tag}}</button>
-            </span>
-        </div>
-    </div>
-
-    <div id="LessonContent" class="row">
+<div id="LessonHeading" class="jumbotron">
+    <input type="hidden" name="lesson.id" value="{{lesson.lessonId}}" />
+    <h1>{{lesson.title}}</h1>
+    <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default">                
-                <div class="panel-body"><h2>{{labels.content}}</h2></div>
-                <div class="panel-body" ng-bind-html="lesson.content"></div>
+            <span class="Lesson-Features col-md-12">{{labels.specifics}}</span>
+            <h4>
+                <dl class="dl-horizontal">
+                <dt>{{labels.discipline}} :</dt>
+                <dd>{{lesson.discipline}}</dd>
+                <dt>{{labels.school}} :</dt>
+                <dd>{{lesson.school}}</dd>
+                <dt>{{labels.classroom}} :</dt>
+                <dd>{{lesson.classroom}}</dd>
+                <dt>{{labels.author}} :</dt>
+                <dd><a><span tooltip-html-unsafe="{{lesson.author.name}}<br>{{lesson.author.surname}}">{{lesson.author.name + " " + lesson.author.surname}}</span></a></dd>
+                <dt>{{labels.publishedOn}} :</dt>
+                <dd>{{lesson.publishedOn | date:'dd/MM/yyyy'}}</dd>
+                <dt>{{labels.rating}} :</dt>
+                <dd><rating value="lesson.rate" readonly="true"></rating><span class="label label-info">{{lesson.rate}}</span></dd>
+                </dl>
+            </h4>
+        </div>
+    </div>
+    <div class="row">
+        <span ng-repeat="tag in lesson.tags">
+            <button type="button" class="btn btn-success btn-sm disabled" disabled="disabled">{{tag}}</button>
+        </span>
+    </div>
+</div>
+
+<div id="LessonContent" class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">                
+            <div class="panel-body"><h2>{{labels.content}}</h2></div>
+            <div class="panel-body" ng-bind-html="lesson.content"></div>
+        </div>
+    </div>
+</div>
+
+<div id="LessonSummary" class="row">
+    <div id="lessonGoods" class="col-md-6" ng-switch="lesson.goods && lesson.goods.length>0">
+        <div class="panel panel-info">
+            <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
+            <div class="panel-body">
+                <ol ng-switch-when="true">
+                    <li ng-repeat="item in lesson.goods">{{item}}</li>
+                </ol>
+                <div ng-switch-when="false">{{labels.noLessonGoods}}</div>
             </div>
         </div>
     </div>
+    <div id="lessonBads" class="col-md-6" ng-switch="lesson.bads && lesson.bads.length>0">
+        <div class="panel panel-warning">
+            <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
+            <div class="panel-body">
+                <ol ng-switch-when="true">
+                    <li ng-repeat="item in lesson.bads">{{item}}</li>
+                </ol>
+                <div ng-switch-when="false">{{labels.noLessonBads}}</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <div id="LessonSummary" class="row">
-        <div id="lessonGoods" class="col-md-6" ng-switch="lesson.goods && lesson.goods.length>0">
-            <div class="panel panel-info">
-                <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
-                <div class="panel-body">
-                    <ol ng-switch-when="true">
-                        <li ng-repeat="item in lesson.goods">{{item}}</li>
-                    </ol>
-                    <div ng-switch-when="false">{{labels.noLessonGoods}}</div>
+<div id="Conclusion" class="lead row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body"><h2>{{labels.conclusion}}</h2></div>
+            <div class="panel-body" ng-bind-html="lesson.conclusion"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-body"><h2>Commenti</h2></div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12" ng-show="!isLogged">Accedi ed esprimi la tua opinione!</div>                
+                <div class="col-md-12" >
+                    <form name="local.UserCommentForm" novalidate>
+                        <textarea name="CommentTXT" class="form-control" rows="3" ng-click="!isLogged ? actions.openSignIn() : true" ng-style="!isLogged ? {cursor:'pointer','background-color':'#F1F1F1'} : {}" ng-model="local.commentText"></textarea>
+                    </form>
                 </div>
             </div>
-        </div>
-        <div id="lessonBads" class="col-md-6" ng-switch="lesson.bads && lesson.bads.length>0">
-            <div class="panel panel-warning">
-                <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
-                <div class="panel-body">
-                    <ol ng-switch-when="true">
-                        <li ng-repeat="item in lesson.bads">{{item}}</li>
-                    </ol>
-                    <div ng-switch-when="false">{{labels.noLessonBads}}</div>
+            <hr />
+            <div class="row" ng-repeat-start="comment in lesson.comments | orderBy:['id','sub']">
+                <div class="col-md-{{comment.level}}" ng-show="comment.level>0"></div>
+                <a class="col-md-1" href="#">
+                    <img ng-src="{{comment.author.image}}" width="48px" height="48px">
+                </a>
+                <div class="col-md-{{11-comment.level}}">
+                    <div class="row">
+                        <b>{{comment.author.username}}</b> - <small>{{comment.date | date:'dd/MM/yyyy'}}</small>
+                    </div>
+                    <div class="row" ng-bind-html="comment.content">
+                    </div>
+                    <div class="row">
+                        <h5><small><a href="#">Rispondi</a></small></h5>
+                    </div>
                 </div>
             </div>
+            <hr ng-repeat-end class="comment-hr" />
+
         </div>
     </div>
 
-    <div id="Conclusion" class="lead row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-body"><h2>{{labels.conclusion}}</h2></div>
-                <div class="panel-body" ng-bind-html="lesson.conclusion"></div>
-            </div>
-        </div>
-    </div>
 
+</div>
 <!-- </div>-->
