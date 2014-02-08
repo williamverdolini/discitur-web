@@ -6,7 +6,9 @@
         'disc.user',
         'ui.bootstrap'
     ])
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+        $httpProvider.interceptors.push('LoadingInterceptor');
+
         // For any unmatched url, redirect to HomePage
         $urlRouterProvider.otherwise('/project/home');
 
@@ -42,6 +44,11 @@
                 parent: 'master.1cl',
                 templateUrl: 'modules/main/site/Project.html'
             })
+            .state('master.1cl.about', {
+                url: '/About',
+                parent: 'master.1cl',
+                templateUrl: 'modules/main/site/About.html'
+            })
 
     })
     .constant('DisciturSettings', {
@@ -76,7 +83,7 @@
                     }
                     // loop to set default values, if not set in actualInput
                     for (key in validInput) {
-                        if ((angular.isUndefined(actualInput[key]) || actualInput[key]==null)  && validInput[key] != null)
+                        if ((angular.isUndefined(actualInput[key]) || actualInput[key] == null) && validInput[key] != null)
                             actualInput[key] = validInput[key];
                     }
                 }
@@ -88,4 +95,23 @@
 
 
     })
-
+    // Authentication Intercepor:
+    // set Header Authorization Token (if exists)
+    .factory('LoadingInterceptor', [
+        '$rootScope',
+        'DisciturSettings',
+        function ($rootScope,DisciturSettings) {
+            return {
+                request: function (config) {
+                    if (config.url.indexOf(DisciturSettings.apiUrl)>=0)
+                        $rootScope.$loading = true;
+                    return config;
+                },
+                response: function (result) {
+                    if (result.config.url.indexOf(DisciturSettings.apiUrl) >= 0)
+                        $rootScope.$loading = false;
+                    return result;
+                }
+            }
+        }
+    ]);

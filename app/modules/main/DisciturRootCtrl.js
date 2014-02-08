@@ -57,18 +57,18 @@
                 //if (toState.resolve) {
                 console.log("$stateChangeStart")
                 // Show a loading message until promises are not resolved
-                $scope.loading = true;
+                //$scope.loading = true;
                 //}
             });
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 console.log("$stateChangeSuccess")
                 // Hide loading message
-                $scope.loading = false;
+                //$scope.loading = false;
             });
             $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
                 console.error('$stateChangeError: ' + error)
                 // Hide loading message
-                $scope.loading = false;
+                //$scope.loading = false;
             });
 
 
