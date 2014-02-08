@@ -135,30 +135,39 @@
 
 <div class="row">
     <div class="panel panel-default">
-        <div class="panel-body"><h2>Commenti</h2></div>
+        <div class="panel-body"><h2>{{labels.comments}}</h2></div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-md-12" ng-show="!isLogged">Accedi ed esprimi la tua opinione!</div>                
-                <div class="col-md-12" >
-                    <form name="local.UserCommentForm" novalidate>
-                        <textarea name="CommentTXT" class="form-control" rows="3" ng-click="!isLogged ? actions.openSignIn() : true" ng-style="!isLogged ? {cursor:'pointer','background-color':'#F1F1F1'} : {}" ng-model="local.commentText"></textarea>
+                <div class="col-md-12" ng-show="!isLogged">{{labels.commentHelp}}</div>  
+                <div class="col-md-12">
+                    <form name="local.UserCommentForm" class="form-horizontal" novalidate>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <textarea name="CommentTXT" class="form-control" rows="3" ng-click="!isLogged ? actions.openSignIn() : true" ng-style="!isLogged ? {cursor:'pointer','background-color':'#F1F1F1'} : {}" ng-model="local.commentText" placeholder="{{labels.commentPlaceholder}}"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input type="button" class="btn btn-default btn-sm" name="name" value="Salva" ng-show="isLogged" />
+                            </div>
+                        </div>
                     </form>
-                </div>
+                </div>              
             </div>
             <hr />
-            <div class="row" ng-repeat-start="comment in lesson.comments | orderBy:['id','sub']">
+            <div class="row" ng-repeat-start="comment in lesson.comments | orderBy:['id']">
                 <div class="col-md-{{comment.level}}" ng-show="comment.level>0"></div>
                 <a class="col-md-1" href="#">
                     <img ng-src="{{comment.author.image}}" width="48px" height="48px">
                 </a>
                 <div class="col-md-{{11-comment.level}}">
                     <div class="row">
-                        <b>{{comment.author.username}}</b> - <small>{{comment.date | date:'dd/MM/yyyy'}}</small>
+                        <b>{{comment.author.username}}</b> - <small>{{comment.date | date:'dd/MM/yyyy hh:ss'}}</small>
                     </div>
                     <div class="row" ng-bind-html="comment.content">
                     </div>
                     <div class="row">
-                        <h5><small><a href="#">Rispondi</a></small></h5>
+                        <h5><small><a href="#">{{labels.commentAnswer}}</a></small></h5>
                     </div>
                 </div>
             </div>

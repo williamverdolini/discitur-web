@@ -34,7 +34,11 @@
                 noLessonGoods: _getLabel('noLessonGoods'),
                 lessonBads: _getLabel('lessonBads'),
                 noLessonBads: _getLabel('noLessonBads'),
-                conclusion: _getLabel('conclusion')
+                conclusion: _getLabel('conclusion'),
+                comments: _getLabel('comments'),
+                commentPlaceholder: _getLabel('commentPlaceholder'),
+                commentHelp: _getLabel('commentHelp'),
+                commentAnswer: _getLabel('commentAnswer')
             };
 
             $scope.local = {
@@ -46,7 +50,7 @@
                     $rootScope.$broadcast('disc.login', $scope.actions)
                 },
                 ok: function () {
-                    $scope.local.commentText = 'Inserisci il tuo commento'
+                    //$scope.local.commentText = 'Inserisci il tuo commento'
                     //$scope.local.UserCommentForm.CommentTXT.focus();
                 }
             }

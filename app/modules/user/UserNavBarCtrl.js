@@ -29,7 +29,7 @@
 
                     modalInstance.result.then(function (selectedItem) {
                         // login caller callback
-                        if (actions.ok)
+                        if (actions && actions.ok)
                             actions.ok();
                     }, function () {
                         console.log('Modal dismissed at: ' + new Date());
@@ -52,12 +52,12 @@
             };
             // Authentication user data
             $scope.model = {
-                nome: AuthService.user.username,
+                username: AuthService.user.username,
                 isLogged: AuthService.user.isLogged
             }
             $scope.$watch(function () { return AuthService.user.isLogged; },
                 function () {
-                    $scope.model.nome = AuthService.user.username;
+                    $scope.model.username = AuthService.user.username;
                     $scope.model.isLogged = AuthService.user.isLogged;
                 }
             );
