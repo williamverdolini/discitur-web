@@ -21,7 +21,7 @@ module.exports = function(config) {
                 'app/bower_components/angular-sanitize/angular-sanitize.js',
                 //'app/bower_components/angular-route/angular-route.js',
                 'app/bower_components/angular-ui-router/release/angular-ui-router.js',
-                'app/bower_components/angular-bootstrap/ui-bootstrap-0.7.0.min.js',
+                'app/bower_components/angular-bootstrap/ui-bootstrap.js',
                 //'app/bower_components/angularjs-scope.safeapply/src/Scope.SafeApply.js',
                 //'app/scripts/lib/router.js',
           
@@ -36,6 +36,8 @@ module.exports = function(config) {
                 
                 'app/css/flatly-bootstrap.min.css',
                 'app/modules/common/*.js',
+                'app/modules/user/UserConfig.js',
+                'app/modules/user/*.js',
                 'app/modules/lesson/LessonConfig.js',
                 'app/modules/lesson/*.js',
                 'app/modules/main/DisciturApp.js',

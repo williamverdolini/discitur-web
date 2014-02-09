@@ -25,212 +25,260 @@ describe("Unit - module:Common - Testing Services", function() {
 
 describe("Unit - module:Lesson - Testing Services", function () {
 
-  describe("LessonService [signature]", function() {
-      var _LessonService;
-    
-      //excuted before each "it" is run.
-      beforeEach(function (){
-        
-        //load the module.
-        module('Lesson');
-        
-        //inject your service for testing.
-        inject(function(LessonService) {
-            _LessonService = LessonService;
+  describe("LessonService [signature]", function () {
+        var _LessonService;
+
+        //excuted before each "it" is run.
+        beforeEach(function () {
+
+            //load the module.
+            module('Lesson');
+
+            //inject your service for testing.
+            inject(function (LessonService) {
+                _LessonService = LessonService;
+            });
         });
-      });
-    
-      it('should contain an LabelService service', function () {
-          expect(_LessonService).not.toBe(null);
-      });
-    
-      it('should LessonService contain get method', function() {
-          expect(angular.isFunction(_LessonService.get)).toBe(true);
-      });
-    
-      it('should LessonService contain search method', function() {
-          expect(angular.isFunction(_LessonService.search)).toBe(true);
-      });
+        
+        it('should contain an _LessonService service', function () {
+            expect(_LessonService).not.toBe(null);
+        });
+        
+        it('should LessonService contain get method', function () {
+            expect(angular.isFunction(_LessonService.get)).toBe(true);
+        });
 
-      it('should LessonService contain getPage method', function () {
-          expect(angular.isFunction(_LessonService.getPage)).toBe(true);
-      });
+        it('should LessonService contain search method', function () {
+            expect(angular.isFunction(_LessonService.search)).toBe(true);
+        });
 
-      it('should LessonService contain getDistinctValues method', function () {
-          expect(angular.isFunction(_LessonService.getDistinctValues)).toBe(true);
-      });
+        it('should LessonService contain getPage method', function () {
+            expect(angular.isFunction(_LessonService.getPage)).toBe(true);
+        });
 
-      describe('LessonService [signature-parameters]', function () {
-          it('Should LessonService.search() not accept no parameter, throw exception otherwise', function () {
-              var invalidParamEx;
-              //make the call.
-              try {
-                  var returnedPromise = _LessonService.search();
-              }
-              catch (ex) {
-                  invalidParamEx = ex;
-              }
+        it('should LessonService contain getDistinctValues method', function () {
+            expect(angular.isFunction(_LessonService.getDistinctValues)).toBe(true);
+        });
 
-              expect(invalidParamEx).toBeDefined();
-              expect(invalidParamEx.code).toBeDefined();
-              expect(invalidParamEx.code).toEqual(20001);
-          })
+        it('should LessonService contain getComments method', function () {
+            expect(angular.isFunction(_LessonService.getComments)).toBe(true);
+        });
 
-          it('Should LessonService.search() accept no strings, throw exception otherwise', function () {
-              var invalidParamEx;
-              //make the call.
-              try {
-                  var returnedPromise = _LessonService.search('stringa');
-              }
-              catch (ex) {
-                  invalidParamEx = ex;
-              }
+        describe('LessonService [signature-parameters]', function () {
+            it('Should LessonService.search() not accept no parameter, throw exception otherwise', function () {
+                var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.search();
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
 
-              expect(invalidParamEx).toBeDefined();
-              expect(invalidParamEx.code).toBeDefined();
-              expect(invalidParamEx.code).toEqual(20001);
-          })
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20001);
+            })
 
-          it('Should LessonService.search() accept no Array, throw exception otherwise', function () {
-              var invalidParamEx;
+            it('Should LessonService.search() accept no strings, throw exception otherwise', function () {
+                var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.search('stringa');
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
 
-              //make the call.
-              try {
-                  var returnedPromise = _LessonService.search([]);
-              }
-              catch (ex) {
-                  invalidParamEx = ex;
-              }
-              expect(invalidParamEx).toBeDefined();
-              expect(invalidParamEx.code).toBeDefined();
-              expect(invalidParamEx.code).toEqual(20001);
-          })
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20001);
+            })
 
-          it('Should LessonService.search() accept no Function, throw exception otherwise', function () {
-              var invalidParamEx;
+            it('Should LessonService.search() accept no Array, throw exception otherwise', function () {
+                var invalidParamEx;
 
-              //make the call.
-              try {
-                  var returnedPromise = _LessonService.search(function () { });
-              }
-              catch (ex) {
-                  invalidParamEx = ex;
-              }
-              expect(invalidParamEx).toBeDefined();
-              expect(invalidParamEx.code).toBeDefined();
-              expect(invalidParamEx.code).toEqual(20001);
-          })
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.search([]);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20001);
+            })
 
-          it('Should LessonService.search() accept Object instance', function () {
-              var invalidParamEx;
+            it('Should LessonService.search() accept no Function, throw exception otherwise', function () {
+                var invalidParamEx;
 
-              //make the call.
-              try {
-                  var returnedPromise = _LessonService.search({ });
-              }
-              catch (ex) {
-                  invalidParamEx = ex;
-              }
-              expect(invalidParamEx).not.toBeDefined();
-          })
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.search(function () { });
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20001);
+            })
 
-          it('Should LessonService.search() not accept Object with uncorrect parameters, and throws exception', function () {
-              var invalidParamEx;
-              var inputParams = {
-                  color : 'blue'
-              }
+            it('Should LessonService.search() accept Object instance', function () {
+                var invalidParamEx;
 
-              var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.search({});
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).not.toBeDefined();
+            })
 
-              //make the call.
-              try {
-                  var returnedPromise = _LessonService.search(inputParams);
-              }
-              catch (ex) {
-                  invalidParamEx = ex;
-              }
-              expect(invalidParamEx).toBeDefined();
-              expect(invalidParamEx.code).toBeDefined();
-              expect(invalidParamEx.code).toEqual(20002);
-          })
+            it('Should LessonService.search() not accept Object with uncorrect parameters, and throws exception', function () {
+                var invalidParamEx;
+                var inputParams = {
+                    color: 'blue'
+                }
 
-          it('Should LessonService.getPage() not accept Object with uncorrect parameters, and throws exception', function () {
-              var invalidParamEx;
-              var inputParams = {
-                  color: 'blue'
-              }
+                var invalidParamEx;
 
-              var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.search(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20002);
+            })
 
-              //make the call.
-              try {
-                  var returnedPromise = _LessonService.getPage(inputParams);
-              }
-              catch (ex) {
-                  invalidParamEx = ex;
-              }
-              expect(invalidParamEx).toBeDefined();
-              expect(invalidParamEx.code).toBeDefined();
-              expect(invalidParamEx.code).toEqual(20002);
-          })
+            it('Should LessonService.getPage() not accept Object with uncorrect parameters, and throws exception', function () {
+                var invalidParamEx;
+                var inputParams = {
+                    color: 'blue'
+                }
 
-          it('Should LessonService.getPage() accept Object with pageNum parameter', function () {
-              var invalidParamEx;
-              var inputParams = {
-                  pageNum: 2
-              }
+                var invalidParamEx;
 
-              var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.getPage(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20002);
+            })
 
-              //make the call.
-              try {
-                  var returnedPromise = _LessonService.getPage(inputParams);
-              }
-              catch (ex) {
-                  invalidParamEx = ex;
-              }
-              expect(invalidParamEx).not.toBeDefined;
-          })
+            it('Should LessonService.getPage() accept Object with pageNum parameter', function () {
+                var invalidParamEx;
+                var inputParams = {
+                    pageNum: 2
+                }
 
-          it('Should LessonService.getDistinctValues() accept type=discipline|school|classroom|tag and inputParams (Object)', function () {
-              var invalidParamEx;
-              var inputParams = {}
+                var invalidParamEx;
 
-              var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.getPage(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).not.toBeDefined;
+            })
 
-              //make the call.
-              try {
-                  _LessonService.getDistinctValues('discipline',inputParams);
-                  _LessonService.getDistinctValues('school', inputParams);
-                  _LessonService.getDistinctValues('classroom', inputParams);
-                  _LessonService.getDistinctValues('tag', inputParams);
-              }
-              catch (ex) {
-                  invalidParamEx = ex;
-              }
-              expect(invalidParamEx).not.toBeDefined;
-          })
-      })
+            it('Should LessonService.getDistinctValues() accept type=discipline|school|classroom|tag and inputParams (Object)', function () {
+                var invalidParamEx;
+                var inputParams = {}
 
-      // I want the real service to read from DB, so it has to be async service
-      // So in Angular.js it should return a promise 
-      it('should LessonService.search return a promise', function () {
-          var promise = _LessonService.search({});
-          expect(angular.isFunction(promise.then)).toBe(true);
-          expect(angular.isFunction(promise.catch)).toBe(true);
-          expect(angular.isFunction(promise.finally)).toBe(true);
-      });
+                var invalidParamEx;
 
-      it('should LessonService.getDistinctValues return a promise', function () {
-          var promise = _LessonService.getDistinctValues('discipline', {});
-          expect(angular.isFunction(promise.then)).toBe(true);
-          expect(angular.isFunction(promise.catch)).toBe(true);
-          expect(angular.isFunction(promise.finally)).toBe(true);
-      });
+                //make the call.
+                try {
+                    _LessonService.getDistinctValues('discipline', inputParams);
+                    _LessonService.getDistinctValues('school', inputParams);
+                    _LessonService.getDistinctValues('classroom', inputParams);
+                    _LessonService.getDistinctValues('tag', inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).not.toBeDefined;
+            })
 
+            it('Should LessonService.getComments() not accept Object with uncorrect parameters, and throws exception', function () {
+                var invalidParamEx;
+                var inputParams = {
+                    color: 'blue'
+                }
 
+                var invalidParamEx;
 
-  })
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.getComments(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20002);
+            })
+
+            it('Should LessonService.getComments() accept Object with id parameter', function () {
+                var invalidParamEx;
+                var inputParams = {
+                    id: 1
+                }
+
+                var invalidParamEx;
+
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.getComments(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).not.toBeDefined();
+            })
+
+        })
+
+        // I want the real service to read from DB, so it has to be async service
+        // So in Angular.js it should return a promise 
+        it('should LessonService.search return a promise', function () {
+            var promise = _LessonService.search({});
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.getDistinctValues return a promise', function () {
+            var promise = _LessonService.getDistinctValues('discipline', {});
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.getComments return a promise', function () {
+            var promise = _LessonService.getComments({id:1});
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+    })
 
   describe("LessonService [invoke]", function () {
     // The next test I want, should be: Should the LessonService.search() return all the lessons.
@@ -711,10 +759,77 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.flush();
     });
 
+    it('Should the LessonService.getComments({id:1}) call api\\lesson\\1\\comments URL', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/1/comments'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectGET(_defURLComments).respond(_MockedData.comments)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var returnedPromise = _LessonService.getComments({id:1});
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.getComments({id:1}) return a User CommentDTO array', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/1/comments'
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                debugger;
+                expect(data.constructor === Array).toBe(true);
+                expect(data.length).toBe(6);
+                expect(data[0].id, 'proprieta\' id').toBeDefined();
+                expect(data[0].lessonId, 'proprieta\' lessonId').toBeDefined();
+                //expect(data[0].pageSize, 'proprieta\' pageSize').toBeDefined();
+                //expect(data[0].lessons, 'proprieta\' lessons').toBeDefined();
+            },
+            errorCB: function () { }
+        };
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectGET(_defURLComments).respond(_MockedData.comments)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var returnedPromise = _LessonService.getComments({ id: 1 });
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+    });
+
   })
 
 });
-
 
 describe("Unit - module:Lesson - Testing Controllers", function () {
 
@@ -817,7 +932,6 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
 
             //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: _lessonNewsData });
             var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: _lessonNewsData, LessonService: _LessonService, $state: _$state });
-            debugger;
             expect(_scope.lessons).toEqual(_lessonNewsData.lessons)
 
         });
@@ -896,44 +1010,54 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
 
         //unit test to remove after refactoring...
         // Removed search method always call $state managent (ui-router)
-        /*
-        it('Should $scope.search method broadcast LessonSearchEvent event (if in $state= \'lessonSearch\')', function () {
-            var _$stateIn = {
-                is: function (state) { return true; }, // mock case of lessonNews or lessonSearch
-                go: function (newState, stateParams) { }
-            }
 
-            var _ctrl = _$controller('LessonSearchCtrl', { $scope: _scope, $rootScope: _rootScope, LabelService: _LabelService, $state: _$stateIn });
-
-            spyOn(_rootScope, '$broadcast');
-
-            _scope.keyword = 'keywordToSearch'
-            _scope.search({});
-
-            expect(_rootScope.$broadcast).toHaveBeenCalled();
-            expect(_rootScope.$broadcast).toHaveBeenCalledWith('LessonSearchEvent', { keyword: 'keywordToSearch' });
-        })
-
-        it('Should $scope.search redirect to $state \'lessonNews\' and send keyword to $stateParams (if in $state!= \'lessonNews\')', function () {
-
-            var _$stateIn = {
-                is: function (state) { return false; }, // mock case of lessonNews or LessonSearch
-                go: function (newState, stateParams) { }
-            }
-
-            var _ctrl = _$controller('LessonSearchCtrl', { $scope: _scope, $rootScope: _rootScope, LabelService: _LabelService, $state: _$stateIn });
-
-            spyOn(_$stateIn, 'go');
-
-            _scope.keyword = 'keywordToSearch'
-            _scope.search({});
-
-            expect(_$stateIn.go).toHaveBeenCalled();
-            expect(_$stateIn.go).toHaveBeenCalledWith('lessonSearch', { keyword: 'keywordToSearch' });
-        })
-        */
     })
     
 })
 
+describe("Unit - module:User - Testing Services", function () {
+    var _AuthService;
 
+    //excuted before each "it" is run.
+    beforeEach(function () {
+
+        //load the module.
+        module('disc.user');
+
+        //inject your service for testing.
+        inject(function (AuthService) {
+            _AuthService = AuthService;
+        });
+    });
+
+    it('should contain a AuthService service', function () {
+        expect(_AuthService).not.toBe(null);
+    });
+
+    it('should AuthService contain login method', function () {
+        expect(angular.isFunction(_AuthService.login)).toBe(true);
+    });
+
+    it('should AuthService contain logout method', function () {
+        expect(angular.isFunction(_AuthService.logout)).toBe(true);
+    });
+
+    it('should AuthService contain getUserInfo method', function () {
+        expect(angular.isFunction(_AuthService.getUserInfo)).toBe(true);
+    });
+
+    it('Should AuthService.login() accept Object instance', function () {
+        var invalidParamEx;
+
+        //make the call.
+        try {
+            var returnedPromise = _AuthService.login({});
+        }
+        catch (ex) {
+            invalidParamEx = ex;
+        }
+        expect(invalidParamEx).not.toBeDefined();
+    })
+
+
+});
