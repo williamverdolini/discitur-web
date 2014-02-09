@@ -70,7 +70,7 @@
             $scope.lesson = currentLesson;
             $scope.lesson.content = $sce.trustAsHtml(currentLesson.content);
             $scope.lesson.comments = [];
-            LessonService.getComments({ id: 1 }).then(
+            LessonService.getComments({ id: $scope.lesson.lessonId }).then(
                 function (comments) { $scope.lesson.comments = comments; }) // success
 
             

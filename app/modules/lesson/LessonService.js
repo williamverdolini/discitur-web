@@ -54,7 +54,7 @@
             // Lesson Data Transfer
             var _dataTransfer = function (lessonData) {
                 var lesson = new LessonDTO();
-                lesson.lessondId = lessonData.LessonId;
+                lesson.lessonId = lessonData.LessonId;
                 lesson.title = lessonData.Title;
                 lesson.discipline = lessonData.Discipline;
                 lesson.school = lessonData.School;
@@ -97,6 +97,7 @@
             // Lesson data Transfer
             var _commentTransfer = function (commentData) {
                 var comment = new CommentDTO();
+                comment.lessonId = commentData.LessonId;
                 comment.id = commentData.Id;
                 comment.content = commentData.Content;
                 comment.date = commentData.Date;
@@ -268,6 +269,5 @@
                     // create deferring result
                     return deferred.promise;
                 },
-
             };
       }]);

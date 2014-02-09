@@ -21,9 +21,9 @@
             //-------- private methods -------
             var _setUserData = function (apiData) {
                 var _user = new UserDTO();
-                _user.username = apiData.UserName;
                 _user.name = apiData.Name;
                 _user.surname = apiData.Surname;
+                _user.username = apiData.UserName;
                 _user.email = apiData.Email;
                 return _user;
             }
