@@ -2,7 +2,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-include="'modules/navigation/navbar.html'" ng-controller="NavCtrl">
 </div>
 <!-- LOADING MODAL DIALOG -->
-    <div class="col-md-3 alert alert-info" style="z-index:2000;position:absolute;left:2%;top:85%" ng-show="$root.$loading"><h3>{{labels.loading}}</h3></div>
+    <div class="col-md-3 alert alert-info" style="z-index:2000;position:fixed;left:2%;top:85%" ng-show="$root.$loading"><h3>{{labels.loading}}</h3></div>
 <!-- CONTENT AREA -->
 <div class="container" ui-view>
 </div>
