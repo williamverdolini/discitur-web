@@ -21,19 +21,22 @@
             //-------- private methods -------
             var _setUserData = function (apiData) {
                 var _user = new UserDTO();
+                _user.userid = apiData.UserId;
                 _user.name = apiData.Name;
                 _user.surname = apiData.Surname;
-                _user.username = apiData.UserName;
+                _user.username = apiData.UserName || apiData.userName;
                 _user.email = apiData.Email;
+                _user.isLogged = true;
                 return _user;
             }
-
+            /*
             var _setUserLoginData = function (apiData) {
                 var _user = {};
                 _user.username = apiData.UserName || apiData.userName;
                 _user.isLogged = true;
                 return _user;
             }
+            */
 
             var _setUserLoginOutData = function () {
                 var _user = {};
@@ -48,6 +51,16 @@
                     localStorage.setItem(DisciturSettings.authToken, token);
                 }
             };
+
+            var _getUserInfo = function () {
+                _authService.getUserInfo().then(
+                    function (successData) {
+                        _authService.user = successData;
+                    },
+                    function (errorData) {
+                        // do something...
+                    })
+            }
 
             var _authService = {
                 //-------- public properties-------
@@ -76,9 +89,25 @@
                             function (result) {
                                 var _user = _setUserLoginData(result);
                                 // Set Auth Token to send to server requests
-                                angular.extend(_authService.user, _user);
-                                _setToken(result.access_token);
-                                deferred.resolve(_authService.user);
+                                if (result.access_token) {
+                                    _setToken(result.access_token);
+                                    // Get User Info (with auth token)
+                                    _authService.getUserInfo().then(
+                                            function (successData) {
+                                                deferred.resolve(successData);
+                                            },
+                                            function (errorData) {
+                                                deferred.reject(errorData);
+                                            })
+                                }
+                                else {
+                                    var _authErr = {
+                                        code: result.error,
+                                        description: result.error_description,
+                                        status: status
+                                    }
+                                    deferred.reject(_authErr);
+                                }
                             })
                         .error(
                             // Error Callback
@@ -112,11 +141,13 @@
                     // Retrieve Async data CurrentUser        
                     // For actual implementation of OAuth Middleware Provider, the parameters must be passed in querystring format
                     // http://stackoverflow.com/questions/19645171/how-do-you-set-katana-project-to-allow-token-requests-in-json-format
-                    $http.get(DisciturSettings.apiUrl + 'Account/UserInfo')
+                    $http.get(DisciturSettings.apiUrl + 'Account/UserInfo2')
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
-                                var _user = _setUserLoginData(result);
+                                //var _user = _setUserLoginData(result);
+                                var _user = _setUserData(result);
+                                
                                 angular.extend(_authService.user, _user);
                                 deferred.resolve(_authService.user);
                             })
@@ -139,13 +170,7 @@
             // get security token from local storage
             var _token = localStorage.getItem(DisciturSettings.authToken);
             if (_token) {
-                _authService.getUserInfo().then(
-                    function (successData) {
-                        _authService.user = successData;
-                    },
-                    function (errorData) {
-                        // do something...
-                    })
+                _getUserInfo();
             }
 
             return _authService;

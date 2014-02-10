@@ -70,7 +70,7 @@
         return {
             validateInput: function (functionName, validInput, actualInput) {
                 // accept only Object
-                if (angular.isUndefined(actualInput) || actualInput.constructor !== Object)
+                if (angular.isUndefined(actualInput) || !(actualInput.constructor instanceof Object))
                     throw { code: 20001, message: 'invalid Input Type for ' + functionName + ' :' + _getMessage(actualInput) }
                 if (angular.isDefined(actualInput)) {
                     // loop to check if input.properties (aka parametrs) are expected by the service validInput template
@@ -109,6 +109,11 @@
                 },
                 response: function (result) {
                     if (result.config.url.indexOf(DisciturSettings.apiUrl) >= 0)
+                        $rootScope.$loading = false;
+                    return result;
+                },
+                responseError: function (result) {
+                    if ($rootScope.$loading)
                         $rootScope.$loading = false;
                     return result;
                 }

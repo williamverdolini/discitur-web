@@ -7,6 +7,7 @@
         'lessonData',
         '$rootScope',
         'AuthService',
+        'CommentDTO',
         function (
             $scope,
             LabelService,
@@ -14,7 +15,8 @@
             $sce,
             lessonData,
             $rootScope,
-            AuthService
+            AuthService,
+            CommentDTO
             ) {
             //------- label initialization -------//
             _getLabel = function (label) {
@@ -38,11 +40,13 @@
                 comments: _getLabel('comments'),
                 commentPlaceholder: _getLabel('commentPlaceholder'),
                 commentHelp: _getLabel('commentHelp'),
-                commentAnswer: _getLabel('commentAnswer')
+                commentAnswer: _getLabel('commentAnswer'),
+                commentSave: _getLabel('commentSave')
             };
 
             $scope.local = {
-                commentText : null
+                commentText: null,
+                commentTexts: []
             }
 
             $scope.actions = {
@@ -52,6 +56,30 @@
                 ok: function () {
                     //$scope.local.commentText = 'Inserisci il tuo commento'
                     //$scope.local.UserCommentForm.CommentTXT.focus();
+                },
+                saveComment: function (comment) {
+                    var _comment = new CommentDTO();
+                    _comment.lessonId = $scope.lesson.lessonId;
+                    _comment.content = comment ? $scope.local.commentTexts[comment.id] : $scope.local.commentText;
+                    //_comment.date = new Date();
+                    _comment.parentId = comment ? comment.id : null;
+                    _comment.level = comment ? comment.level + 1 : 0;
+                    _comment.author.userid = AuthService.user.userid;
+
+                    LessonService.saveComment(_comment)
+                        .then(function (savedComment) {
+                            $scope.lesson.comments.push(savedComment);
+                            if (comment) {
+                                comment.anwser = false;
+                                $scope.local.commentTexts[comment.id] = "";
+                            }
+                        })
+                },
+                openUserComment: function (comment) {
+                    if (!$scope.isLogged) {
+                        !$scope.actions.openSignIn();
+                    }
+                    comment.anwser = true;
                 }
             }
 
@@ -70,8 +98,8 @@
             $scope.lesson = currentLesson;
             $scope.lesson.content = $sce.trustAsHtml(currentLesson.content);
             $scope.lesson.comments = [];
-            LessonService.getComments({ id: $scope.lesson.lessonId }).then(
-                function (comments) { $scope.lesson.comments = comments; }) // success
+            LessonService.getComments({ id: $scope.lesson.lessonId })
+                .then(function (comments) { $scope.lesson.comments = comments; }) // success
 
             
         }

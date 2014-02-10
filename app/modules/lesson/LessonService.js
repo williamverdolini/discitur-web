@@ -34,9 +34,11 @@
             this.parentId = null;
             this.level = 0;
             this.author = {
+                userid: null,
                 username: null,
                 image: null
             };
+            this.order = 0.0;
         }
         return (CommentDTO);
     })
@@ -101,10 +103,12 @@
                 comment.id = commentData.Id;
                 comment.content = commentData.Content;
                 comment.date = commentData.Date;
-                comment.parentId = commentData.Parent
+                comment.parentId = commentData.ParentId || 0;
                 comment.level = commentData.Level
+                comment.author.userid = commentData.Author.UserId;
                 comment.author.username = commentData.Author.UserName;
-                comment.author.image = commentData.Author.Image;
+                comment.author.image = commentData.Author.Picture;
+                comment.order = parseFloat("0." + (comment.parentId == 0 ? "" : comment.parentId) + "" + comment.id);
                 return comment;
             }
             // Lesson Comments array data Transfer
@@ -269,5 +273,41 @@
                     // create deferring result
                     return deferred.promise;
                 },
+                // Save Async User Comment
+                saveComment: function (comment) {
+                    DiscUtil.validateInput(
+                        'LessonService.saveComment',       // function name for logging purposes
+                        new CommentDTO(),
+                        /*
+                        {                                  // hashmap to check inputParameters e set default values
+                            lessonId : null,
+                            content : null,
+                            parentId : null,
+                            level : 0,
+                            author : {
+                                userid: null
+                            }
+                        },
+                        */
+                        comment                            // actual input params
+                        );
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'POST', url: DisciturSettings.apiUrl + 'lesson/' + comment.lessonId + '/comment', data: comment })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                deferred.resolve(_commentTransfer(result))
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error saving comment on lesson id:"+ comment.lessonId + " -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+                }
             };
       }]);

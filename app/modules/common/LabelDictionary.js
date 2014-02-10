@@ -20,6 +20,7 @@
         commentPlaceholder: "Inserisci il tuo commento",
         commentHelp: "Accedi ed esprimi la tua opinione!",
         commentAnswer: "Rispondi",
+        commentSave: "Salva",
         noLessonIdFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:support@discitur.org'>supporto tecnico</a>",
         viewMore: "Approfondisci >>",
         keywordPlaceholder: "Ricerca la lezione per titolo, scuola, classe ed altro...",
