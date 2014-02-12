@@ -58,7 +58,7 @@
     }
 </style>
 <!--<div id="LessonContainer">-->
-
+<!-- Lesson's Heading Area -->
 <div id="LessonHeading" class="jumbotron">
     <input type="hidden" name="lesson.id" value="{{lesson.lessonId}}" />
     <h1>{{lesson.title}}</h1>
@@ -89,7 +89,7 @@
         </span>
     </div>
 </div>
-
+<!-- Lesson's Content Area -->
 <div id="LessonContent" class="row">
     <div class="col-md-12">
         <div class="panel panel-default">                
@@ -98,7 +98,7 @@
         </div>
     </div>
 </div>
-
+<!-- Lesson's Feedbacks Area -->
 <div id="LessonSummary" class="row">
     <div id="lessonGoods" class="col-md-6" ng-switch="lesson.goods && lesson.goods.length>0">
         <div class="panel panel-info">
@@ -123,7 +123,7 @@
         </div>
     </div>
 </div>
-
+<!-- Conclusion Area -->
 <div id="Conclusion" class="lead row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -135,68 +135,96 @@
 
 <!-- User Comments Area -->
 <div class="row">
-    <div class="panel panel-default">
-        <div class="panel-body"><h2>{{labels.comments}}</h2></div>
-        <div class="panel-body">
-            <!-- New Comment Area -->
-            <div class="row">
-                <div class="col-md-1"><img src="img/def-user-icon.png" width="48px" height="48px" alt="Alternate Text" /></div>
-                <div class="col-md-11">
-                    <div class="col-md-12" ng-show="!isLogged">{{labels.commentHelp}}</div>
-                    <div class="col-md-12">
-                        <form name="local.UserCommentForm" class="form-horizontal" ng-submit="actions.saveComment()" novalidate>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <textarea name="CommentTXT" class="form-control" rows="3" ng-click="!isLogged ? actions.openSignIn() : true" ng-style="!isLogged ? {'background-color':'#F1F1F1'} : {cursor:'text'}" ng-model="local.commentText" placeholder="{{labels.commentPlaceholder}}"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <input type="submit" class="btn btn-default btn-xs" name="name" value="{{labels.commentSave}}" ng-show="isLogged" />
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-body"><h2>{{labels.comments}}</h2></div>
+            <div class="panel-body">
+                <!-- Comment History Area -->
+                <div class="row" ng-repeat-start="comment in lesson.comments | orderBy:['_order']:false">
+                    <!--<lesson-comment comment="comment"></lesson-comment>-->
+                    
+                    <div class="col-md-{{comment.level}}" ng-show="comment.level>0"></div>
+                    <a class="col-md-1" ng-click>
+                        <img ng-src="{{comment.author.image}}" width="48px" height="48px">
+                    </a>
+                    <div class="col-md-{{11-comment.level}}">
+                        <div class="row">
+                            <b>{{comment.author.username}}</b> - <small>{{comment.date | date:'dd/MM/yyyy HH:mm'}}</small> {{comment._order}}
+                        </div>
+                        <div class="row" ng-bind-html="comment.content">
+                        </div>
+                        <div class="row">
+                            <h5><small><a ng-click="actions.openUserComment(comment)">{{labels.commentAnswer}}</a></small></h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" ng-show="isLogged && comment.anwser">
+                                <form name="local.UserCommentFormOn{{comment.id}}" class="form-horizontal" novalidate ng-submit="actions.saveComment(comment)">
+                                    <tabset>
+                                        <tab heading="Edit">
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.commentTexts[comment.id]" placeholder="{{labels.commentPlaceholder}}" ng-required="true"></textarea>
+                                                </div>
+                                            </div>
+                                        </tab>
+                                        <tab heading="Preview" ng-show="isLogged">
+                                            <div class="col-md-12" ng-bind-html="local.commentTexts[comment.id]"></div>
+                                        </tab>
+                                    </tabset>
 
-                </div>
-            </div>
-            <hr />
-            <!-- Comment History Area -->
-            <div class="row" ng-repeat-start="comment in lesson.comments | orderBy:['order']:false">
-                <div class="col-md-{{comment.level}}" ng-show="comment.level>0"></div>
-                <a class="col-md-1" ng-click>
-                    <img ng-src="{{comment.author.image}}" width="48px" height="48px">{{comment.order}}
-                </a>
-                <div class="col-md-{{11-comment.level}}">
-                    <div class="row">
-                        <b>{{comment.author.username}}</b> - <small>{{comment.date | date:'dd/MM/yyyy HH:mm'}}</small>
-                    </div>
-                    <div class="row" ng-bind-html="comment.content">
-                    </div>
-                    <div class="row">
-                        <h5><small><a ng-click="actions.openUserComment(comment)">{{labels.commentAnswer}}</a></small></h5>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12" ng-show="isLogged && comment.anwser">
-                            <form name="local.UserCommentFormOn{{comment.id}}" class="form-horizontal" novalidate ng-submit="actions.saveComment(comment)">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.commentTexts[comment.id]" placeholder="{{labels.commentPlaceholder}}"></textarea>
+                                    <div class="form-group">
+                                        <div class="col-md-12" ng-show="isLogged">
+
+                                            <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" />
+                                            <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserCommentFormOn{{comment.id}}.CommentTXT.$invalid && local.UserCommentFormOn{{comment.id}}.CommentTXT.$dirty" disabled value="Inserisci almeno un carattere" />
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+        
+                </div>
+
+                <hr ng-repeat-end class="comment-hr" />
+
+                <!-- New Comment Area -->
+                <div class="row">
+                    <!--<lesson-comment></lesson-comment>-->
+                    <!--<div class="col-md-1"><img src="img/def-user-icon.png" width="48px" height="48px" alt="Alternate Text" /></div>-->
+                    <div class="col-md-12">
+                        <div class="col-md-12" ng-show="!isLogged">{{labels.commentHelp}}</div>
+                        <div class="col-md-12">
+                            <form name="local.UserCommentForm" class="form-horizontal" ng-submit="actions.saveComment()" novalidate>
+                                <tabset>
+                                    <tab heading="Edit">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.commentText" placeholder="{{labels.commentPlaceholder}}" ng-required="true" ng-click="!isLogged ? actions.openSignIn() : true" ng-style="!isLogged ? {'background-color':'#F1F1F1'} : {cursor:'text'}"></textarea>
+                                            </div>
+                                        </div>
+                                    </tab>
+                                    <tab heading="Preview" ng-show="isLogged">
+                                        <div class="col-md-12" ng-bind-html="local.commentText"></div>
+                                    </tab>
+                                </tabset>
+
                                 <div class="form-group">
-                                    <div class="col-md-12">
-                                        <input type="submit" class="btn btn-default btn-xs" name="name" value="{{labels.commentSave}}" ng-show="isLogged" />
+                                    <div class="col-md-12" ng-show="isLogged">
+                                        <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" />
+                                        <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserCommentForm.CommentTXT.$invalid && local.UserCommentForm.CommentTXT.$dirty" disabled value="Inserisci almeno un carattere" />
                                     </div>
                                 </div>
                             </form>
                         </div>
 
                     </div>
-                </div>
-            </div>
-            <hr ng-repeat-end class="comment-hr" />
 
+                </div>
+<!--                <hr /> -->
+
+            </div>
         </div>
     </div>
 

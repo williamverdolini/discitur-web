@@ -46,7 +46,9 @@
 
             $scope.local = {
                 commentText: null,
-                commentTexts: []
+                commentError : null,
+                commentTexts: [],
+                commentErrors: []
             }
 
             $scope.actions = {
@@ -57,29 +59,40 @@
                     //$scope.local.commentText = 'Inserisci il tuo commento'
                     //$scope.local.UserCommentForm.CommentTXT.focus();
                 },
+                // save User Comment
                 saveComment: function (comment) {
-                    var _comment = new CommentDTO();
-                    _comment.lessonId = $scope.lesson.lessonId;
-                    _comment.content = comment ? $scope.local.commentTexts[comment.id] : $scope.local.commentText;
-                    //_comment.date = new Date();
-                    _comment.parentId = comment ? comment.id : null;
-                    _comment.level = comment ? comment.level + 1 : 0;
-                    _comment.author.userid = AuthService.user.userid;
-
-                    LessonService.saveComment(_comment)
-                        .then(function (savedComment) {
-                            $scope.lesson.comments.push(savedComment);
-                            if (comment) {
-                                comment.anwser = false;
-                                $scope.local.commentTexts[comment.id] = "";
-                            }
-                        })
+                    // retrieve current form
+                    var localForm = comment ? $scope.local['UserCommentFormOn' + comment.id] : $scope.local.UserCommentForm;
+                    var localTxtArea = localForm.CommentTXT;
+                    // check for validation error
+                    if (localTxtArea.$valid) {
+                        var _comment = new CommentDTO();
+                        _comment.lessonId = $scope.lesson.lessonId;
+                        _comment.content = localTxtArea.$modelValue;
+                        //_comment.date = new Date();
+                        _comment.parentId = comment ? comment.id : null;
+                        _comment.level = comment ? comment.level + 1 : 0;
+                        _comment.author.userid = AuthService.user.userid;
+                        LessonService.saveComment(_comment, $scope.lesson.comments)
+                            .then(function (savedComment) {
+                                $scope.lesson.comments.push(savedComment);
+                                // Reset Aswer textarea
+                                if (comment) {
+                                    comment.anwser = false;
+                                    $scope.local.commentTexts[comment.id] = "";
+                                }
+                                else {
+                                    $scope.local.commentText = "";
+                                }
+                            })
+                    }
                 },
+                // check for authentication and open/close user comment textarea
                 openUserComment: function (comment) {
                     if (!$scope.isLogged) {
                         !$scope.actions.openSignIn();
                     }
-                    comment.anwser = true;
+                    comment.anwser = !comment.anwser;
                 }
             }
 

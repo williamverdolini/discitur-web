@@ -53,6 +53,7 @@
         function ($resource, $http, $q, LessonDTO, CommentDTO, DisciturSettings, DiscUtil) {
             //-------- private methods -------
             // Private methods for DTO purposes
+
             // Lesson Data Transfer
             var _dataTransfer = function (lessonData) {
                 var lesson = new LessonDTO();
@@ -96,7 +97,7 @@
                 }
                 return page;
             }
-            // Lesson data Transfer
+            // Lesson Comment data Transfer
             var _commentTransfer = function (commentData) {
                 var comment = new CommentDTO();
                 comment.lessonId = commentData.LessonId;
@@ -108,17 +109,47 @@
                 comment.author.userid = commentData.Author.UserId;
                 comment.author.username = commentData.Author.UserName;
                 comment.author.image = commentData.Author.Picture;
-                comment.order = parseFloat("0." + (comment.parentId == 0 ? "" : comment.parentId) + "" + comment.id);
                 return comment;
             }
             // Lesson Comments array data Transfer
+            // The method transfer Comment ApiData and set client Comment poperties (usefuk for sorting):
+            // _num: progress number of lesson comment
+            // _order: string for lesson comment sorting
             var _commentsArrayTransfer = function (commentArrayData) {
                 var comments = [];
                 for (var i = 0; i < commentArrayData.length; i++) {
                     comments.push(_commentTransfer(commentArrayData[i]));
                 }
+                if (comments.length > 0) {
+                    comments.sort(function (c1,c2) { return c1.id - c2.id })
+                }
+                for (var i = 0; i < comments.length; i++) {
+                    comments[i]._num = i+1;
+                    comments[i]._order = _getCommentOrderString(comments[i], comments);
+                }
                 return comments;
             }
+            // utility method to left padding with "0"
+            var lpad = function padDigits(number, digits) {
+                return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
+            }
+            // get client property value _order: the method define the Lesson Comment sorting algorith 
+            var _getCommentOrderString = function (comment, commentsArray) {
+                var order = "";
+                if (comment.level > 0) {
+                    for (var i = 0; i < commentsArray.length; i++) {
+                        if (comment.parentId == commentsArray[i].id) {
+                            order += _getCommentOrderString(commentsArray[i], commentsArray);
+                            order += lpad(comment._num, 3);
+                        }
+                    }
+                }
+                if (comment.level == 0) {
+                    order = "0." + lpad(comment._num, 3) + order;
+                }
+                return order;
+            }
+
             //-------- private properties -------
             var _currentInput;
             var _currentPage;
@@ -274,21 +305,10 @@
                     return deferred.promise;
                 },
                 // Save Async User Comment
-                saveComment: function (comment) {
+                saveComment: function (comment, commentsArray) {
                     DiscUtil.validateInput(
                         'LessonService.saveComment',       // function name for logging purposes
-                        new CommentDTO(),
-                        /*
-                        {                                  // hashmap to check inputParameters e set default values
-                            lessonId : null,
-                            content : null,
-                            parentId : null,
-                            level : 0,
-                            author : {
-                                userid: null
-                            }
-                        },
-                        */
+                        new CommentDTO(),                  // hashmap to check inputParameters e set default values
                         comment                            // actual input params
                         );
                     // create deferring result
@@ -299,7 +319,13 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
-                                deferred.resolve(_commentTransfer(result))
+                                var _newComment = _commentTransfer(result);
+                                // if lesson comments array is passed, the new comment is enriched with client properties
+                                if (commentsArray && commentsArray.constructor == Array) {
+                                    _newComment._num = commentsArray.length + 1;
+                                    _newComment._order = _getCommentOrderString(_newComment, commentsArray);
+                                }
+                                deferred.resolve(_newComment)
                             })
                         .error(
                             // Error Callback

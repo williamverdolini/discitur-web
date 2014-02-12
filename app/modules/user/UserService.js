@@ -87,7 +87,7 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
-                                var _user = _setUserLoginData(result);
+                                // var _user = _setUserLoginData(result);
                                 // Set Auth Token to send to server requests
                                 if (result.access_token) {
                                     _setToken(result.access_token);
