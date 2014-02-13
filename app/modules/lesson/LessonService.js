@@ -334,6 +334,19 @@
                             });
                     // create deferring result
                     return deferred.promise;
+                },
+                // add local Comment properties, for comments sorting purposes
+                setCommentPrivates: function (comment, commentsArray) {
+                    DiscUtil.validateInput(
+                        'LessonService.setCommentLocals',       // function name for logging purposes
+                        new CommentDTO(),                  // hashmap to check inputParameters e set default values
+                        comment                            // actual input params
+                        );
+                    if (commentsArray && commentsArray.constructor == Array) {
+                        comment._num = commentsArray.length + 1;
+                        comment._order = _getCommentOrderString(comment, commentsArray);
+                    }
+                    return comment;
                 }
             };
       }]);

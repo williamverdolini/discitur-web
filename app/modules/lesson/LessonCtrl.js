@@ -87,6 +87,11 @@
                             })
                     }
                 },
+                addComment: function (comment) {
+                    $scope.lesson.comments.push(
+                        LessonService.setCommentPrivates(comment, $scope.lesson.comments)
+                        );
+                },
                 // check for authentication and open/close user comment textarea
                 openUserComment: function (comment) {
                     if (!$scope.isLogged) {
