@@ -144,12 +144,29 @@
                     $http.get(DisciturSettings.apiUrl + 'Account/UserInfo2')
                         .success(
                             // Success Callback: Data Transfer Object Creation
-                            function (result) {
-                                //var _user = _setUserLoginData(result);
-                                var _user = _setUserData(result);
-                                
-                                angular.extend(_authService.user, _user);
-                                deferred.resolve(_authService.user);
+                            function (result, status) {
+                                // I don't understand this...I should go on error callback...
+                                if (status >= 200 && status < 300) {
+                                    //var _user = _setUserLoginData(result);
+                                    var _user = _setUserData(result);
+
+                                    angular.extend(_authService.user, _user);
+                                    deferred.resolve(_authService.user);
+                                }
+                                else {
+                                    // remove Auth Token
+                                    _setToken(null);
+                                    // unload current user data
+                                    var _user = _setUserLoginOutData();
+                                    angular.extend(_authService.user, _user);
+
+                                    var _authErr = {
+                                        code: status,
+                                        description: result,
+                                        status: status
+                                    }
+                                    deferred.reject(_authErr);
+                                }
                             })
                         .error(
                             // Error Callback
