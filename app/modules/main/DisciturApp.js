@@ -75,7 +75,8 @@
                 if (angular.isDefined(actualInput)) {
                     // loop to check if input.properties (aka parametrs) are expected by the service validInput template
                     for (key in actualInput) {
-                        if (!validInput.hasOwnProperty(key))
+                        // Angular private ($$) and Discitur private (_) are ignored
+                        if (!(key.indexOf('$$') == 0 || key.indexOf('_') == 0) && !validInput.hasOwnProperty(key))
                             throw { code: 20002, message: 'invalid Input Parameter for ' + functionName + ' :' + _getMessage(actualInput) }
                         // If not passed in actualInput and if defined in validInput, set default value
                         //if (angular.isUndefined(actualInput[key]) && validInput[key] != null)

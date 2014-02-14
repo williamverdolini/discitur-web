@@ -92,6 +92,15 @@
                         LessonService.setCommentPrivates(comment, $scope.lesson.comments)
                         );
                 },
+                deleteComment: function (comment) {
+                    var index = -1;
+                    for (var i = 0; i < $scope.lesson.comments.length; i++) {
+                        if ($scope.lesson.comments[i].id === comment.id)
+                            index = i;
+                    }
+                    if(index>-1)
+                        $scope.lesson.comments.splice(index, 1);
+                },
                 // check for authentication and open/close user comment textarea
                 openUserComment: function (comment) {
                     if (!$scope.isLogged) {

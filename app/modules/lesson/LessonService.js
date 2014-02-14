@@ -335,12 +335,75 @@
                     // create deferring result
                     return deferred.promise;
                 },
+                // Save Async User Comment
+                editComment: function (comment) {
+                    DiscUtil.validateInput(
+                        'LessonService.editComment',       // function name for logging purposes
+                        new CommentDTO(),                  // hashmap to check inputParameters e set default values
+                        comment                            // actual input params
+                        );
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'PUT', url: DisciturSettings.apiUrl + 'lesson/' + comment.lessonId + '/comment/' + comment.id, data: comment })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result, status) {
+                                // I don't understand this...I should go on error callback...
+                                if (status >= 200 && status < 300) {
+                                    var _newComment = _commentTransfer(result);
+                                    _newComment._num = comment._num;
+                                    _newComment._order = comment._order;
+                                    deferred.resolve(_newComment)
+                                }
+                                else
+                                    deferred.reject("Error editing comment on lesson id:" + comment.lessonId + " -> " + result);
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error editing comment on lesson id:" + comment.lessonId + " -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+                },
+                // Delete Async User Comment
+                deleteComment: function (comment) {
+                    DiscUtil.validateInput(
+                        'LessonService.deleteComment',  // function name for logging purposes
+                        new CommentDTO(),               // hashmap to check inputParameters e set default values
+                        comment                         // actual input params
+                        );
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // execute logical delete, updating record state (Api business logic)
+                    $http({ method: 'PUT', url: DisciturSettings.apiUrl + 'lesson/' + comment.lessonId + '/comment/' + comment.id + '/delete', data: comment })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result, status) {
+                                // I don't understand this...I should go on error callback...
+                                if (status >= 200 && status < 300) {
+                                    deferred.resolve(comment);
+                                }
+                                else
+                                    deferred.reject("Error deleting comment on lesson id:" + comment.lessonId + " -> " + arguments.toString());
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error deleting comment on lesson id:" + comment.lessonId + " -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+                },
                 // add local Comment properties, for comments sorting purposes
                 setCommentPrivates: function (comment, commentsArray) {
                     DiscUtil.validateInput(
-                        'LessonService.setCommentLocals',       // function name for logging purposes
-                        new CommentDTO(),                  // hashmap to check inputParameters e set default values
-                        comment                            // actual input params
+                        'LessonService.setCommentPrivates',  // function name for logging purposes
+                        new CommentDTO(),                    // hashmap to check inputParameters e set default values
+                        comment                              // actual input params
                         );
                     if (commentsArray && commentsArray.constructor == Array) {
                         comment._num = commentsArray.length + 1;

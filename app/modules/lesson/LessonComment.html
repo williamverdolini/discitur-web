@@ -5,17 +5,48 @@
     </a>
     <div class="col-md-{{11-comment.level}}" ng-if="!local.base">
         <div class="row">
-            <b>{{comment.author.username}}</b> - <small>{{comment.date | date:'dd/MM/yyyy HH:mm'}}</small>
+            <!-- User's Comment-->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <b>{{comment.author.username}}</b> - <small>{{comment.date | date:'dd/MM/yyyy HH:mm'}}</small>
+                    <div class="btn-group btn-group-xs pull-right" ng-show="local.isLogged && local.sameUser">
+                        <button type="button" class="btn btn-inverse" ng-click="local.edit=!local.edit;local.EditText=comment.content"><span class="glyphicon glyphicon-edit"></span></button>
+                        <button type="button" class="btn btn-inverse" ng-click="actions.deleteComment()"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+                <div class="panel-body" >
+                    <!-- Display User Comment -->
+                    <div class="col-md-12" ng-bind-html="comment.content" ng-show="!local.edit"></div>
+                    <!-- Edit User Comment -->
+                    <div class="col-md-12" ng-show="local.isLogged && local.edit">
+                        <form name="local.UserEditCommentForm" class="form-horizontal" novalidate ng-submit="actions.editComment()">
+                            <div class="form-group">
+                                <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.EditText" placeholder="{{labels.commentPlaceholder}}" ng-required="true"></textarea>
+                            </div>
+                            <!-- User Comment Toolbar-->
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" />
+                                <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserEditCommentForm.CommentTXT.$invalid && local.UserEditCommentForm.CommentTXT.$dirty" disabled value="{{labels.commentRequired}}" />
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- User Comment Actions-->
+                <div class="col-md-12" ng-show="local.showDeleteCommentErr">
+                    <div class="label label-warning pull-right"><span>{{labels.commentNotDelete}}</span></div>
+                </div>
+                <div class="col-xs-12" ng-show="!local.isLogged || !local.sameUser">
+                    <h5><small><a ng-click="actions.openUserComment()">{{labels.commentAnswer}}</a></small></h5>
+                </div>
+            </div>
         </div>
-        <div class="row" ng-bind-html="comment.content">
-        </div>
-        <div class="row">
-            <h5><small><a ng-click="actions.openUserComment()">{{labels.commentAnswer}}</a></small></h5>
-        </div>
+        <!-- User Anwser (nested comment of other user's comments) -->
         <div class="row">
             <div class="col-md-12" ng-show="local.isLogged && local.answer">
                 <form name="local.UserCommentForm" class="form-horizontal" novalidate ng-submit="actions.saveComment()">
                     <tabset>
+                        <!-- Edit New User Answer -->
                         <tab heading="{{labels.commentEdit}}">
                             <div class="form-group">
                                 <div class="col-md-12">
@@ -23,11 +54,13 @@
                                 </div>
                             </div>
                         </tab>
+                        <!-- Preview User Answer -->
                         <tab heading="{{labels.commentPreview}}" ng-show="local.isLogged">
                             <div class="col-md-12" ng-bind-html="local.commentText"></div>
                         </tab>
                     </tabset>
 
+                    <!-- User Answer Actions-->
                     <div class="form-group">
                         <div class="col-md-12" ng-show="local.isLogged">
 
@@ -41,25 +74,26 @@
         </div>
     </div>
 
-
-
+    <!-- New User Comment -->
     <div class="col-md-12" ng-if="local.base">
         <div class="col-md-12" ng-show="!local.isLogged">{{labels.commentHelp}}</div>
         <div class="col-md-12">
             <form name="local.UserCommentForm" class="form-horizontal" ng-submit="actions.saveComment()" novalidate>
                 <tabset>
-                    <tab heading="Edit">
+                    <!-- Edit New User Comment -->
+                    <tab heading="{{labels.commentEdit}}">
                         <div class="form-group">
                             <div class="col-md-12">
                                 <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.commentText" placeholder="{{labels.commentPlaceholder}}" ng-required="true" ng-click="!local.isLogged ? actions.openSignIn() : true" ng-style="!local.isLogged ? {'background-color':'#F1F1F1'} : {cursor:'text'}"></textarea>
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Preview" ng-show="local.isLogged">
+                    <!-- Preview User Comment -->
+                    <tab heading="{{labels.commentPreview}}" ng-show="local.isLogged">
                         <div class="col-md-12" ng-bind-html="local.commentText"></div>
                     </tab>
                 </tabset>
-
+                <!-- User Answer Comment -->
                 <div class="form-group">
                     <div class="col-md-12" ng-show="local.isLogged">
                         <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" />
@@ -70,58 +104,5 @@
         </div>
 
     </div>
-
-
-
-    <!--
-    <div class="col-md-{{comment.level}}" ng-show="comment.level>0"></div>
-    <a class="col-md-1" ng-click>
-        <img ng-src="{{comment.author.image}}" width="48px" height="48px">
-    </a>
-    <div class="col-md-{{11-comment.level}}">
-        <div class="row">
-            <b>{{comment.author.username}}</b> - <small>{{comment.date | date:'dd/MM/yyyy HH:mm'}}</small> {{comment._order}}
-        </div>
-        <div class="row" ng-bind-html="comment.content">
-        </div>
-        <div class="row">
-            <h5><small><a ng-click="actions.openUserComment()">{{labels.commentAnswer}}</a></small></h5>
-        </div>
-        <div class="row">
-            <div class="col-md-12" ng-show="isLogged && comment.anwser">
-                <form name="local.UserCommentForm" class="form-horizontal" novalidate ng-submit="actions.saveComment()">
-                    <tabset>
-                        <tab heading="Edit">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.commentText" placeholder="{{labels.commentPlaceholder}}" ng-required="true" ng-click="!isLogged ? actions.openSignIn() : true" ng-style="!isLogged ? {'background-color':'#F1F1F1'} : {cursor:'text'}"></textarea>
-                                </div>
-                            </div>
-                        </tab>
-                        <tab heading="Preview" ng-show="isLogged">
-                            <div class="col-md-12" ng-bind-html="local.commentText"></div>
-                        </tab>
-                    </tabset>
-
-                    <div class="form-group">
-                        <div class="col-md-12" ng-show="isLogged">
-
-                            <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" />
-                            <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserCommentForm.CommentTXT.$invalid && local.UserCommentForm.CommentTXT.$dirty" disabled value="Inserisci almeno un carattere" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-
-
-
-        
-
-
-    -->
-
 
 </div>  

@@ -5,7 +5,8 @@
         'LessonService',
         'AuthService',
         'CommentDTO',
-        function ($rootScope, LabelService, LessonService, AuthService, CommentDTO) {
+        '$timeout',
+        function ($rootScope, LabelService, LessonService, AuthService, CommentDTO, $timeout) {
             return {
                 restrict: 'E',
                 templateUrl: 'modules/lesson/LessonComment.html',
@@ -13,9 +14,9 @@
                 transclude: false,
                 scope: {
                     comment: '=?',
-                    //comments: '=',
-                    lessonId: '=',
-                    addComment: '&'
+                    lessonId: '@',
+                    addComment: '&',
+                    deleteComment: '&'
                 },
                 link: function (scope, element, attrs) {
                     //------- label initialization -------//
@@ -32,7 +33,10 @@
                         UserCommentForm: form.controller('form'),
                         base: angular.isUndefined(scope.comment),
                         isLogged: AuthService.user.isLogged,
-                        answer : false
+                        sameUser: scope.comment ? (scope.comment.author.username == AuthService.user.username) : false,
+                        answer: false,
+                        edit: false,
+                        showDeleteCommentErr: false
                     }
 
                     scope.labels = {
@@ -43,7 +47,8 @@
                         commentEdit: _getLabel('commentEdit'),
                         commentPreview: _getLabel('commentPreview'),
                         commentSave: _getLabel('commentSave'),
-                        commentRequired: _getLabel('commentRequired')
+                        commentRequired: _getLabel('commentRequired'),
+                        commentNotDelete: _getLabel('commentNotDelete')
                     };
 
                     scope.$watch(function () {
@@ -51,6 +56,7 @@
                     },
                         function () {
                             scope.local.isLogged = AuthService.user.isLogged;
+                            scope.local.sameUser = scope.comment ? (scope.comment.author.username == AuthService.user.username) : false;
                         }
                     );
 
@@ -85,6 +91,40 @@
                                         localForm.$setPristine();
                                     })
                             }
+                        },
+                        // Edit User Comment
+                        editComment: function () {
+                            // retrieve current form
+                            var localForm = scope.local.UserEditCommentForm;
+                            var localTxtArea = localForm.CommentTXT;
+                            // check for validation error
+                            if (localTxtArea.$valid) {
+                                var _comment = new CommentDTO();
+                                angular.extend(_comment, scope.comment);
+                                _comment.content = localTxtArea.$modelValue
+
+                                LessonService.editComment(_comment)
+                                    .then(function (modifiedComment) {
+                                        //  Parent controll method to add new comment into local lesson's comment array
+                                        scope.comment = modifiedComment;
+                                        scope.local.edit = false;
+                                        localForm.$setPristine();
+                                    })
+                            }
+                        },
+                        // Delete User Comment
+                        deleteComment: function () {
+                            LessonService.deleteComment(scope.comment)
+                                .then(
+                                    function (deletedComment) {
+                                        //  Parent controll method to add new comment into local lesson's comment array
+                                        scope.deleteComment({ comment: deletedComment });
+                                    },
+                                    function (errorData) {
+                                        scope.local.showDeleteCommentErr = true;
+                                        $timeout(function () { scope.local.showDeleteCommentErr = false }, 5000);
+                                    }
+                                )
                         },
                         // check for authentication and open/close user comment textarea
                         openUserComment: function () {

@@ -72,5 +72,7 @@
         // For everything else, don't mock
         $httpBackend.whenGET(/^\w+.*/).passThrough();
         $httpBackend.whenPOST(/^\w+.*/).passThrough();
+        $httpBackend.whenPUT(/^\w+.*/).passThrough();
+        $httpBackend.whenDELETE(/^\w+.*/).passThrough();
 
     });

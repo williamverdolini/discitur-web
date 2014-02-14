@@ -24,6 +24,7 @@
         commentPreview: "Anteprima",
         commentSave: "Salva",
         commentRequired: "Inserisci almeno un carattere",
+        commentNotDelete: "Il commento non può essere rimosso: altri utenti hanno linkato la tua risposta",
         noLessonIdFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:support@discitur.org'>supporto tecnico</a>",
         viewMore: "Approfondisci >>",
         keywordPlaceholder: "Ricerca la lezione per titolo, scuola, classe ed altro...",
