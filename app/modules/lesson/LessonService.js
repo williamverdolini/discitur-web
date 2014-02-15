@@ -155,7 +155,7 @@
             var _currentPage;
 
             //-------- public methods-------
-            return {
+            var _lessonService =  {
                 // Retrieve Async data for lesson id in input 
                 // and return a LessonDTO instance
                 get: function (inputParams) {
@@ -321,10 +321,7 @@
                             function (result) {
                                 var _newComment = _commentTransfer(result);
                                 // if lesson comments array is passed, the new comment is enriched with client properties
-                                if (commentsArray && commentsArray.constructor == Array) {
-                                    _newComment._num = commentsArray.length + 1;
-                                    _newComment._order = _getCommentOrderString(_newComment, commentsArray);
-                                }
+                                _newComment = _lessonService.setCommentPrivates(_newComment, commentsArray);
                                 deferred.resolve(_newComment)
                             })
                         .error(
@@ -412,4 +409,6 @@
                     return comment;
                 }
             };
+
+            return _lessonService;
       }]);

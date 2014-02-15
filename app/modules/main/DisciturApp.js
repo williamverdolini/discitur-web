@@ -70,7 +70,7 @@
         return {
             validateInput: function (functionName, validInput, actualInput) {
                 // accept only Object
-                if (angular.isUndefined(actualInput) || !(actualInput.constructor instanceof Object))
+                if (angular.isUndefined(actualInput) || !(Object.prototype.toString.call(actualInput) === '[object Object]'))
                     throw { code: 20001, message: 'invalid Input Type for ' + functionName + ' :' + _getMessage(actualInput) }
                 if (angular.isDefined(actualInput)) {
                     // loop to check if input.properties (aka parametrs) are expected by the service validInput template

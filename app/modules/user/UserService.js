@@ -64,8 +64,10 @@
 
             var _authService = {
                 //-------- public properties-------
+                // User Object: injected in every controller needing authentication features
                 user: angular.extend(new UserDTO(), { isLogged: false }),
                 //-------- public methods-------
+                // do Authentication and loads User information
                 login: function (inputParams) {
                     DiscUtil.validateInput(
                         'UserService.login',   // function name for logging purposes
@@ -121,8 +123,10 @@
                             });
                     return deferred.promise;
                 },
+                // unload user information and become Anonymous
                 logout: function () {
-                    DiscUtil.validateInput('UserService.logout', {}, arguments);
+                    // No input validation needed
+                    //DiscUtil.validateInput('UserService.logout', {}, {});
                     // create deferring result
                     var deferred = $q.defer();
                     // remove Auth Token
@@ -133,15 +137,17 @@
                     deferred.resolve(_authService.user)
                     return deferred.promise;
                 },
+                // read and set user information on User Object
                 getUserInfo: function () {
-                    DiscUtil.validateInput('UserService.userInfo', {}, arguments);
+                    // No input validation needed
+                    //DiscUtil.validateInput('UserService.getUserInfo', {}, {});
                     // create deferring result
                     var deferred = $q.defer();
 
                     // Retrieve Async data CurrentUser        
                     // For actual implementation of OAuth Middleware Provider, the parameters must be passed in querystring format
                     // http://stackoverflow.com/questions/19645171/how-do-you-set-katana-project-to-allow-token-requests-in-json-format
-                    $http.get(DisciturSettings.apiUrl + 'Account/UserInfo2')
+                    $http.get(DisciturSettings.apiUrl + 'Account/UserInfo')
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result, status) {

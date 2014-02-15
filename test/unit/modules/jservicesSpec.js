@@ -26,7 +26,8 @@ describe("Unit - module:Common - Testing Services", function() {
 describe("Unit - module:Lesson - Testing Services", function () {
 
   describe("LessonService [signature]", function () {
-        var _LessonService;
+      var _LessonService;
+      var _CommentDTO;
 
         //excuted before each "it" is run.
         beforeEach(function () {
@@ -35,8 +36,9 @@ describe("Unit - module:Lesson - Testing Services", function () {
             module('Lesson');
 
             //inject your service for testing.
-            inject(function (LessonService) {
+            inject(function (LessonService, CommentDTO) {
                 _LessonService = LessonService;
+                _CommentDTO = CommentDTO;
             });
         });
         
@@ -62,6 +64,22 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
         it('should LessonService contain getComments method', function () {
             expect(angular.isFunction(_LessonService.getComments)).toBe(true);
+        });
+
+        it('should LessonService contain saveComment method', function () {
+            expect(angular.isFunction(_LessonService.saveComment)).toBe(true);
+        });
+
+        it('should LessonService contain editComment method', function () {
+            expect(angular.isFunction(_LessonService.editComment)).toBe(true);
+        });
+
+        it('should LessonService contain deleteComment method', function () {
+            expect(angular.isFunction(_LessonService.deleteComment)).toBe(true);
+        });
+
+        it('should LessonService contain setCommentPrivates method', function () {
+            expect(angular.isFunction(_LessonService.setCommentPrivates)).toBe(true);
         });
 
         describe('LessonService [signature-parameters]', function () {
@@ -253,6 +271,146 @@ describe("Unit - module:Lesson - Testing Services", function () {
                 expect(invalidParamEx).not.toBeDefined();
             })
 
+            it('Should LessonService.saveComment() not accept Object with uncorrect parameters, and throws exception', function () {
+                var invalidParamEx;
+                var inputParams = {
+                    color: 'blue'
+                }
+
+                var invalidParamEx;
+
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.saveComment(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20002);
+            })
+
+            it('Should LessonService.saveComment() accept CommentDTO Object', function () {
+                var invalidParamEx;
+                var inputParams = new _CommentDTO();
+
+                var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.saveComment(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).not.toBeDefined();
+            })
+
+            it('Should LessonService.editComment() not accept Object with uncorrect parameters, and throws exception', function () {
+                var invalidParamEx;
+                var inputParams = {
+                    color: 'blue'
+                }
+
+                var invalidParamEx;
+
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.editComment(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20002);
+            })
+
+            it('Should LessonService.editComment() accept CommentDTO Object', function () {
+                var invalidParamEx;
+                var inputParams = new _CommentDTO();
+
+                var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.editComment(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).not.toBeDefined();
+            })
+
+            it('Should LessonService.deleteComment() not accept Object with uncorrect parameters, and throws exception', function () {
+                var invalidParamEx;
+                var inputParams = {
+                    color: 'blue'
+                }
+
+                var invalidParamEx;
+
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.deleteComment(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20002);
+            })
+
+            it('Should LessonService.deleteComment() accept CommentDTO Object', function () {
+                var invalidParamEx;
+                var inputParams = new _CommentDTO();
+
+                var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.deleteComment(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).not.toBeDefined();
+            })
+
+            it('Should LessonService.setCommentPrivates() not accept Object with uncorrect parameters, and throws exception', function () {
+                var invalidParamEx;
+                var inputParams = {
+                    color: 'blue'
+                }
+
+                var invalidParamEx;
+
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.setCommentPrivates(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).toBeDefined();
+                expect(invalidParamEx.code).toBeDefined();
+                expect(invalidParamEx.code).toEqual(20002);
+            })
+
+            it('Should LessonService.setCommentPrivates() accept CommentDTO Object', function () {
+                var invalidParamEx;
+                var inputParams = new _CommentDTO();
+
+                var invalidParamEx;
+                //make the call.
+                try {
+                    var returnedPromise = _LessonService.setCommentPrivates(inputParams);
+                }
+                catch (ex) {
+                    invalidParamEx = ex;
+                }
+                expect(invalidParamEx).not.toBeDefined();
+            })
+
         })
 
         // I want the real service to read from DB, so it has to be async service
@@ -278,7 +436,36 @@ describe("Unit - module:Lesson - Testing Services", function () {
             expect(angular.isFunction(promise.finally)).toBe(true);
         });
 
-    })
+        it('should LessonService.saveComment return a promise', function () {
+            var promise = _LessonService.saveComment(new _CommentDTO());
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.editComment return a promise', function () {
+            var promise = _LessonService.editComment(new _CommentDTO());
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.deleteComment return a promise', function () {
+            var promise = _LessonService.deleteComment(new _CommentDTO());
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should NOT LessonService.setCommentPrivates return a promise', function () {
+            var promise = _LessonService.setCommentPrivates(new _CommentDTO());
+            expect(angular.isFunction(promise.then)).toBe(false);
+            expect(angular.isFunction(promise.catch)).toBe(false);
+            expect(angular.isFunction(promise.finally)).toBe(false);
+        });
+
+
+  })
 
   describe("LessonService [invoke]", function () {
     // The next test I want, should be: Should the LessonService.search() return all the lessons.
@@ -291,7 +478,8 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend,
         _LessonService,
         _DisciturSettings,
-        _defQueryString;
+        _defQueryString,
+        _CommentDTO;
 
     // Befaore each test in the suite I inject the modules needed
     beforeEach(function () {
@@ -300,18 +488,19 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
       //get your service, also get $httpBackend
       //$httpBackend will be a mock, thanks to angular-mocks.js
-      inject(function (MockedData, $httpBackend, LessonService, DisciturSettings) {
+      inject(function (MockedData, $httpBackend, LessonService, DisciturSettings, CommentDTO) {
         _MockedData = MockedData;
         _httpBackend = $httpBackend;      
         _LessonService = LessonService;
         _DisciturSettings = DisciturSettings;
+        _CommentDTO = CommentDTO;
       });
 
       _defQueryString = '?orderBy=PublishDate&orderDir=DESC&pageSize=3&startRow=0';
     })
     
     //make sure no expectations were missed in your tests.
-    //(e.g. expectGET or expectPOST)
+    //(e.g. expectGET or expectPOST...)
     afterEach(function() {
       _httpBackend.verifyNoOutstandingExpectation();
       _httpBackend.verifyNoOutstandingRequest();
@@ -799,7 +988,6 @@ describe("Unit - module:Lesson - Testing Services", function () {
         // DO NOT USE Spy (It prevents to callback in promise chain)
         var _test = {
             successCB: function (data) {
-                debugger;
                 expect(data.constructor === Array).toBe(true);
                 expect(data.length).toBe(6);
                 expect(data[0].id, 'proprieta\' id').toBeDefined();
@@ -824,6 +1012,316 @@ describe("Unit - module:Lesson - Testing Services", function () {
         //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
 
         //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.saveComment(CommentsDTO.lessonId=555) call api\\lesson\\555\\comment URL in POST', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPOST(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var _input = new _CommentDTO();
+        _input.lessonId = 555;
+        var returnedPromise = _LessonService.saveComment(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB,_test.errorCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.saveComment(CommentsDTO.lessonId=555) return a User CommentDTO attached to lessonId=555', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _CommentDTO).toBe(true);
+                expect(data.lessonId === 555, 'proprieta\' lessonId=555').toBe(true);
+                //expect(data[0].pageSize, 'proprieta\' pageSize').toBeDefined();
+                //expect(data[0].lessons, 'proprieta\' lessons').toBeDefined();
+            },
+            errorCB: function () { }
+        };
+
+
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPOST(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //make the call.
+        var _input = new _CommentDTO();
+        _input.lessonId = 555;
+        var returnedPromise = _LessonService.saveComment(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        //expect(_test.successCB).toHaveBeenCalled();
+        //expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.saveComment(CommentsDTO.lessonId=555, []) return a User CommentDTO attached to lessonId=555 with _num=1 and _order=0.001', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _CommentDTO).toBe(true);
+                expect(data.lessonId === 555, 'proprieta\' lessonId=555').toBe(true);
+                expect(data._num, 'proprieta\' _num').toBe(1);
+                expect(data._order, 'proprieta\' _order').toBe('0.001');
+            },
+            errorCB: function () { }
+        };
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPOST(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //make the call.
+        var _input = new _CommentDTO();
+        _input.lessonId = 555;
+        var returnedPromise = _LessonService.saveComment(_input,[]);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.saveComment(CommentsDTO, [with 2 elements]) return a User CommentDTO with _num=3 and _order=0.003', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _CommentDTO).toBe(true);
+                expect(data._num, 'proprieta\' _num').toBe(3);
+                expect(data._order, 'proprieta\' _order').toBe('0.003');
+            },
+            errorCB: function () { }
+        };
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPOST(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //make the call.
+        var _input = new _CommentDTO();
+        _input.lessonId = 555;
+        _input.level = 0
+        _input.parentId = null;
+        var returnedPromise = _LessonService.saveComment(_input, [{ id: 1 }, {id:2}]);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.saveComment(CommentsDTO.parentId=1, [with 2 eleemtns, and with element.id=1, element._order=0.002]) return a User CommentDTO with _num=3 and _order=0.002003', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _CommentDTO).toBe(true);
+                expect(data._num, 'proprieta\' _num').toBe(3);
+                expect(data._order, 'proprieta\' _order').toBe('0.002003');
+            },
+            errorCB: function () { }
+        };
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPOST(_defURLComments).respond(_MockedData.savedCommentl1)
+
+        //make the call.
+        var _input = new _CommentDTO();
+        _input.lessonId = 555;
+        _input.level = 1
+        _input.parentId = 1;
+        debugger
+        var returnedPromise = _LessonService.saveComment(_input, [{ id: 1, level: 0, _order: '0.002', _num: 2 }, { id: 2 }]);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.editComment(CommentsDTO{lessonId:555, id:999}) call api\\lesson\\555\\comment\\999 URL in PUT', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment/999'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var _input = new _CommentDTO();
+        _input.lessonId = 555;
+        _input.id = 999;
+        var returnedPromise = _LessonService.editComment(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.editComment(CommentsDTO{lessonId:555, id:999}) return a User CommentDTO with same id', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment/999'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _CommentDTO).toBe(true);
+                expect(data.id, 'proprieta\' id').toBe(_input.id);
+                expect(data.lessonId, 'proprieta\' lessonId').toBe(_input.lessonId);
+            },
+            errorCB: function () { }
+        };
+
+
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //make the call.
+        var _input = new _CommentDTO();
+        _input.lessonId = 555;
+        _input.id = 999;
+        var returnedPromise = _LessonService.editComment(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.deleteComment(CommentsDTO{lessonId:555, id:999}) call api\\lesson\\555\\comment\\999\\delete URL in PUT', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment/999/delete'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var _input = new _CommentDTO();
+        _input.lessonId = 555;
+        _input.id = 999;
+        var returnedPromise = _LessonService.deleteComment(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.deleteComment(CommentsDTO{lessonId:555, id:999}) return a User CommentDTO with same id', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment/999/delete'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _CommentDTO).toBe(true);
+                expect(data.id, 'proprieta\' id').toBe(_input.id);
+                expect(data.lessonId, 'proprieta\' lessonId').toBe(_input.lessonId);
+            },
+            errorCB: function () { }
+        };
+
+
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //make the call.
+        var _input = new _CommentDTO();
+        _input.lessonId = 555;
+        _input.id = 999;
+        var returnedPromise = _LessonService.deleteComment(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request.
         _httpBackend.flush();
     });
 
