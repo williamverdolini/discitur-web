@@ -129,7 +129,8 @@
                     }
                     // set the watcher on Authentication properties
                     scope.$watch(
-                        'local.user.isLogged',
+                        //'local.user.isLogged',
+                        function () { return scope.local.user.isLogged },
                         function () {
                             if (scope.local.newRating)
                                 setNewUserRating();
