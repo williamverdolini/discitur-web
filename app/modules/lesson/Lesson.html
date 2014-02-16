@@ -131,10 +131,11 @@
         </div>
     </div>
 </div>
-<!-- User Comments Area -->
+<!-- Social Area -->
 <div class="row">
     <div class="col-md-12">
         <tabset justified="true" class="panel">
+            <!-- Users Comments Area -->
             <tab heading="{{labels.comments}}" class="h2">
                 <div class="panel"> <!-- add class panel-default for bordering-->
                     <div class="panel-body">
@@ -151,9 +152,10 @@
                     </div>
                 </div>
             </tab>
+            <!-- Users Ratings Area -->
             <tab heading="{{labels.ratings}}" class="h2">
                 <div class="panel-body">
-                    <!--ng-init="lesson.ratings = [{author:{username:'Willy' }, rating:3, date:'02/02/2014 00:00:00', content: 'propvaprova prova, e riprova', lessonId:6}]"-->
+                    <!-- Rating Access/Help Area -->
                     <div class="row" ng-show="!local.user.isLogged">
                         <div class="col-md-12">
                             <div class="alert alert-info" ng-click="actions.openSignIn()">
@@ -161,9 +163,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- User Rating Area -->
                     <div class="row" ng-show="local.user.isLogged && !actions.userHasVoted()">
                         <lesson-rating lesson-id="{{lesson.lessonId}}" add-rating="actions.addRating(rating)" delete-rating="actions.deleteRating(rating)"></lesson-rating>
                     </div>
+                    <!-- Users Rating History Area -->
                     <div class="row" ng-repeat-start="rating in lesson.ratings | orderBy:[date]">
                         <lesson-rating user-rating="rating" lesson-id="{{rating.lessonId}}" add-rating="actions.addRating(rating)" delete-rating="actions.deleteRating(rating)"></lesson-rating>
                     </div>
@@ -175,80 +179,3 @@
     </div>
 
 </div>
-
-
-
-<!--
-<a class="col-md-1">
-    <img ng-src="{{rating.author.image}}" width="48px" height="48px">
-</a>
-<div class="col-md-11">
-    <div class="row">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <b>{{rating.author.username}}</b> - <small>{{rating.date | date:'dd/MM/yyyy HH:mm'}}</small>
-                <div class="btn-group btn-group-xs pull-right">
-                    <button type="button" class="btn btn-inverse"><span class="glyphicon glyphicon-edit"></span></button> ng-click="local.edit=!local.edit;local.EditText=rating.content"
-                    <button type="button" class="btn btn-inverse"><span class="glyphicon glyphicon-remove"></span></button> ng-click="actions.deleteRating()"
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <h3><rating value="rating.rating" readonly="true"></rating><span class="label label-info">{{rating.rating}}</span></h3>
-                </div>
-                <div class="col-md-12" ng-bind-html="rating.content"></div> ng-show="!local.edit"
-                <div class="col-md-12">
-                    <form name="local.UserEditRatingForm" class="form-horizontal" novalidate ng-submit="actions.editComment()">
-                        <h3><rating value="rating.rating" readonly="true"></rating><span class="label label-info">{{rating.rating}}</span></h3>
-                        <div class="form-group">
-                            <textarea name="RatingTXT" class="form-control" rows="3" ng-model="local.RatingTXT" placeholder="{{labels.ratingtPlaceholder}}" ng-required="true"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.ratingSave}}" />
-                            <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserEditRatingForm.RatingTXT.$invalid && local.UserEditRatingForm.RatingTXT.$dirty" disabled value="{{labels.ratingRequired}}" />
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-12" ng-show="local.showDeleteCommentErr">
-                <div class="label label-warning pull-right"><span>{{labels.commentNotDelete}}</span></div>
-            </div>
-        </div>
-    </div>
-</div>
--->
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-body"><h2>{{labels.comments}}</h2></div>
-            <div class="panel-body">
-
-                <div class="row" ng-repeat-start="comment in lesson.comments | orderBy:['_order']:false">
-                    <lesson-comment comment="comment" lesson-id="{{lesson.lessonId}}" add-comment="actions.addComment(comment)" delete-comment="actions.deleteComment(comment)"></lesson-comment>
-                </div>
-                <hr ng-repeat-end class="comment-hr" />
-
-                <div class="row">
-
-                    <lesson-comment lesson-id="{{lesson.lessonId}}" add-comment="actions.addComment(comment)"></lesson-comment>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
--->

@@ -18,11 +18,11 @@
             AuthService,
             CommentDTO
             ) {
-            //------- label initialization -------//
-            _getLabel = function (label) {
+            //-------- private methods-------
+            var _getLabel = function (label) {
                 return LabelService.get('LessonCtrl', label);
             }
-
+            //-------- public properties-------
             $scope.labels = {
                 specifics: _getLabel('specifics'),
                 discipline: _getLabel('discipline'),
@@ -53,6 +53,7 @@
                 }
             }
 
+            //-------- public methods -------
             $scope.actions = {
                 openSignIn: function () {
                     $rootScope.$broadcast('disc.login', $scope.actions)
@@ -136,6 +137,7 @@
                 }
             }
 
+            //-------- Controller Initialization -------
             $scope.isLogged = AuthService.user.isLogged
             $scope.local.user.isLogged = AuthService.user.isLogged;
             $scope.local.user.userId = AuthService.user.userid;
