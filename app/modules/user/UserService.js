@@ -31,14 +31,6 @@
                 _user.isLogged = true;
                 return _user;
             }
-            /*
-            var _setUserLoginData = function (apiData) {
-                var _user = {};
-                _user.username = apiData.UserName || apiData.userName;
-                _user.isLogged = true;
-                return _user;
-            }
-            */
 
             var _setUserLoginOutData = function () {
                 var _user = new UserDTO();
@@ -57,7 +49,11 @@
             var _getUserInfo = function () {
                 _authService.getUserInfo().then(
                     function (successData) {
-                        _authService.user = successData;
+                        //_authService.user = successData;
+                        //angular.copy(successData, _authService.user);
+                        
+                        // do something
+
                     },
                     function (errorData) {
                         // do something...
@@ -136,8 +132,10 @@
                     // unload current user data
                     var _user = _setUserLoginOutData();
                     //angular.extend(_authService.user, _user);
-                    angular.copy(_authService.user, {});
-                    angular.extend(_authService.user, _user);
+                    //angular.copy(_authService.user, {});
+                    //angular.extend(_authService.user, _user);
+
+                    angular.copy(_user, _authService.user);
                     deferred.resolve(_authService.user)
                     return deferred.promise;
                 },
@@ -160,7 +158,9 @@
                                     //var _user = _setUserLoginData(result);
                                     var _user = _setUserData(result);
 
-                                    angular.extend(_authService.user, _user);
+                                    //angular.extend(_authService.user, _user);
+                                    angular.copy(_user, _authService.user);
+
                                     deferred.resolve(_authService.user);
                                 }
                                 else {
@@ -168,7 +168,9 @@
                                     _setToken(null);
                                     // unload current user data
                                     var _user = _setUserLoginOutData();
-                                    angular.extend(_authService.user, _user);
+                                    //angular.extend(_authService.user, _user);
+                                    angular.copy(_user, _authService.user);
+
 
                                     var _authErr = {
                                         code: status,

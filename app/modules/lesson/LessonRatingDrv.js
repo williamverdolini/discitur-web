@@ -45,10 +45,11 @@
                         ratingError: null,
                         UserRatingForm: form.controller('form'),
                         newRating: angular.isUndefined(scope.userRating),
-                        isLogged: AuthService.user.isLogged,
+                        user: AuthService.user,
                         sameUser: scope.userRating ? (scope.userRating.author.username == AuthService.user.username) : false,
-                        answer: false,
                         edit: false,
+                        EditText: null,
+                        EditRating: null,
                         showDeleteRatingErr: false,
                         showNoRatingErr: false
                     }
@@ -57,7 +58,6 @@
                         ratings: _getLabel('ratings'),
                         ratingPlaceholder: _getLabel('ratingPlaceholder'),
                         ratingtHelp: _getLabel('ratingtHelp'),
-                        ratingAnswer: _getLabel('ratingAnswer'),
                         ratingEdit: _getLabel('ratingEdit'),
                         ratingPreview: _getLabel('ratingPreview'),
                         ratingSave: _getLabel('ratingSave'),
@@ -68,44 +68,34 @@
 
                     //-------- public methods-------
                     scope.actions = {
-                        // call Sign Modal Dialog to login
-                        openSignIn: function () {
-                            $rootScope.$broadcast('disc.login', scope.actions)
-                        },
                         // Save & Update User Rating
                         saveRating: function () {
                             // retrieve current form
                             var localForm = scope.local.UserRatingForm;
                             var localTxtArea = localForm.EditText;
                             // check for validation error
-                            if (scope.userRating.rating>0) {
+                            if (scope.local.EditRating > 0) {
                                 if (scope.local.newRating) {
                                     var _rating = new RatingDTO();
                                     _rating.lessonId = scope.lessonId;
+                                    _rating.rating = scope.local.EditRating;
                                     _rating.content = localTxtArea.$modelValue;
-                                    _rating.rating = scope.userRating.rating;
                                     _rating.author.userid = AuthService.user.userid;
                                     LessonService.saveRating(_rating)
                                         .then(function (savedRating) {
                                             //  Parent controll method to add new Rating into local lesson's Rating array
                                             scope.addRating({ rating: savedRating });
-                                            // Reset Aswer textarea
-                                            if (!scope.local.base) {
-                                                scope.local.answer = false;
-                                            }
-                                            //scope.local.ratingText = "";
-                                            //localTxtArea.$modelValue = "";
+                                            // Reset local Form
                                             localForm.$setPristine();
                                         })
                                 }
                                 else {
-                                    //scope.userRating.rating = rating.rating;
+                                    scope.userRating.rating = scope.local.EditRating;
                                     scope.userRating.content = localTxtArea.$modelValue;
                                     LessonService.editRating(scope.userRating)
                                         .then(function (modifiedRating) {
                                             scope.userRating = modifiedRating;
                                             scope.local.edit = false;
-                                            //localTxtArea.$modelValue = "";
                                             localForm.$setPristine();
                                         })
 
@@ -130,30 +120,23 @@
                                     }
                                 )
                         },
-                        // check for authentication and open/close user Rating textarea
-                        openUserRating: function () {
-                            if (!scope.local.isLogged) {
-                                !scope.actions.openSignIn();
-                            }
-                        }
                     }
 
                     //-------- Initialization -------
                     // if new Rating and the user is logged in, initialize the form
-                    if (scope.local.newRating && scope.local.isLogged) {
+                    if (scope.local.newRating && scope.local.user.isLogged) {
                         setNewUserRating();
                     }
                     // set the watcher on Authentication properties
-                    scope.$watch(function () {
-                        return AuthService.user.isLogged;
-                    },
+                    scope.$watch(
+                        'local.user.isLogged',
                         function () {
-                            scope.local.isLogged = AuthService.user.isLogged;
                             if (scope.local.newRating)
                                 setNewUserRating();
-                            scope.local.sameUser = scope.userRating ? (scope.userRating.author.username == AuthService.user.username) : false;
+                            scope.local.sameUser = scope.userRating ? (scope.userRating.author.username == scope.local.user.username) : false;
                         }
                     );
+                    
 
                 }
             }

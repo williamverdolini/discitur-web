@@ -9,8 +9,8 @@
             <div class="panel " ng-class="{'panel-default': !local.sameUser, 'panel-primary': local.sameUser}">
                 <div class="panel-heading">
                     <b>{{userRating.author.username}}</b> - <small>{{userRating.date | date:'dd/MM/yyyy HH:mm'}}</small>
-                    <div class="btn-group btn-group-xs pull-right" ng-show="local.isLogged && local.sameUser">
-                        <button type="button" class="btn btn-inverse" ng-click="local.edit=!local.edit;local.EditText=userRating.content"><span class="glyphicon glyphicon-edit"></span></button>
+                    <div class="btn-group btn-group-xs pull-right" ng-show="local.user.isLogged && local.sameUser">
+                        <button type="button" class="btn btn-inverse" ng-click="local.edit=!local.edit;local.EditText=userRating.content;local.EditRating=userRating.rating"><span class="glyphicon glyphicon-edit"></span></button>
                         <button type="button" class="btn btn-inverse" ng-click="actions.deleteRating()"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
                 </div>
@@ -21,11 +21,11 @@
                     </div>
                     <div class="col-md-12" ng-bind-html="userRating.content" ng-show="!local.edit"></div>
                     <!-- Edit User Rating -->
-                    <div class="col-md-12" ng-show="local.isLogged && local.edit">
+                    <div class="col-md-12" ng-show="local.user.isLogged && local.edit">
                         <form name="local.UserEditRatingForm" class="form-horizontal" novalidate ng-submit="actions.saveRating()">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <h3>{{labels.ratingInput}}<rating value="userRating.rating"></rating><span class="label label-info">{{userRating.rating}}</span></h3>
+                                    <h3>{{labels.ratingInput}}<rating value="local.EditRating"></rating><span class="label label-info">{{local.EditRating}}</span></h3>
                                 </div>
                             </div>
 
