@@ -42,15 +42,32 @@
         }
         return (CommentDTO);
     })
+    .factory('RatingDTO', function () {
+        function RatingDTO() {
+            this.id = null;
+            this.lessonId = null;
+            this.author = {
+                userid: null,
+                username: null,
+                image: null
+            };
+            this.rating = null;
+            this.content = null;
+            this.date = null;
+            this.version = null;
+        }
+        return (RatingDTO);
+    })
     .factory('LessonService', [
         '$resource',
         '$http',
         '$q',
         'LessonDTO',
         'CommentDTO',
+        'RatingDTO',
         'DisciturSettings',
         'DiscUtil',
-        function ($resource, $http, $q, LessonDTO, CommentDTO, DisciturSettings, DiscUtil) {
+        function ($resource, $http, $q, LessonDTO, CommentDTO, RatingDTO, DisciturSettings, DiscUtil) {
             //-------- private methods -------
             // Private methods for DTO purposes
 
@@ -148,6 +165,31 @@
                     order = "0." + lpad(comment._num, 3) + order;
                 }
                 return order;
+            }
+            // Lesson Rating array data Transfer
+            var _ratingsArrayTransfer = function (ratingArrayData) {
+                var ratings = [];
+                for (var i = 0; i < ratingArrayData.length; i++) {
+                    ratings.push(_ratingTransfer(ratingArrayData[i]));
+                }
+                if (ratings.length > 0) {
+                    ratings.sort(function (c1, c2) { return c1.date - c2.date })
+                }
+                return ratings;
+            }
+            // Lesson Comment data Transfer
+            var _ratingTransfer = function (ratingData) {
+                var rating = new RatingDTO();
+                rating.id = ratingData.Id;
+                rating.lessonId = ratingData.LessonId;
+                rating.content = ratingData.Content;
+                rating.date = ratingData.CreationDate;
+                rating.rating = ratingData.Rating;
+                rating.author.userid = ratingData.Author.UserId;
+                rating.author.username = ratingData.Author.UserName;
+                rating.author.image = ratingData.Author.Picture;
+                rating.version = ratingData.Vers;
+                return rating;
             }
 
             //-------- private properties -------
@@ -407,6 +449,119 @@
                         comment._order = _getCommentOrderString(comment, commentsArray);
                     }
                     return comment;
+                },
+                // Get Async list of lesson's users ratings
+                getRatings: function (inputParams) {
+                    DiscUtil.validateInput(
+                        'LessonService.getRatings',   // function name for logging purposes
+                        {                             // hashmap to check inputParameters e set default values
+                            id: null
+                        },
+                        inputParams                   // actual input params
+                        );
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson/' + inputParams.id + '/ratings' })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                deferred.resolve(_ratingsArrayTransfer(result))
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error for getting ratings on lesson id:'+ inputParams.id + ' -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+                },
+                // Save Async User Rating
+                saveRating: function (rating) {
+                    DiscUtil.validateInput(
+                        'LessonService.saveRating',       // function name for logging purposes
+                        new RatingDTO(),                  // hashmap to check inputParameters e set default values
+                        rating                            // actual input params
+                        );
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'POST', url: DisciturSettings.apiUrl + 'lesson/' + rating.lessonId + '/rating', data: rating })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                var _newRating = _ratingTransfer(result);
+                                // if lesson comments array is passed, the new comment is enriched with client properties
+                                //_newRating = _lessonService.setCommentPrivates(_newRating, commentsArray);
+                                deferred.resolve(_newRating)
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error saving rating on lesson id:" + rating.lessonId + " -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+                },
+                // Save Async User Rating
+                editRating: function (rating) {
+                    DiscUtil.validateInput(
+                        'LessonService.editRating',       // function name for logging purposes
+                        new RatingDTO(),                  // hashmap to check inputParameters e set default values
+                        rating                            // actual input params
+                        );
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'PUT', url: DisciturSettings.apiUrl + 'lesson/' + rating.lessonId + '/rating/' + rating.id, data: rating })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                var _modifiedRating = _ratingTransfer(result);
+                                // if lesson comments array is passed, the new comment is enriched with client properties
+                                //_newRating = _lessonService.setCommentPrivates(_newRating, commentsArray);
+                                deferred.resolve(_modifiedRating)
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error saving rating on lesson id:" + rating.lessonId + " -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+                },
+                // Delete Async User Comment
+                deleteRating: function (rating) {
+                    DiscUtil.validateInput(
+                        'LessonService.deleteRating',  // function name for logging purposes
+                        new RatingDTO(),               // hashmap to check inputParameters e set default values
+                        rating                         // actual input params
+                        );
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // execute logical delete, updating record state (Api business logic)
+                    $http({ method: 'PUT', url: DisciturSettings.apiUrl + 'lesson/' + rating.lessonId + '/rating/' + rating.id + '/delete', data: rating })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result, status) {
+                                // I don't understand this...I should go on error callback...
+                                if (status >= 200 && status < 300) {
+                                    deferred.resolve(rating);
+                                }
+                                else
+                                    deferred.reject("Error deleting comment on lesson id:" + rating.lessonId + " -> " + arguments.toString());
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error deleting comment on lesson id:" + rating.lessonId + " -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
                 }
             };
 

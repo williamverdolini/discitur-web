@@ -39,6 +39,10 @@
         ],
         savedCommentl0: { "Id": 999, "LessonId": 555, "Author": { "UserId": 1, "UserName": "Fede", "Image": "https://gp3.googleusercontent.com/---NTVhcKLaQ/AAAAAAAAAAI/AAAAAAAAAtk/NQK3bAqL0yI/s48-c-k-no/photo.jpg" }, "Date": "2013-12-08T00:00:00", "Content": "diverso contenuto del commento da capire se con <a href='#'>link</a> o simili", "ParentId": null, "Level": 0 },
         savedCommentl1: { "Id": 999, "LessonId": 555, "Author": { "UserId": 1, "UserName": "Fede", "Image": "https://gp3.googleusercontent.com/---NTVhcKLaQ/AAAAAAAAAAI/AAAAAAAAAtk/NQK3bAqL0yI/s48-c-k-no/photo.jpg" }, "Date": "2013-12-08T00:00:00", "Content": "diverso contenuto del commento da capire se con <a href='#'>link</a> o simili", "ParentId": 1, "Level": 1 },
+        ratings6: [
+            //{ "Author": { "UserName": 'Willy', "UserId": 2, "Picture": "img/def-user-icon.png" }, "Rating": 3, "CreationDate": "2014-02-08T00:00:00", "Content": 'propvaprova prova, e riprova', "LessonId": 6 },
+            { "Author": { "UserName": 'Fede', "UserId": 1, "Picture": "img/def-user-icon.png" }, "Rating": 3, "CreationDate": "2014-02-08T00:00:00", "Content": 'propvaprova prova, e riprova', "LessonId": 6 }
+        ]
     })
 
     .run(function ($httpBackend, DisciturSettings, MockedData) {
@@ -50,6 +54,7 @@
         //$httpBackend.whenGET(new RegExp(DisciturSettings.apiUrl + 'lesson\\?classroomQ=\.*')).respond(MockedData.classrooms);
         //$httpBackend.whenGET(new RegExp(DisciturSettings.apiUrl + 'lesson\\?tagQ=\.*')).respond(MockedData.tags);
         $httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/1/comments').respond(MockedData.comments);
+        //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/6/ratings').respond(MockedData.ratings6);
 
 
         //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/').passThrough();

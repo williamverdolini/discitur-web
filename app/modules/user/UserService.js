@@ -5,6 +5,7 @@
             this.name = null;
             this.surname = null;
             this.username = null;
+            this.image = null;
             this.email = null;
             this.roles = [];
         }
@@ -25,6 +26,7 @@
                 _user.name = apiData.Name;
                 _user.surname = apiData.Surname;
                 _user.username = apiData.UserName || apiData.userName;
+                _user.image = apiData.Picture;
                 _user.email = apiData.Email;
                 _user.isLogged = true;
                 return _user;
@@ -39,7 +41,7 @@
             */
 
             var _setUserLoginOutData = function () {
-                var _user = {};
+                var _user = new UserDTO();
                 angular.extend(_user, { isLogged: false })
                 return _user;
             }
@@ -133,6 +135,8 @@
                     _setToken(null);
                     // unload current user data
                     var _user = _setUserLoginOutData();
+                    //angular.extend(_authService.user, _user);
+                    angular.copy(_authService.user, {});
                     angular.extend(_authService.user, _user);
                     deferred.resolve(_authService.user)
                     return deferred.promise;

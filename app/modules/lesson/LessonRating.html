@@ -1,0 +1,58 @@
+﻿<div>
+
+    <a class="col-md-1">
+        <img ng-src="{{userRating.author.image}}" width="48px" height="48px">
+    </a>
+    <div class="col-md-11">
+        <div class="row">
+            <!-- User's Rating-->
+            <div class="panel " ng-class="{'panel-default': !local.sameUser, 'panel-primary': local.sameUser}">
+                <div class="panel-heading">
+                    <b>{{userRating.author.username}}</b> - <small>{{userRating.date | date:'dd/MM/yyyy HH:mm'}}</small>
+                    <div class="btn-group btn-group-xs pull-right" ng-show="local.isLogged && local.sameUser">
+                        <button type="button" class="btn btn-inverse" ng-click="local.edit=!local.edit;local.EditText=userRating.content"><span class="glyphicon glyphicon-edit"></span></button>
+                        <button type="button" class="btn btn-inverse" ng-click="actions.deleteRating()"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <!-- Display User Rating -->
+                    <div class="col-xs-12" ng-show="!local.edit">
+                        <h3><rating value="userRating.rating" readonly="true"></rating><span class="label label-info">{{userRating.rating}}</span></h3>
+                    </div>
+                    <div class="col-md-12" ng-bind-html="userRating.content" ng-show="!local.edit"></div>
+                    <!-- Edit User Rating -->
+                    <div class="col-md-12" ng-show="local.isLogged && local.edit">
+                        <form name="local.UserEditRatingForm" class="form-horizontal" novalidate ng-submit="actions.saveRating()">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <h3>{{labels.ratingInput}}<rating value="userRating.rating"></rating><span class="label label-info">{{userRating.rating}}</span></h3>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <textarea name="EditText" class="form-control" rows="3" ng-model="local.EditText" placeholder="{{labels.ratingtPlaceholder}}"></textarea>
+                            </div>
+                            <!-- User Rating Toolbar-->
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.ratingSave}}" />
+                                <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserEditRatingForm.EditText.$invalid && local.UserEditRatingForm.EditText.$dirty" disabled value="{{labels.ratingRequired}}" />
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <!-- User Rating Messages-->
+                <div class="col-md-12" ng-show="local.showDeleteRatingErr">
+                    <div class="label label-warning pull-right"><span>{{labels.ratingNotDelete}}</span></div>
+                </div>
+                <div class="col-md-12" ng-show="local.showNoRatingErr">
+                    <div class="label label-warning pull-right"><span>{{labels.ratingRequired}}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

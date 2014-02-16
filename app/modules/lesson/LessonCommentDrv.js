@@ -19,14 +19,16 @@
                     deleteComment: '&'
                 },
                 link: function (scope, element, attrs) {
-                    //------- label initialization -------//
-                    _getLabel = function (label) {
+                    //-------- private methods-------
+                    // call Label Service to get dynamic labels
+                    var _getLabel = function (label) {
                         return LabelService.get('LessonCtrl', label);
                     }
 
+                    //-------- private variables-------
                     var form = element.find('form');
-                    //scope.formCtrl = form.controller('form');
 
+                    //-------- public properties-------
                     scope.local = {
                         commentText: null,
                         commentError: null,
@@ -51,15 +53,7 @@
                         commentNotDelete: _getLabel('commentNotDelete')
                     };
 
-                    scope.$watch(function () {
-                        return AuthService.user.isLogged;
-                    },
-                        function () {
-                            scope.local.isLogged = AuthService.user.isLogged;
-                            scope.local.sameUser = scope.comment ? (scope.comment.author.username == AuthService.user.username) : false;
-                        }
-                    );
-
+                    //-------- public methods-------
                     scope.actions = {
                         // call Sign Modal Dialog to login
                         openSignIn: function () {
@@ -134,6 +128,17 @@
                             scope.local.answer = !scope.local.answer;
                         }
                     }
+
+                    //-------- Initialization -------
+                    // Watcher for authentication depending behaviours
+                    scope.$watch(function () {
+                        return AuthService.user.isLogged;
+                    },
+                        function () {
+                            scope.local.isLogged = AuthService.user.isLogged;
+                            scope.local.sameUser = scope.comment ? (scope.comment.author.username == AuthService.user.username) : false;
+                        }
+                    );
 
                 }
             }

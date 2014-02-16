@@ -38,17 +38,19 @@
                 noLessonBads: _getLabel('noLessonBads'),
                 conclusion: _getLabel('conclusion'),
                 comments: _getLabel('comments'),
-                commentPlaceholder: _getLabel('commentPlaceholder'),
-                commentHelp: _getLabel('commentHelp'),
-                commentAnswer: _getLabel('commentAnswer'),
-                commentSave: _getLabel('commentSave')
+                ratings: _getLabel('ratings'),
+                ratingtHelp: _getLabel('ratingtHelp')
             };
 
             $scope.local = {
                 commentText: null,
                 commentError : null,
                 commentTexts: [],
-                commentErrors: []
+                commentErrors: [],
+                user: {
+                    isLogged: false,
+                    userId: false
+                }
             }
 
             $scope.actions = {
@@ -87,11 +89,13 @@
                             })
                     }
                 },
+                // Add the new User Comment to Lesson's Comments array
                 addComment: function (comment) {
                     $scope.lesson.comments.push(
                         LessonService.setCommentPrivates(comment, $scope.lesson.comments)
                         );
                 },
+                // Remove the User Comment from Lesson's Comments array
                 deleteComment: function (comment) {
                     var index = -1;
                     for (var i = 0; i < $scope.lesson.comments.length; i++) {
@@ -107,15 +111,41 @@
                         !$scope.actions.openSignIn();
                     }
                     comment.anwser = !comment.anwser;
+                },
+                // check if exists user's rating
+                userHasVoted : function(){
+                    for (var i = 0; i < $scope.lesson.ratings.length; i++) {
+                        if ($scope.lesson.ratings[i].author.userid === AuthService.user.userid)
+                            return true;
+                    }
+                    return false;
+                },
+                // Add the new User Rating to Lesson's Comments array
+                addRating: function (rating) {
+                    $scope.lesson.ratings.push(rating);
+                },
+                // Remove the User Comment from Lesson's Comments array
+                deleteRating: function (rating) {
+                    var index = -1;
+                    for (var i = 0; i < $scope.lesson.ratings.length; i++) {
+                        if ($scope.lesson.ratings[i].id === rating.id)
+                            index = i;
+                    }
+                    if (index > -1)
+                        $scope.lesson.ratings.splice(index, 1);
                 }
             }
 
-            $scope.isLogged= AuthService.user.isLogged
+            $scope.isLogged = AuthService.user.isLogged
+            $scope.local.user.isLogged = AuthService.user.isLogged;
+            $scope.local.user.userId = AuthService.user.userid;
             $scope.$watch(function () {
                 return AuthService.user.isLogged;
             },
                 function () {
                     $scope.isLogged = AuthService.user.isLogged;
+                    $scope.local.user.isLogged = AuthService.user.isLogged;
+                    $scope.local.user.userId = AuthService.user.userid;
                 }
             );
 
@@ -124,10 +154,14 @@
             var currentLesson = lessonData;
             $scope.lesson = currentLesson;
             $scope.lesson.content = $sce.trustAsHtml(currentLesson.content);
+            // Users Comments
             $scope.lesson.comments = [];
             LessonService.getComments({ id: $scope.lesson.lessonId })
                 .then(function (comments) { $scope.lesson.comments = comments; }) // success
+            // Users Ratings
+            $scope.lesson.ratings = [];
+            LessonService.getRatings({ id: $scope.lesson.lessonId })
+                .then(function (ratings) { $scope.lesson.ratings = ratings; }) // success
 
-            
         }
     ]);
