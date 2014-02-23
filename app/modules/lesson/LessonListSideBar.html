@@ -1,0 +1,21 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">Alcune altre lezioni pubblicate</div>
+    <ul class="list-group">
+        <li class="list-group-item"><a href="#/lesson/1">La rivoluzione Francese secondo Robespierre</a></li>
+        <li class="list-group-item"><a href="#/lesson/2">Impegno Civile</a></li>
+        <li class="list-group-item"><a href="#/lesson/3">La Carta Geografica</a></li>
+    </ul>
+
+</div>
+
+<div class="panel" ng-show="local.user.isLogged">
+    <div class="panel-content">
+
+        <div class="btn-group btn-group-justified">
+            <a ng-click="actions.newLesson()" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span>{{labels.newLessonButton}}</span>
+            </a>
+        </div>
+    </div><!--/panel content-->
+</div><!--/panel-->

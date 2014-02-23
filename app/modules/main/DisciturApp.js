@@ -4,7 +4,7 @@
         'Common',
         'Lesson',
         'disc.user',
-        'ui.bootstrap'
+        'ui.bootstrap',
     ])
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
         $httpProvider.interceptors.push('LoadingInterceptor');
@@ -48,6 +48,11 @@
                 url: '/About',
                 parent: 'master.1cl',
                 templateUrl: 'modules/main/site/About.html'
+            })
+            .state('master.1cl.backstage', {
+                url: '/backstage',
+                parent: 'master.1cl',
+                templateUrl: 'modules/main/site/BackStage.html'
             })
 
     })

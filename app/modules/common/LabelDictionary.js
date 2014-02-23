@@ -59,6 +59,7 @@
         usernameNotValid: "User Name NON valido",
         register: "Registrati",
         userProfile: "Il tuo Profilo",
+        userLessons: "Le tue Lezioni",
         userSignOff: "Esci"
     }
 )
@@ -72,5 +73,8 @@
             publishedOn: "Pubblicato il",
             noLessonFound: "Nessuna Lezione trovata."
         },
+        'LessonListSideBarCtrl': {
+            newLessonButton: "Nuova Lezione"
+        }
     }
 )

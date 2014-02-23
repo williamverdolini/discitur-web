@@ -5,7 +5,8 @@
         'ngResource',
         'ui.router',
         'ngSanitize',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ui.tinymce'
     ])
     .config(function ($stateProvider, $urlRouterProvider) {
 
@@ -13,20 +14,21 @@
 
         $stateProvider
             .state('lessonSearch', {
-                url: '/lesson?keyword?discipline?school?classroom?rate?tags?startRow?pageSize?orderBy?orderDir',
+                url: '/lesson?keyword?discipline?school?classroom?rate?tags?publishedOn?publishedBy?startRow?pageSize?orderBy?orderDir',
                 parent: 'master.2cl',
                 onEnter: function () {
                     console.log("Entering Lesson Search");
                 },
                 views: {
                     'sidebar': {
-                        templateUrl: 'modules/lesson/sidebar.html'
+                        templateUrl: 'modules/lesson/LessonListSideBar.html',
+                        controller: 'LessonListSideBarCtrl'
                     },
                     'main': {
-                        templateUrl: 'modules/lesson/LessonNews.html',
-                        controller: 'LessonNewsCtrl',
+                        templateUrl: 'modules/lesson/LessonList.html',
+                        controller: 'LessonListCtrl',
                         resolve: {
-                            lessonNewsData: function (LessonService, $stateParams) {
+                            lessonsData: function (LessonService, $stateParams) {
                                 return LessonService.search($stateParams);
                             }
 
@@ -78,6 +80,22 @@
                                 return deferred.promise;
                             }
                         }
+                    }
+                }
+            })
+            .state('lessonEdit', {
+                url: '/edit/lesson',
+                parent: 'master.2cl',
+                onEnter: function () {
+                    console.log("Entering Lesson Edit");
+                },
+                views: {
+                    'sidebar': {
+                        templateUrl: 'modules/lesson/sidebar.html'
+                    },
+                    'main': {
+                        templateUrl: 'modules/lesson/LessonEdit.html',
+                        controller: 'LessonEditCtrl'
                     }
                 }
             })

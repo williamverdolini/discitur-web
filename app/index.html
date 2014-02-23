@@ -9,36 +9,41 @@
     <link rel="stylesheet" href="css/flatly-bootstrap.min.css" media="screen">
     <link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="screen">
     -->
-    <script src="bower_components/jquery/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
+    <script type="text/javascript" src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <!--<script src="bower_components/angular-bootstrap/ui-bootstrap-0.7.0.js"></script>-->
     <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="bower_components/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+
     <!-- endbuild -->
     <!-- build:js scripts/modules.js -->
     <!-- endbuild -->
 
     <!-- Loading dell'applicazione e delle sue configurazioni di Routing (TO-DO: riorganizzare tramite Require.js)  -->
-    <script src="modules/common/CommonConfig.js"></script>
-    <script src="modules/common/LabelDictionary.js"></script>
-    <script src="modules/common/LabelService.js"></script>
-    <script src="modules/lesson/LessonConfig.js"></script>
-    <script src="modules/lesson/LessonService.js"></script>
-    <script src="modules/lesson/LessonCommentDrv.js"></script>
-    <script src="modules/lesson/LessonRatingDrv.js"></script>
-    <script src="modules/lesson/LessonCtrl.js"></script>
-    <script src="modules/lesson/Lesson404Ctrl.js"></script>
-    <script src="modules/lesson/LessonNewsCtrl.js"></script>
-    <script src="modules/lesson/LessonSearchCtrl.js"></script>
-    <script src="modules/lesson/LessonAdvSearchCtrl.js"></script>
-
-    <script src="modules/user/UserConfig.js"></script>
-    <script src="modules/user/UserService.js"></script>
-    <script src="modules/user/UserNavBarCtrl.js"></script>
-    <script src="modules/user/UserSignInCtrl.js"></script>
+    <script type="text/javascript" src="modules/common/CommonConfig.js"></script>
+    <script type="text/javascript" src="modules/common/LabelDictionary.js"></script>
+    <script type="text/javascript" src="modules/common/LabelService.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonConfig.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonService.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonCommentDrv.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonRatingDrv.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonCtrl.js"></script>
+    <script type="text/javascript" src="modules/lesson/Lesson404Ctrl.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonListCtrl.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonSearchCtrl.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonAdvSearchCtrl.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonListSideBarCtrl.js"></script>
+    <script type="text/javascript" src="modules/lesson/LessonEditCtrl.js"></script>
+    
+    <script type="text/javascript" src="modules/user/UserConfig.js"></script>
+    <script type="text/javascript" src="modules/user/UserService.js"></script>
+    <script type="text/javascript" src="modules/user/UserNavBarCtrl.js"></script>
+    <script type="text/javascript" src="modules/user/UserSignInCtrl.js"></script>
 
     <!--
         -->
@@ -46,17 +51,17 @@
     <!--
         <script src="modules/main/route.js"></script>
     -->
-    <script src="modules/main/DisciturApp.js"></script>
-    <script src="modules/main/DisciturRootCtrl.js"></script>
-    <script src="modules/navigation/NavCtrl.js"></script>
+    <script type="text/javascript" src="modules/main/DisciturApp.js"></script>
+    <script type="text/javascript" src="modules/main/DisciturRootCtrl.js"></script>
+    <script type="text/javascript" src="modules/navigation/NavCtrl.js"></script>
 
 
     <!--            BACKEND-LESS DEVELOPMENT                      -->
     <!-- Da eliminare man mano che si tolgono i mocks dei servizi -->
     
     
-    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-    <script src="../mock/modules/lesson/mocks.js"></script>
+    <script type="text/javascript" src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script type="text/javascript" src="../mock/modules/lesson/mocks.js"></script>
     
     <!--<link rel="stylesheet" type="text/css" href="Content/bootstrap-theme.css" />-->
     <style>
@@ -73,8 +78,12 @@
             padding-top: 80px;
             /*padding-bottom: 40px;*/
         }
-        
-       
+
+        .lesson-specs {
+            margin-left: 0px;
+            margin-right: 5px;
+        }
+
          #lessonSearch {
             margin-top: 6px;
         }
