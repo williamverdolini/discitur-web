@@ -1,14 +1,14 @@
 ﻿angular.module('Lesson')
-    .controller('LessonNewsCtrl', [
+    .controller('LessonListCtrl', [
         '$scope',
         'LabelService',
-        'lessonNewsData',
+        'lessonsData',
         'LessonService',
         '$state',
         function (
             $scope,
             LabelService,
-            lessonNewsData,
+            lessonsData,
             LessonService,
             $state
             ) {
@@ -20,10 +20,10 @@
             $scope.pageSize;
 
             //-------- private method -------
-            _getLabel = function (label) {
-                return LabelService.get('LessonNewsCtrl', label);
+            var _getLabel = function (label) {
+                return LabelService.get('LessonListCtrl', label);
             }
-            _setPageData = function (lessonsPage) {
+            var _setPageData = function (lessonsPage) {
                 $scope.lessons = lessonsPage.lessons;
                 $scope.totalLessons = lessonsPage.count
                 $scope.currentPage = (lessonsPage.startRow - lessonsPage.startRow % lessonsPage.pageSize) / lessonsPage.pageSize + 1
@@ -43,6 +43,6 @@
                 noLessonFound: _getLabel('noLessonFound'),
             };
 
-            _setPageData(lessonNewsData)
+            _setPageData(lessonsData)
         }
     ]);
