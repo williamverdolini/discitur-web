@@ -238,6 +238,8 @@
                             classroom: null,
                             rate: null,
                             tags: null,
+                            publishedOn: null,
+                            publishedBy: null,
                             startRow: 0,
                             pageSize: 3,
                             orderBy: "PublishDate",

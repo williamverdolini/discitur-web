@@ -37,6 +37,11 @@
                 },
                 signOff: function () {
                     AuthService.logout();
+                },
+                // search Lessons published by the User (for editing purposes)
+                searchUserLessons: function () {
+                    // set inherit option to false to avoid conflict with parameters in URL set by advancedSearch
+                    $state.go('lessonSearch', { publishedBy: $scope.model.username }, { inherit: false });
                 }
             }
             // Login Event management
@@ -48,7 +53,8 @@
             $scope.labels = {
                 userSignIn: _getLabel('userSignIn'),
                 userSignOff: _getLabel('userSignOff'),
-                userProfile: _getLabel('userProfile')
+                userProfile: _getLabel('userProfile'),
+                userLessons: _getLabel('userLessons')
             };
             // Authentication user data
             $scope.model = {
