@@ -11,8 +11,8 @@
         author: "Pubblicato da",
         publishedOn: "in data",
         content: "Contenuto",
-        lessonGoods: "What's good",
-        lessonBads: "What's bad",
+        lessonGoods: "Aspetti positivi",
+        lessonBads: "Aspetti negativi",
         noLessonGoods : "Nessun aspetto positivo rilevato...",
         noLessonBads: "Nessun aspetto negativo rilevato!",
         conclusion: "Conclusioni",
@@ -75,6 +75,10 @@
         },
         'LessonListSideBarCtrl': {
             newLessonButton: "Nuova Lezione"
+        },
+        'LessonEditCtrl': {
+            saveLessonButton: "Salva la Lezione",
+            publicLesson: "Pubblica"
         }
     }
 )

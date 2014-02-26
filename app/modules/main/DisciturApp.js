@@ -15,13 +15,13 @@
         $stateProvider
             //MasterPages (Abstract States)
             .state('master', {
-                url: '',
+                url: '/',
                 abstract: true,
                 templateUrl: 'masterpages/master.html'
             })
             // One Column Layout (Abstract States)
             .state('master.1cl', {
-                url: '/project',
+                url: '',
                 abstract: true,
                 parent: 'master',
                 templateUrl: 'masterpages/1cl.html'
@@ -35,22 +35,22 @@
             })
             // Web Site (Content States)
             .state('master.1cl.home', {
-                url: '/home',
+                url: 'project/home',
                 parent: 'master.1cl',
                 templateUrl: 'modules/main/site/HomePage.html'
             })
             .state('master.1cl.mission', {
-                url: '/mission',
+                url: 'project/mission',
                 parent: 'master.1cl',
                 templateUrl: 'modules/main/site/Project.html'
             })
             .state('master.1cl.about', {
-                url: '/About',
+                url: 'project/About',
                 parent: 'master.1cl',
                 templateUrl: 'modules/main/site/About.html'
             })
             .state('master.1cl.backstage', {
-                url: '/backstage',
+                url: 'project/backstage',
                 parent: 'master.1cl',
                 templateUrl: 'modules/main/site/BackStage.html'
             })
@@ -60,7 +60,7 @@
         apiUrl: 'http://localhost:59739/api/',
         authToken: 'disc.auth.token'
     })
-    .factory('DiscUtil', function () {
+    .factory('DiscUtil', ['$cacheFactory', function ($cacheFactory) {
         var _getMessage = function (obj) {
             var _message = "";
             for (var key in obj) {
@@ -94,13 +94,14 @@
                     }
                 }
 
-            }
+            },
+            cache: $cacheFactory('disciturCache')
 
 
         }
 
 
-    })
+    }])
     // Authentication Intercepor:
     // set Header Authorization Token (if exists)
     .factory('LoadingInterceptor', [

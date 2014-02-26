@@ -1,18 +1,21 @@
 ﻿angular.module('Lesson')
-    .controller('LessonListSideBarCtrl', [
+    .controller('LessonSideBarCtrl', [
         '$scope',
         'LabelService',
         'AuthService',
         '$state',
+        'lessonData',
         function (
             $scope,
             LabelService,
             AuthService,
-            $state
+            $state,
+            lessonData
             ) {
             //-------- private method -------
+            // get label from LabelService dictionary
             var _getLabel = function (label) {
-                return LabelService.get('LessonListSideBarCtrl', label);
+                return LabelService.get('LessonSideBarCtrl', label);
             }
 
             //-------- public method -------
@@ -22,7 +25,7 @@
 
             //--------- public properties ------
             $scope.labels = {
-                newLessonButton: _getLabel('newLessonButton')
+                editLessonButton: _getLabel('editLessonButton')
             };
 
             $scope.local = {
@@ -30,9 +33,10 @@
             }
 
             $scope.actions = {
-                newLesson: function () {
+                editLesson: function () {
+                    console.log(lessonData)
                     // set inherit option to false to avoid conflict with parameters in URL set by advancedSearch
-                    $state.go('lessonEdit');                    
+                    $state.go('lessonEdit', { lessonId: lessonData.lessonId }, { inherit: false });
                 }
             }
 

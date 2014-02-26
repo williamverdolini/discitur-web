@@ -1,4 +1,107 @@
 ﻿<form class="bs-example form-horizontal" novalidate>
+
+    <div class="row">
+        <!-- SIDE BAR AREA -->
+        <div class="col-md-3">
+            <div class="panel" ng-show="local.user.isLogged">
+                <div class="panel-content">
+                    <div class="checkbox">
+                        <h4>
+                            <label>
+                                <input type="checkbox">{{labels.publicLesson}}
+                            </label>
+                        </h4>
+                    </div>
+
+
+                    <div class="btn-group btn-group-justified">
+                        <a ng-click="actions.newLesson()" class="btn btn-default btn-lg">
+                            <span class="glyphicon glyphicon-floppy-disk pull-left"></span>
+                            <span>{{labels.saveLessonButton}}</span>
+                        </a>
+                    </div>
+                </div><!--/panel content-->
+            </div><!--/panel-->
+        </div>
+        <!-- MAIN CONTENT AREA -->
+        <div class="col-md-9">
+
+            <fieldset>
+                <legend>Titolo della Lezione</legend>
+                <div class="form-group">
+                    <label for="inputTitle" class="col-lg-2 control-label">Titolo</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="inputTitle" placeholder="{{labels.title}}" ng-model="local.lesson.title">
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>{{labels.specifics}}</legend>
+                <div class="form-group">
+                    <label for="inputDiscipline" class="col-lg-2 control-label">{{labels.discipline}}</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="inputDiscipline" placeholder="{{labels.discipline}}" ng-model="local.lesson.discipline">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputScuola" class="col-lg-2 control-label">{{labels.school}}</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="inputScuola" placeholder="{{labels.school}}" ng-model="local.lesson.school">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputClasse" class="col-lg-2 control-label">{{labels.classroom}}</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="inputClasse" placeholder="{{labels.classroom}}" ng-model="local.lesson.classroom">
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>{{labels.content}}</legend>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <textarea type="textarea" class="form-control" id="inputContent" ui-tinymce="model.tinymceoptions" ng-model="local.lesson.content" rows="20"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+
+            <hr />
+
+            <!-- Lesson's Feedbacks Area -->
+            <div id="LessonSummary" class="row">
+                <div id="lessonGoods" class="col-md-6">
+                    <div class="panel panel-info">
+                        <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
+                        <div class="panel-body" ng-model="local.lesson.lessonGoods">
+                        </div>
+                    </div>
+                </div>
+                <div id="lessonBads" class="col-md-6">
+                    <div class="panel panel-warning">
+                        <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
+                        <div class="panel-body" ng-model="local.lesson.lessonGoods">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <fieldset>
+                <legend>{{labels.conclusion}}</legend>
+                <div class="form-group">
+                    <div class="col-lg-12">
+                        <textarea type="textarea" class="form-control" id="inputConclusion" ui-tinymce="model.tinymceoptions" ng-model="local.lesson.conclusion" rows="5"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+    </div>
+
+    <!--
     <fieldset>
         <legend>Titolo della Lezione</legend>
         <div class="form-group">
@@ -10,53 +113,50 @@
     </fieldset>
 
     <fieldset>
-        <legend>Caratteristiche</legend>
+        <legend>{{labels.specifics}}</legend>
         <div class="form-group">
-            <label for="inputDiscipline" class="col-lg-2 control-label">Disciplina</label>
+            <label for="inputDiscipline" class="col-lg-2 control-label">{{labels.discipline}}</label>
             <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputDiscipline" placeholder="Disciplina">
+                <input type="text" class="form-control" id="inputDiscipline" placeholder="{{labels.discipline}}">
             </div>
         </div>
         <div class="form-group">
-            <label for="inputScuola" class="col-lg-2 control-label">Scuola</label>
+            <label for="inputScuola" class="col-lg-2 control-label">{{labels.school}}</label>
             <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputScuola" placeholder="Scuola">
+                <input type="text" class="form-control" id="inputScuola" placeholder="{{labels.school}}">
             </div>
         </div>
         <div class="form-group">
-            <label for="inputClasse" class="col-lg-2 control-label">Classe</label>
+            <label for="inputClasse" class="col-lg-2 control-label">{{labels.classroom}}</label>
             <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputClasse" placeholder="Classe">
+                <input type="text" class="form-control" id="inputClasse" placeholder="{{labels.classroom}}">
             </div>
         </div>
     </fieldset>
 
     <fieldset>
-        <legend>Contenuto</legend>
+        <legend>{{labels.content}}</legend>
         <div class="form-group">
             <div class="col-lg-12">
-                <textarea type="textarea" class="form-control" id="inputContent" placeholder="Contenuti" ui-tinymce="model.tinymceoptions" ng-model="model.content" rows="20"></textarea>
+                <textarea type="textarea" class="form-control" id="inputContent" ui-tinymce="model.tinymceoptions" ng-model="model.content" rows="20"></textarea>
             </div>
         </div>
     </fieldset>
 
     <hr />
 
-    <!-- Lesson's Feedbacks Area -->
     <div id="LessonSummary" class="row">
-        <div id="lessonGoods" class="col-md-6" >
+        <div id="lessonGoods" class="col-md-6">
             <div class="panel panel-info">
-                <div class="panel-heading"><h3>Bene</h3></div>
-                <div class="panel-body">
-                    ciaociacoaciacoaca
+                <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
+                <div class="panel-body" ng-model="model.lessonGoods">
                 </div>
             </div>
         </div>
-        <div id="lessonBads" class="col-md-6" >
+        <div id="lessonBads" class="col-md-6">
             <div class="panel panel-warning">
-                <div class="panel-heading"><h3>Male</h3></div>
-                <div class="panel-body">
-                    malemalemalmela melae
+                <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
+                <div class="panel-body" ng-model="model.lessonGoods">
                 </div>
             </div>
         </div>
@@ -65,13 +165,12 @@
 
 
     <fieldset>
-        <legend>Conclusioni</legend>
+        <legend>{{labels.conclusion}}</legend>
         <div class="form-group">
             <div class="col-lg-12">
-                <textarea type="textarea" class="form-control" id="inputConclusion" placeholder="Contenuti" ui-tinymce="model.tinymceoptions" ng-model="model.conclusion" rows="5"></textarea>
+                <textarea type="textarea" class="form-control" id="inputConclusion" ui-tinymce="model.tinymceoptions" ng-model="model.conclusion" rows="5"></textarea>
             </div>
         </div>
     </fieldset>
-
-
+    -->
 </form>
