@@ -1,25 +1,33 @@
-﻿<form class="bs-example form-horizontal" novalidate>
+﻿<form class="bs-example form-horizontal" name="local.editForm" ng-submit="actions.saveLesson()" novalidate>
 
     <div class="row">
         <!-- SIDE BAR AREA -->
         <div class="col-md-3">
-            <div class="panel" ng-show="local.user.isLogged">
+            <div class="panel" ng-show="local.user.isLogged && local.user.username==local.lesson.author.username">
                 <div class="panel-content">
                     <div class="checkbox">
                         <h4>
                             <label>
-                                <input type="checkbox">{{labels.publicLesson}}
+                                <input type="checkbox" ng-model="local.lesson.isPublished">{{labels.publicLesson}}
                             </label>
                         </h4>
                     </div>
 
 
                     <div class="btn-group btn-group-justified">
-                        <a ng-click="actions.newLesson()" class="btn btn-default btn-lg">
+                        <a ng-click="actions.saveLesson()" class="btn btn-default btn-lg">
                             <span class="glyphicon glyphicon-floppy-disk pull-left"></span>
                             <span>{{labels.saveLessonButton}}</span>
                         </a>
                     </div>
+
+                    <div class="btn-group btn-group-justified">
+                        <a class="btn btn-lg btn-info">
+                            <span class="glyphicon glyphicon-off pull-left"></span>
+                            <span>Annulla</span>
+                        </a>
+                    </div>
+
                 </div><!--/panel content-->
             </div><!--/panel-->
         </div>
@@ -27,11 +35,11 @@
         <div class="col-md-9">
 
             <fieldset>
-                <legend>Titolo della Lezione</legend>
+                <legend>{{labels.lessonTitleHeading}}</legend>
                 <div class="form-group">
-                    <label for="inputTitle" class="col-lg-2 control-label">Titolo</label>
+                    <label for="inputTitle" class="col-lg-2 control-label">{{labels.lessonTitle}}</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputTitle" placeholder="{{labels.title}}" ng-model="local.lesson.title">
+                        <input type="text" class="form-control" id="inputTitle" placeholder="{{labels.lessonTitle}}" ng-model="local.lesson.title" ng-required="true">
                     </div>
                 </div>
             </fieldset>
@@ -41,28 +49,67 @@
                 <div class="form-group">
                     <label for="inputDiscipline" class="col-lg-2 control-label">{{labels.discipline}}</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputDiscipline" placeholder="{{labels.discipline}}" ng-model="local.lesson.discipline">
+                        <input type="text" class="form-control" id="inputDiscipline" placeholder="{{labels.discipline}}" ng-model="local.lesson.discipline" ng-required="true">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputScuola" class="col-lg-2 control-label">{{labels.school}}</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputScuola" placeholder="{{labels.school}}" ng-model="local.lesson.school">
+                        <input type="text" class="form-control" id="inputScuola" placeholder="{{labels.school}}" ng-model="local.lesson.school" ng-required="true">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputClasse" class="col-lg-2 control-label">{{labels.classroom}}</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputClasse" placeholder="{{labels.classroom}}" ng-model="local.lesson.classroom">
+                        <input type="text" class="form-control" id="inputClasse" placeholder="{{labels.classroom}}" ng-model="local.lesson.classroom" ng-required="true">
                     </div>
                 </div>
             </fieldset>
 
             <fieldset>
+                <legend>{{labels.tags}}</legend>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">{{labels.tags}}</label>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <input class="form-control" type="text"
+                                   ng-model="local.tag"
+                                   typeahead-wait-ms="300"
+                                   typeahead="k for k in actions.getTags($viewValue) | filter:$viewValue"
+                                   typeahead-on-select="actions.selectTag()">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="actions.selectTag()" type="button">+</button>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <span ng-repeat="tag in local.lesson.tags | filter:actions.filterByActiveStatus">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success" disabled="disabled">
+                                    {{tag.content}}
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="actions.removeTag($index)">{{labels.buttonDel}}X</button>
+
+                            </div>
+                        </span>
+                    </div>
+                </div>
+
+
+            </fieldset>
+
+
+
+            <fieldset>
                 <legend>{{labels.content}}</legend>
                 <div class="form-group">
                     <div class="col-lg-12">
-                        <textarea type="textarea" class="form-control" id="inputContent" ui-tinymce="model.tinymceoptions" ng-model="local.lesson.content" rows="20"></textarea>
+                        <textarea type="textarea" class="form-control" id="inputContent" ui-tinymce="model.tinymceoptions" ng-model="local.lesson.content" rows="20" ng-required="true"></textarea>
                     </div>
                 </div>
             </fieldset>
@@ -75,13 +122,80 @@
                     <div class="panel panel-info">
                         <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
                         <div class="panel-body" ng-model="local.lesson.lessonGoods">
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-1 input-group">
+                                        <input class="form-control" type="text" ng-model="local.lessonGood">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="actions.addGood()" type="button">Salva</button>
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <ol>
+                                            <li ng-repeat="good in local.lesson.goods | filter:actions.filterByActiveStatus">
+                                                <wr-input wr-text="good.content" wr-ref="$index" edit-text="actions.editGood(ref)" remove-text="actions.removeGood(ref)"></wr-input>
+                                                <!--
+        <input type="text" value="{{good}}" ng-show="local['goodedit'+$index]" class="input-sm" />
+        <span ng-show="!local['goodedit'+$index]">{{good}}</span>
+        [
+        <div class="btn-group">
+            <span class="glyphicon glyphicon-pencil" ng-click="local['goodedit'+$index]=!local['goodedit'+$index];"></span>
+        </div>
+        |
+        <div class="btn-group">
+            <span class="glyphicon glyphicon-remove" ng-click="local.lesson.goods.splice($index, 1)"></span>
+        </div>
+        ]
+        -->
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+
+                            </fieldset>
+
+
+
                         </div>
                     </div>
                 </div>
                 <div id="lessonBads" class="col-md-6">
                     <div class="panel panel-warning">
                         <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
-                        <div class="panel-body" ng-model="local.lesson.lessonGoods">
+                        <div class="panel-body">
+
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-1 input-group">
+                                        <input class="form-control" type="text" ng-model="local.lessonBad">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" ng-click="actions.addBad()" type="button">Salva</button>
+                                        </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <ol>
+                                            <li ng-repeat="bad in local.lesson.bads | filter:actions.filterByActiveStatus">
+                                                <wr-input wr-text="bad.content" wr-ref="$index" edit-text="actions.editBad(ref)" remove-text="actions.removeBad(ref)"></wr-input>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+
+                            </fieldset>
+
+
+
                         </div>
                     </div>
                 </div>
@@ -93,7 +207,7 @@
                 <legend>{{labels.conclusion}}</legend>
                 <div class="form-group">
                     <div class="col-lg-12">
-                        <textarea type="textarea" class="form-control" id="inputConclusion" ui-tinymce="model.tinymceoptions" ng-model="local.lesson.conclusion" rows="5"></textarea>
+                        <textarea type="textarea" class="form-control" id="inputConclusion" ui-tinymce="model.tinymceoptions" ng-model="local.lesson.conclusion" rows="5" ng-required="true"></textarea>
                     </div>
                 </div>
             </fieldset>

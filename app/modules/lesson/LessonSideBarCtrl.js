@@ -28,9 +28,15 @@
                 editLessonButton: _getLabel('editLessonButton')
             };
 
+            console.log(AuthService.user.isLogged)
+            console.log(lessonData.author.username)
+
             $scope.local = {
-                user: AuthService.user
+                user: AuthService.user,
+                lesson: lessonData
             }
+
+            console.log(lessonData)
 
             $scope.actions = {
                 editLesson: function () {
@@ -43,6 +49,31 @@
             //--------- Controller initialization ------
             // detach static bindings (labels)
             var counter = 0;
+            var _watchers = null;
+            /*
+            var _detachStaticWatchers = $scope.$watch(function () {
+                // first digest cycle: find static watchers
+                if (_watchers == null) {
+                    _watchers = [];
+                    var _reLabels = /^{{labels\.\w+}}$/
+                    for (var i = $scope.$$watchers.length - 1; i >= 0; i--) {
+                        if ($scope.$$watchers[i].exp &&
+                            $scope.$$watchers[i].exp.exp &&
+                            _reLabels.test($scope.$$watchers[i].exp.exp)) {
+                            _watchers.push(i);
+                        }
+                    }
+                }
+                // second digest cycle: remove static watchers
+                else {
+                    for (var i = 0; i < _watchers.length; i++) {
+                        $scope.$$watchers.splice(_watchers[i], 1);
+                    }
+                    _detachStaticWatchers();
+                }
+            })
+            */
+            
             var detachStaticScope = $scope.$watch(function () {
                 counter += 1;
                 if (counter > 1) {
@@ -55,7 +86,7 @@
                         }
                     }
                 }
-                console.log($scope.$$watchers)
             })
+            
         }
     ]);

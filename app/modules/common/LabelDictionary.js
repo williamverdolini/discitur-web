@@ -3,10 +3,13 @@
     {
         appTitle: "Discitur - Insieme si migliora",
         loading: "Caricamento in corso...",
+        lessonTitleHeading: "Titolo della Lezione",
+        lessonTitle: "Titolo",
         specifics : "Caratteristiche",
         discipline: "Disciplina",
         school: "Scuola",
         classroom: "Classe",
+        tags: "Tags",
         rating: "Valutazione",
         author: "Pubblicato da",
         publishedOn: "in data",
@@ -60,7 +63,9 @@
         register: "Registrati",
         userProfile: "Il tuo Profilo",
         userLessons: "Le tue Lezioni",
-        userSignOff: "Esci"
+        userSignOff: "Esci",
+
+        editLessonButton: "Modifica"
     }
 )
 .value('overrides',

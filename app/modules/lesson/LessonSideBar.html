@@ -8,13 +8,13 @@
 
 </div>
 
-<div class="panel" ng-show="local.user.isLogged">
+<div class="panel" ng-show="local.user.isLogged && local.user.username==local.lesson.author.username">
     <div class="panel-content">
 
         <div class="btn-group btn-group-justified">
             <a ng-click="actions.editLesson()" class="btn btn-default btn-lg">
                 <span class="glyphicon glyphicon-pencil pull-left"></span>
-                <span>Modifica</span>
+                <span>{{labels.editLessonButton}}</span>
             </a>
         </div>
     </div><!--/panel content-->

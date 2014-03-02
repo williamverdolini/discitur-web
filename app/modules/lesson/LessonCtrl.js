@@ -155,7 +155,7 @@
             // lesson data async
             var currentLesson = lessonData;
             $scope.lesson = currentLesson;
-            $scope.lesson.content = $sce.trustAsHtml(currentLesson.content);
+            //$scope.lesson.content = $sce.trustAsHtml(currentLesson.content);
             // Users Comments
             $scope.lesson.comments = [];
             LessonService.getComments({ id: $scope.lesson.lessonId })
@@ -164,6 +164,37 @@
             $scope.lesson.ratings = [];
             LessonService.getRatings({ id: $scope.lesson.lessonId })
                 .then(function (ratings) { $scope.lesson.ratings = ratings; }) // success
+
+
+            var _watchers = null;
+
+            /*
+            var _detachStaticWatchers = $scope.$watch(function () {
+                // first digest cycle: find static watchers
+                if (_watchers == null) {
+                    _watchers = [];
+                    var _reLabels = /^{{labels\.\w+}}$/
+                    for (var i = $scope.$$watchers.length - 1; i >= 0; i--) {
+                        console.log($scope.$$watchers[i].exp.exp)
+                        if ($scope.$$watchers[i].exp &&
+                            $scope.$$watchers[i].exp.exp &&
+                            _reLabels.test($scope.$$watchers[i].exp.exp)) {
+                            _watchers.push(i);
+                        }
+                    }
+                }
+                    // second digest cycle: remove static watchers
+                else {
+                    for (var i = 0; i < _watchers.length; i++) {
+                        console.log($scope.$$watchers[_watchers[i]]);
+                        $scope.$$watchers.splice(_watchers[i], 1);
+                    }
+                    _detachStaticWatchers();
+                }
+                console.log($scope.$$watchers);
+            })
+            */
+
 
         }
     ]);

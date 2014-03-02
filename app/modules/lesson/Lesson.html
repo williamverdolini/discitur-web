@@ -25,7 +25,7 @@
     </div>
     <div class="row">
         <span ng-repeat="tag in lesson.tags">
-            <button type="button" class="btn btn-success btn-sm disabled" disabled="disabled">{{tag}}</button>
+            <button type="button" class="btn btn-success btn-sm disabled" disabled="disabled">{{tag.content}}</button>
         </span>
     </div>
 </div>
@@ -45,7 +45,7 @@
             <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
             <div class="panel-body">
                 <ol ng-switch-when="true">
-                    <li ng-repeat="item in lesson.goods">{{item}}</li>
+                    <li ng-repeat="item in lesson.goods">{{item.content}}</li>
                 </ol>
                 <div ng-switch-when="false">{{labels.noLessonGoods}}</div>
             </div>
@@ -56,7 +56,7 @@
             <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
             <div class="panel-body">
                 <ol ng-switch-when="true">
-                    <li ng-repeat="item in lesson.bads">{{item}}</li>
+                    <li ng-repeat="item in lesson.bads">{{item.content}}</li>
                 </ol>
                 <div ng-switch-when="false">{{labels.noLessonBads}}</div>
             </div>

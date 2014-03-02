@@ -16,12 +16,14 @@
             this.classroom = null;
             this.rate = null;
             this.author = null;
+            this.published = null;
             this.publishedOn = null;
             this.goods = [];
             this.bads = [];
             this.tags = [];
             this.content = null;
             this.conclusion = null;
+            this.version = null;
         }
         return (LessonDTO);
     })
@@ -39,6 +41,7 @@
                 image: null
             };
             this.order = 0.0;
+            this.status = 'I'; //Initialized
         }
         return (CommentDTO);
     })
@@ -81,19 +84,26 @@
                 lesson.classroom = lessonData.Classroom;
                 lesson.author = {
                     name: lessonData.Author.Name,
-                    surname: lessonData.Author.Surname
+                    surname: lessonData.Author.Surname,
+                    username: lessonData.Author.UserName
                 }
+                lesson.isPublished = lessonData.Published=='1';
                 lesson.publishedOn = lessonData.PublishDate;
                 lesson.rate = lessonData.Rate;
                 angular.forEach(lessonData.FeedBacks, function (feedBack, key) {
-                    if (feedBack.Nature == 1) this.goods.push(feedBack.Feedback)
-                    if (feedBack.Nature == 2) this.bads.push(feedBack.Feedback)
+                    var fb = { id: feedBack.LessonFeedbackId, content: feedBack.Feedback, status: 'I' };
+                    if (feedBack.Nature == 1) this.goods.push(fb)
+                    if (feedBack.Nature == 2) this.bads.push(fb)
+                    //if (feedBack.Nature == 1) this.goods.push(feedBack.Feedback)
+                    //if (feedBack.Nature == 2) this.bads.push(feedBack.Feedback)
                     }, lesson);
                 angular.forEach(lessonData.Tags, function (tag, key) {
-                    this.tags.push(tag.LessonTagName)
-                    }, lesson);
+                    this.tags.push({ content: tag.LessonTagName, status: 'I' });
+                }, lesson);
+                lesson.tags.status = 'I';
                 lesson.content = lessonData.Content;
                 lesson.conclusion = lessonData.Conclusion;
+                lesson.version = lessonData.Vers;
                 return lesson;
             }
             // Lesson Array Data Transfer
@@ -190,6 +200,48 @@
                 rating.author.image = ratingData.Author.Picture;
                 rating.version = ratingData.Vers;
                 return rating;
+            }
+            // lesson mapping
+            var _lessonMap = function (lesson) {
+                var data2api = {};
+                data2api.LessonId = lesson.lessonId;
+                data2api.Title = lesson.title;
+                data2api.Discipline = lesson.discipline;
+                data2api.School = lesson.school;
+                data2api.Classroom = lesson.classroom;
+                data2api.Rate = null;
+
+                data2api.Author = {
+                    Name: lesson.author.name,
+                    Surname: lesson.author.surname,
+                    UserId: lesson.author.userid
+                }
+                data2api.Published = lesson.isPublished ? 1 : 0;
+                data2api.PublishedOn = lesson.publishedOn;
+                data2api.FeedBacks = [];
+                angular.forEach(lesson.goods, function (feedBack, key) {
+                    var fb = { LessonFeedbackId: feedBack.id, Feedback: feedBack.content, Nature: 1 };
+                    this.FeedBacks.push(fb);
+                }, data2api);
+                angular.forEach(lesson.bads, function (feedBack, key) {
+                    var fb = { LessonFeedbackId: feedBack.id, Feedback: feedBack.content, Nature: 2 };
+                    this.FeedBacks.push(fb);
+                }, data2api);
+
+                data2api.Tags = []
+                angular.forEach(lesson.tags, function (tag, key) {
+                    var _tag = { LessonId: lesson.lessonId, LessonTagName: tag.content, status: tag.status };
+                    this.Tags.push(_tag);
+                }, data2api);
+
+                data2api.Content = lesson.content;
+                data2api.Conclusion = lesson.conclusion;
+                data2api.LastModifUser = lesson.lastModifUser;
+                data2api.Vers = lesson.version;
+
+                if(lesson.status)
+                    data2api.status = lesson.status;
+                return data2api;
             }
 
             //-------- private properties -------
@@ -564,7 +616,37 @@
                             });
                     // create deferring result
                     return deferred.promise;
+                },
+                // Save Lesson
+                save: function (lesson) {
+                    var _lesson = _lessonMap(lesson);
+
+                    /* NO INPUT VALIDATION DONE ON CLIENT
+                    DiscUtil.validateInput(
+                        'LessonService.save',       // function name for logging purposes
+                        new LessonDTO(),            // hashmap to check inputParameters e set default values
+                        _lesson                      // actual input params
+                        );
+                    */
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'PUT', url: DisciturSettings.apiUrl + 'lesson/' + _lesson.LessonId, data: _lesson })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                deferred.resolve(_dataTransfer(result))
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error saving lesson id:" + _lesson.lessonId + " -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
                 }
+
             };
 
             return _lessonService;
