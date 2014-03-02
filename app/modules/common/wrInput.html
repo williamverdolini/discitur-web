@@ -1,0 +1,15 @@
+﻿<div>
+
+    <input type="text" value="{{wrText}}" ng-model="wrText" ng-show="local.edit" class="input-sm" style="width:80%" />
+    <span ng-show="!local.edit">{{wrText}}</span>
+    [
+    <div class="btn-group">
+        <span class="glyphicon glyphicon-pencil" ng-click="actions.edit()"></span>
+    </div>
+    |
+    <div class="btn-group">
+        <span class="glyphicon glyphicon-remove" ng-click="actions.remove()"></span>
+    </div>
+    ]
+
+</div>
