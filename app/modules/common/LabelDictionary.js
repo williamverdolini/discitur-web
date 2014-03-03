@@ -66,7 +66,36 @@
         userLessons: "Le tue Lezioni",
         userSignOff: "Esci",
 
-        editLessonButton: "Modifica"
+        editLessonButton: "Modifica",
+        requiredField: "Dato obbligario",
+
+        helpTitle: "<h6>Marcando il check <b>Pubblica</b> "+
+                    "la lezione sarà visibile a tutti.<br />"+
+                    "Tieni la lezione privata mentre la stai preparando. "+
+                    "Sarà visibile solo a te ed accessibile tramite la funzionalità di profilo <b>Le tue Lezioni</b>.</h6>",
+        helpSpecifics: "<h6>Digitando sui campi il sistema ti proporrà dei valori già presenti a sistema."+
+                    "<br /><br /><p>"+
+                    "Se non soddisfano alle tue esigenze inserisci i dati come meglio preferisci.</p></h6>",
+        helpTags: "<h6>I  <b>Tag</b> consentono di marcare e poter ricercare la lezione per caratteristiche interdisciplinari.<br />"+
+                  "<br /><p>Digitando, il sistema ti proporrà dei valori già presenti,"+
+                  "ma se non soddisfano alle tue esigenze, inserisci i dati come meglio preferisci.</p></h6>",
+        helpContent: "<h6>Inserisci il <b>Contenuto</b> della lezione.<br /><br />"+
+                     "Dettaglia i passaggi e gli strumenti utilizzati e descrivi il metodo o l'approccio utilizzato,"+
+                     "in modo che altri docenti possano comprendere la lezione ed imparare.<br />"+
+                     "<br /><p>Per poter inserire immagini o video utilizza le funzionalità dell'editor a fianco,"+
+                     "ma ricorda, tutte le immagini devono essere caricate in un tuo spazio web ed accessibili"+
+                     "attraverso un indirizzo web, da inserire nel campo <b>Source</b>.</p>"+
+                     "<p>Ti suggeriamo i seguenti se non hai già un tuo spazio web:<ul>"+
+                     "<li><a href=\"http://www.drive.google.com/\">Google Drive</a></li>"+
+                     "<li><a href=\"https://www.dropbox.com/\">Dropbox</a></li></ul></p></h6>",
+        helpFeedbacks: "<h6>I  <b>Feedback</b> sono il frutto della retrospettiva della lezione, della tua analisi, del tuo punto di vista.<br />"+
+                    "<br />Cosa è andato bene? Quali gli aspetti positivi della lezione?<br /><br />"+
+                    "Cosa invece non ha funzionato? Cosa poteva essere evitato? Cosa migliorato?<br /><br />"+
+                    "<p>Metti la qualità dell'insegnamento sopra al resto e non temere di indicare gli aspetti negativi riscontrati."+
+                    "<br />Sono principalmente questi che consentono di migliorare la tecnica, il metodo e la qualità dell'insegnamento.<br />Sbagliando si impara!</p></h6>",
+        helpConclusion: "<h6>Nelle <b>Conclusioni</b> inserisci i punti salienti della lezione.<br /><br />"+
+                    "Il paragrafo è utilizzato nella lista dei risultati della ricerca come <i>abstract</i> della lezione,"+
+                    "perciò è importante riuscire a sintetizzare il contenuto e gli aspetti caratterizzanti.</h6>"
     }
 )
 .value('overrides',

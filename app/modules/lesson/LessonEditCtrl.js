@@ -48,7 +48,14 @@
                 cancelButton: _getLabel('cancelButton'),
                 publicLesson: _getLabel('publicLesson'),
                 buttonAdd: _getLabel('buttonAdd'),
-                buttonDel: _getLabel('buttonDel')
+                buttonDel: _getLabel('buttonDel'),
+                requiredField: _getLabel('requiredField'),
+                helpTitle: _getLabel('helpTitle'),
+                helpSpecifics: _getLabel('helpSpecifics'),
+                helpTags: _getLabel('helpTags'),
+                helpContent: _getLabel('helpContent'),
+                helpFeedbacks: _getLabel('helpFeedbacks'),
+                helpConclusion: _getLabel('helpConclusion')
             };
 
             $scope.model = {
@@ -78,6 +85,9 @@
                     else
                         return false;
                     //local.user.isLogged && local.user.username == local.lesson.author.username
+                },
+                isFieldRequired : function(fieldName){
+                    return $scope.local.editForm[fieldName].$invalid && ($scope.local.editForm[fieldName].$dirty || $scope.local.editForm.submitted)
                 }
             }
 
@@ -163,6 +173,7 @@
                 },
                 // Save Lesson
                 saveLesson: function () {
+                    $scope.local.editForm.submitted = true;
                     if ($scope.local.editForm.$valid) {
                         console.log($scope.local.lesson);
                         $scope.local.lesson.author = $scope.local.user;

@@ -40,13 +40,7 @@
             <fieldset ng-show="local.viewHelp">
                 <legend>Help&nbsp;</legend>
                 <div class="row helprow">
-                    <div class="rightarrowdiv">
-                        <h6>
-                            Marcando il check <b>Pubblica</b> la lezione sarà visibile a tutti.<br />
-                            Tieni la lezione privata mentre la stai preparando. Sarà visibile solo a te
-                            ed accessibile tramite la funzionalità di profilo <b>Le tue Lezioni</b>.
-                        </h6>
-                    </div>
+                    <div class="rightarrowdiv" ng-bind-html="labels.helpTitle"></div>
                 </div>
             </fieldset>
             <!-- LESSON TITLE HELP AREA - END -->
@@ -58,7 +52,9 @@
                 <div class="form-group">
                     <label for="inputTitle" class="col-lg-2 control-label">{{labels.lessonTitle}}</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputTitle" placeholder="{{labels.lessonTitle}}" ng-model="local.lesson.title" ng-required="true">
+                        <input type="text" class="form-control" id="inputTitle" name="title" placeholder="{{labels.lessonTitle}}" ng-model="local.lesson.title" ng-required="true">
+                        <input type="button" class="btn btn-danger btn-xs" ng-show="local.isFieldRequired('title')" disabled value="{{labels.requiredField}}" />
+
                     </div>
                 </div>
 
@@ -81,15 +77,7 @@
             <fieldset ng-show="local.viewHelp">
                 <legend style="border-bottom:0px;">&nbsp;</legend>
                 <div class="row helprow">
-                    <div class="rightarrowdiv">
-                        <h6>
-                            Digitando sui campi il sistema ti proporrà dei valori già presenti a sistema.<br />
-                            <br />
-                            <p>
-                                Se non soddisfano alle tue esigenze inserisci i dati come meglio preferisci.
-                            </p>
-                        </h6>
-                    </div>
+                    <div class="rightarrowdiv" ng-bind-html="labels.helpSpecifics"></div>
                 </div>
             </fieldset>
             <!-- LESSON SPECIFICS HELP AREA - END -->
@@ -103,23 +91,28 @@
                     <div class="col-lg-10">
                         <input type="text" class="form-control"
                                id="inputDiscipline"
+                               name="discipline"
                                placeholder="{{labels.discipline}}"
                                ng-model="local.lesson.discipline"
                                typeahead-wait-ms="300"
                                typeahead="k for k in actions.getDisciplines($viewValue) | filter:$viewValue"
                                ng-required="true">
+                        <input type="button" class="btn btn-danger btn-xs" ng-show="local.isFieldRequired('discipline')" disabled value="{{labels.requiredField}}" />
                     </div>
+
                 </div>
                 <div class="form-group">
                     <label for="inputSchool" class="col-lg-2 control-label">{{labels.school}}</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control"
                                id="inputSchool"
+                               name="school"
                                placeholder="{{labels.school}}"
                                ng-model="local.lesson.school"
                                typeahead-wait-ms="300"
                                typeahead="k for k in actions.getSchools($viewValue) | filter:$viewValue"
                                ng-required="true">
+                        <input type="button" class="btn btn-danger btn-xs" ng-show="local.isFieldRequired('school')" disabled value="{{labels.requiredField}}" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -127,11 +120,13 @@
                     <div class="col-lg-10">
                         <input type="text" class="form-control"
                                id="inputClassroom"
+                               name="classroom"
                                placeholder="{{labels.classroom}}"
                                ng-model="local.lesson.classroom"
                                typeahead-wait-ms="300"
                                typeahead="k for k in actions.getClassRooms($viewValue) | filter:$viewValue"
                                ng-required="true">
+                        <input type="button" class="btn btn-danger btn-xs" ng-show="local.isFieldRequired('classroom')" disabled value="{{labels.requiredField}}" />
                     </div>
                 </div>
             </fieldset>
@@ -145,16 +140,7 @@
             <fieldset ng-show="local.viewHelp">
                 <legend style="border-bottom:0px;">&nbsp;</legend>
                 <div class="row helprow">
-                    <div class="rightarrowdiv">
-                        <h6>
-                            I  <b>Tag</b> consentono di marcare e poter ricercare la lezione per caratteristiche interdisciplinari.<br />
-                            <br />
-                            <p>
-                                Digitando, il sistema ti proporrà dei valori già presenti,
-                                ma se non soddisfano alle tue esigenze, inserisci i dati come meglio preferisci.
-                            </p>
-                        </h6>
-                    </div>
+                    <div class="rightarrowdiv" ng-bind-html="labels.helpTags"></div>
                 </div>
             </fieldset>
             <!-- LESSON TAGS HELP AREA - END -->
@@ -207,28 +193,7 @@
             <fieldset ng-show="local.viewHelp">
                 <legend style="border-bottom:0px;">&nbsp;</legend>
                 <div class="row helprow">
-                    <div class="rightarrowdiv">
-                        <h6>
-                            Inserisci il <b>Contenuto</b> della lezione.
-                            <br />
-                            <br />
-                            Dettaglia i passaggi e gli strumenti utilizzati e descrivi il metodo o l'approccio utilizzato,
-                            in modo che altri docenti possano comprendere la lezione ed imparare.<br />
-                            <br />
-                            <p>
-                                Per poter inserire immagini o video utilizza le funzionalità dell'editor a fianco,
-                                ma ricorda, tutte le immagini devono essere caricate in un tuo spazio web ed accessibili
-                                attraverso un indirizzo web, da inserire nel campo <b>Source</b>.
-                            </p>
-                            <p>
-                                Ti suggeriamo i seguenti se non hai già un tuo spazio web:
-                                <ul>
-                                    <li><a href="http://www.drive.google.com/">Google Drive</a></li>
-                                    <li><a href="https://www.dropbox.com/">Dropbox</a></li>
-                                </ul>
-                            </p>
-                        </h6>
-                    </div>
+                    <div class="rightarrowdiv" ng-bind-html="labels.helpContent"></div>
                 </div>
             </fieldset>
             <!-- LESSON CONTENT HELP AREA - END -->
@@ -239,7 +204,15 @@
                 <legend>{{labels.content}}</legend>
                 <div class="form-group">
                     <div class="col-lg-12">
-                        <textarea type="textarea" class="form-control" id="inputContent" ui-tinymce="model.tinymceoptions" ng-model="local.lesson.content" rows="20" ng-required="true"></textarea>
+                        <textarea type="textarea" 
+                                  class="form-control" 
+                                  id="inputContent" 
+                                  name="content"
+                                  ui-tinymce="model.tinymceoptions" 
+                                  ng-model="local.lesson.content" 
+                                  rows="20" 
+                                  ng-required="true"></textarea>
+                        <input type="button" class="btn btn-danger btn-xs" ng-show="local.isFieldRequired('content')" disabled value="{{labels.requiredField}}" />
                     </div>
                 </div>
             </fieldset>
@@ -253,22 +226,7 @@
             <fieldset ng-show="local.viewHelp">
                 <legend style="border-bottom:0px;">&nbsp;</legend>
                 <div class="row helprow">
-                    <div class="rightarrowdiv">
-                        <h6>
-                            I  <b>Feedback</b> sono il frutto della retrospettiva della lezione, della tua analisi, del tuo punto di vista.<br />
-                            <br />
-                            Cosa è andato bene? Quali gli aspetti positivi della lezione?
-                            <br /><br />
-                            Cosa invece non ha funzionato? Cosa poteva essere evitato? Cosa migliorato?
-                            <br /><br />
-                            <p>
-                                Metti la qualità dell'insegnamento sopra al resto e non temere di indicare gli aspetti negativi riscontrati.
-                                <br />
-                                Sono principalmente questi che consentono di migliorare la tecnica, il metodo e la qualità dell'insegnamento.<br />
-                                Sbagliando si impara!
-                            </p>
-                        </h6>
-                    </div>
+                    <div class="rightarrowdiv" ng-bind-html="labels.helpFeedbacks"></div>
                 </div>
             </fieldset>
             <!-- LESSON FEEDBACKS HELP AREA - END -->
@@ -354,13 +312,7 @@
             <fieldset ng-show="local.viewHelp">
                 <legend style="border-bottom:0px;">&nbsp;</legend>
                 <div class="row helprow">
-                    <div class="rightarrowdiv">
-                        <h6>
-                            Nelle <b>Conclusioni</b> inserisci i punti salienti della lezione.<br /><br />
-                            Il paragrafo è utilizzato nella lista dei risultati della ricerca come <i>abstract</i> della lezione,
-                            perciò è importante riuscire a sintetizzare il contenuto e gli aspetti caratterizzanti.
-                        </h6>
-                    </div>
+                    <div class="rightarrowdiv" ng-bind-html="labels.helpConclusion"></div>
                 </div>
             </fieldset>
             <!-- LESSON CONCLUSION HELP AREA - END -->
@@ -371,7 +323,15 @@
                 <legend>{{labels.conclusion}}</legend>
                 <div class="form-group">
                     <div class="col-lg-12">
-                        <textarea type="textarea" class="form-control" id="inputConclusion" ui-tinymce="model.tinymceoptions" ng-model="local.lesson.conclusion" rows="5" ng-required="true"></textarea>
+                        <textarea type="textarea" 
+                                  class="form-control" 
+                                  id="inputConclusion" 
+                                  name="conclusion"
+                                  ui-tinymce="model.tinymceoptions" 
+                                  ng-model="local.lesson.conclusion" 
+                                  rows="5" 
+                                  ng-required="true"></textarea>
+                        <input type="button" class="btn btn-danger btn-xs" ng-show="local.isFieldRequired('conclusion')" disabled value="{{labels.requiredField}}" />
                     </div>
                 </div>
             </fieldset>
@@ -384,7 +344,7 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-9">
-            <!-- Button (Double) -->
+            <!-- FORM BUTTONS AREA - BEGIN -->
             <div class="control-group pull-right">
                 <div class="controls">
                     <a ng-click="actions.saveLesson()" class="btn btn-primary btn-lg" ng-show="local.user.isLogged">
@@ -397,7 +357,7 @@
                     </a>
                 </div>
             </div>
-
+            <!-- FORM BUTTONS AREA - END -->
         </div>
     </div>
 
