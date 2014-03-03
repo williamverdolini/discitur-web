@@ -39,7 +39,8 @@
                 conclusion: _getLabel('conclusion'),
                 comments: _getLabel('comments'),
                 ratings: _getLabel('ratings'),
-                ratingtHelp: _getLabel('ratingtHelp')
+                ratingtHelp: _getLabel('ratingtHelp'),
+                notPublished: _getLabel('notPublished')
             };
 
             $scope.local = {

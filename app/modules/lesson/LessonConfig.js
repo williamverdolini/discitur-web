@@ -98,12 +98,16 @@
                         // try to get lesson from cache
                         // if not exists then load from service
                         var lessondId = $stateParams.lessonId
-                        var cachedLessonData = DiscUtil.cache.get('lesson')
+                        if (lessondId) {
+                            var cachedLessonData = DiscUtil.cache.get('lesson')
 
-                        if (!angular.isDefined(cachedLessonData) || cachedLessonData.lessonId.toString() !== lessondId)
-                            return _getLessonData(LessonService, $q, $stateParams, $state, DiscUtil);
+                            if (!angular.isDefined(cachedLessonData) || cachedLessonData.lessonId.toString() !== lessondId)
+                                return _getLessonData(LessonService, $q, $stateParams, $state, DiscUtil);
+                            else
+                                return cachedLessonData;
+                        }
                         else
-                            return cachedLessonData;
+                            return LessonService.newLesson();
                     }
                 }
                     

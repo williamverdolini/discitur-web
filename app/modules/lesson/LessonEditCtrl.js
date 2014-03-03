@@ -5,12 +5,14 @@
         'AuthService',
         'lessonData',
         'LessonService',
+        '$state',
         function (
             $scope,
             LabelService,
             AuthService,
             lessonData,
-            LessonService
+            LessonService,
+            $state
             ) {
             //-------- private method -------
             var _getLabel = function (label) {
@@ -43,7 +45,10 @@
                 ratings: _getLabel('ratings'),
                 ratingtHelp: _getLabel('ratingtHelp'),
                 saveLessonButton: _getLabel('saveLessonButton'),
-                publicLesson: _getLabel('publicLesson')
+                cancelButton: _getLabel('cancelButton'),
+                publicLesson: _getLabel('publicLesson'),
+                buttonAdd: _getLabel('buttonAdd'),
+                buttonDel: _getLabel('buttonDel')
             };
 
             $scope.model = {
@@ -65,7 +70,15 @@
                 lessonGood: null,
                 lessonBad: null,
                 searchedTags: [],
-                editForm: {}
+                editForm: {},
+                isToolBarVisible: function () {
+                    if ($scope.local.user.isLogged) {
+                        return $scope.local.lesson.lessonId ? $scope.local.user.username == $scope.local.lesson.author.username : true;
+                    }
+                    else
+                        return false;
+                    //local.user.isLogged && local.user.username == local.lesson.author.username
+                }
             }
 
             $scope.actions = {
@@ -76,6 +89,15 @@
                 // get existant tags value searched by input
                 getTags: function (q) {
                     return LessonService.getDistinctValues('tag', { tagQ: q });
+                },
+                getDisciplines: function (q) {
+                    return LessonService.getDisciplines(q);
+                },
+                getSchools: function (q) {
+                    return LessonService.getSchools(q);
+                },
+                getClassRooms: function (q) {
+                    return LessonService.getClassRooms(q);
                 },
                 // Select and add new Tag to the Lesson
                 selectTag: function () {
@@ -145,10 +167,30 @@
                         console.log($scope.local.lesson);
                         $scope.local.lesson.author = $scope.local.user;
                         $scope.local.lesson.lastModifUser = $scope.local.user.username;
-                        LessonService.save($scope.local.lesson)
-                            .then(function (data) { console.log(data); }) // success
+
+                        if (!$scope.local.lesson.lessonId){
+                            $scope.local.lesson.lessonId = 0;
+                            LessonService.create($scope.local.lesson)
+                                .then(function (data) {// success
+                                    $state.go('lessonDetail', { lessonId: data.lessonId }, { inherit: false });
+                                })
+                        }
+                        else {
+                            LessonService.save($scope.local.lesson)
+                                .then(function (data) {// success
+                                    $state.go('lessonDetail', { lessonId: data.lessonId }, { inherit: false });
+                                })
+                        }
 
                     }
+                },
+                // Cancel editing operation
+                cancelEditing: function () {
+                    // set inherit option to false to avoid conflict with parameters in URL set by advancedSearch
+                    if ($scope.local.lesson.lessonId > 0)
+                        $state.go('lessonDetail', { lessonId: lessonData.lessonId }, { inherit: false });
+                    else
+                        $state.go('lessonSearch', { keywod: ''}, { inherit: false });
                 }
 
 

@@ -1,7 +1,7 @@
 ﻿<!-- Lesson's Heading Area -->
 <div id="LessonHeading" class="jumbotron">
     <input type="hidden" name="lesson.id" value="{{lesson.lessonId}}" />
-    <h1>{{lesson.title}}</h1>
+    <h1>{{lesson.title}} <small ng-show="!lesson.isPublished" tooltip="{{labels.notPublished}}" tooltip-placement="bottom">(<span class="glyphicon glyphicon-lock"></span>)</small></h1>
     <div class="row">
         <div class="col-md-12">
             <span class="Lesson-Features col-md-12">{{labels.specifics}}</span>

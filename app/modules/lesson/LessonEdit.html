@@ -1,71 +1,166 @@
-﻿<form class="bs-example form-horizontal" name="local.editForm" ng-submit="actions.saveLesson()" novalidate>
+﻿<style>
+
+    .helprow {
+        border-right: 1px solid #808080;
+        -moz-border-radius: 4px; /*add some nice CSS3 round corners*/
+        -webkit-border-radius: 4px;
+        margin-bottom: 1px;
+    }
+    
+    .uparrowdiv, .downarrowdiv, .leftarrowdiv, .rightarrowdiv {
+        min-height: 40px; /*min height of DIV should be set to at least 2x the width of the arrow*/
+        padding: 5px;
+        position: relative;
+        word-wrap: break-word;
+        -moz-border-radius: 5px; /*add some nice CSS3 round corners*/
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+        .rightarrowdiv:after { /*arrow added to rightarrowdiv DIV*/
+            content: '';
+            display: block;
+            position: absolute;
+            top: 40%;
+            left: 100%; /*should be set to 100% */
+            width: 0;
+            height: 0;
+            border-color: transparent transparent transparent #808080; /*border color should be same as div div background color*/
+            border-style: solid;
+            border-width: 10px;
+        }
+
+</style>
+
+<form class="bs-example form-horizontal" name="local.editForm" ng-submit="actions.saveLesson()" novalidate>
 
     <div class="row">
-        <!-- SIDE BAR AREA -->
-        <div class="col-md-3">
-            <div class="panel" ng-show="local.user.isLogged && local.user.username==local.lesson.author.username">
-                <div class="panel-content">
-                    <div class="checkbox">
-                        <h4>
-                            <label>
-                                <input type="checkbox" ng-model="local.lesson.isPublished">{{labels.publicLesson}}
-                            </label>
-                        </h4>
+        <div class="col-md-3" >
+            <!-- LESSON TITLE HELP AREA - BEGIN -->
+            <fieldset ng-show="local.viewHelp">
+                <legend>Help&nbsp;</legend>
+                <div class="row helprow">
+                    <div class="rightarrowdiv">
+                        <h6>
+                            Marcando il check <b>Pubblica</b> la lezione sarà visibile a tutti.<br />
+                            Tieni la lezione privata mentre la stai preparando. Sarà visibile solo a te
+                            ed accessibile tramite la funzionalità di profilo <b>Le tue Lezioni</b>.
+                        </h6>
                     </div>
-
-
-                    <div class="btn-group btn-group-justified">
-                        <a ng-click="actions.saveLesson()" class="btn btn-default btn-lg">
-                            <span class="glyphicon glyphicon-floppy-disk pull-left"></span>
-                            <span>{{labels.saveLessonButton}}</span>
-                        </a>
-                    </div>
-
-                    <div class="btn-group btn-group-justified">
-                        <a class="btn btn-lg btn-info">
-                            <span class="glyphicon glyphicon-off pull-left"></span>
-                            <span>Annulla</span>
-                        </a>
-                    </div>
-
-                </div><!--/panel content-->
-            </div><!--/panel-->
+                </div>
+            </fieldset>
+            <!-- LESSON TITLE HELP AREA - END -->
         </div>
-        <!-- MAIN CONTENT AREA -->
         <div class="col-md-9">
-
+            <!-- LESSON TITLE AREA - BEGIN -->
             <fieldset>
-                <legend>{{labels.lessonTitleHeading}}</legend>
+                <legend>{{labels.lessonTitleHeading}} <a ng-click="local.viewHelp=!local.viewHelp"><span class="glyphicon glyphicon-question-sign pull-right" tooltip="Mostra Help" tooltip-placement="left"></span></a></legend>
                 <div class="form-group">
                     <label for="inputTitle" class="col-lg-2 control-label">{{labels.lessonTitle}}</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="inputTitle" placeholder="{{labels.lessonTitle}}" ng-model="local.lesson.title" ng-required="true">
                     </div>
                 </div>
-            </fieldset>
 
+                <div class="form-group">
+                    <label for="inputPublish" class="col-lg-2 control-label">{{labels.publicLesson}}</label>
+                    <div class="controls col-lg-10">
+                        <label class="checkbox">
+                            <input type="checkbox" ng-model="local.lesson.isPublished">
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- LESSON TITLE AREA - END -->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <!-- LESSON SPECIFICS HELP AREA - BEGIN -->
+            <fieldset ng-show="local.viewHelp">
+                <legend style="border-bottom:0px;">&nbsp;</legend>
+                <div class="row helprow">
+                    <div class="rightarrowdiv">
+                        <h6>
+                            Digitando sui campi il sistema ti proporrà dei valori già presenti a sistema.<br />
+                            <br />
+                            <p>
+                                Se non soddisfano alle tue esigenze inserisci i dati come meglio preferisci.
+                            </p>
+                        </h6>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- LESSON SPECIFICS HELP AREA - END -->
+        </div>
+        <div class="col-md-9">
+            <!-- LESSON SPECIFICS AREA - BEGIN -->
             <fieldset>
                 <legend>{{labels.specifics}}</legend>
                 <div class="form-group">
                     <label for="inputDiscipline" class="col-lg-2 control-label">{{labels.discipline}}</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputDiscipline" placeholder="{{labels.discipline}}" ng-model="local.lesson.discipline" ng-required="true">
+                        <input type="text" class="form-control"
+                               id="inputDiscipline"
+                               placeholder="{{labels.discipline}}"
+                               ng-model="local.lesson.discipline"
+                               typeahead-wait-ms="300"
+                               typeahead="k for k in actions.getDisciplines($viewValue) | filter:$viewValue"
+                               ng-required="true">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputScuola" class="col-lg-2 control-label">{{labels.school}}</label>
+                    <label for="inputSchool" class="col-lg-2 control-label">{{labels.school}}</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputScuola" placeholder="{{labels.school}}" ng-model="local.lesson.school" ng-required="true">
+                        <input type="text" class="form-control"
+                               id="inputSchool"
+                               placeholder="{{labels.school}}"
+                               ng-model="local.lesson.school"
+                               typeahead-wait-ms="300"
+                               typeahead="k for k in actions.getSchools($viewValue) | filter:$viewValue"
+                               ng-required="true">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputClasse" class="col-lg-2 control-label">{{labels.classroom}}</label>
+                    <label for="inputClassroom" class="col-lg-2 control-label">{{labels.classroom}}</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="inputClasse" placeholder="{{labels.classroom}}" ng-model="local.lesson.classroom" ng-required="true">
+                        <input type="text" class="form-control"
+                               id="inputClassroom"
+                               placeholder="{{labels.classroom}}"
+                               ng-model="local.lesson.classroom"
+                               typeahead-wait-ms="300"
+                               typeahead="k for k in actions.getClassRooms($viewValue) | filter:$viewValue"
+                               ng-required="true">
                     </div>
                 </div>
             </fieldset>
+            <!-- LESSON SPECIFICS AREA - END -->
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-3">
+            <!-- LESSON TAGS HELP AREA - BEGIN -->
+            <fieldset ng-show="local.viewHelp">
+                <legend style="border-bottom:0px;">&nbsp;</legend>
+                <div class="row helprow">
+                    <div class="rightarrowdiv">
+                        <h6>
+                            I  <b>Tag</b> consentono di marcare e poter ricercare la lezione per caratteristiche interdisciplinari.<br />
+                            <br />
+                            <p>
+                                Digitando, il sistema ti proporrà dei valori già presenti,
+                                ma se non soddisfano alle tue esigenze, inserisci i dati come meglio preferisci.
+                            </p>
+                        </h6>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- LESSON TAGS HELP AREA - END -->
+        </div>
+        <div class="col-md-9">
+            <!-- LESSON TAGS AREA - BEGIN -->
             <fieldset>
                 <legend>{{labels.tags}}</legend>
 
@@ -79,7 +174,7 @@
                                    typeahead="k for k in actions.getTags($viewValue) | filter:$viewValue"
                                    typeahead-on-select="actions.selectTag()">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" ng-click="actions.selectTag()" type="button">+</button>
+                                <button class="btn btn-default" ng-click="actions.selectTag()" type="button">{{labels.buttonAdd}}</button>
                             </span>
                         </div>
                     </div>
@@ -93,7 +188,7 @@
                                 <button type="button" class="btn btn-success" disabled="disabled">
                                     {{tag.content}}
                                 </button>
-                                <button type="button" class="btn btn-default" ng-click="actions.removeTag($index)">{{labels.buttonDel}}X</button>
+                                <button type="button" class="btn btn-default" ng-click="actions.removeTag($index)">{{labels.buttonDel}}</button>
 
                             </div>
                         </span>
@@ -102,9 +197,44 @@
 
 
             </fieldset>
+            <!-- LESSON TAGS AREA - END -->
+        </div>
+    </div>
 
-
-
+    <div class="row">
+        <div class="col-md-3">
+            <!-- LESSON CONTENT HELP AREA - BEGIN -->
+            <fieldset ng-show="local.viewHelp">
+                <legend style="border-bottom:0px;">&nbsp;</legend>
+                <div class="row helprow">
+                    <div class="rightarrowdiv">
+                        <h6>
+                            Inserisci il <b>Contenuto</b> della lezione.
+                            <br />
+                            <br />
+                            Dettaglia i passaggi e gli strumenti utilizzati e descrivi il metodo o l'approccio utilizzato,
+                            in modo che altri docenti possano comprendere la lezione ed imparare.<br />
+                            <br />
+                            <p>
+                                Per poter inserire immagini o video utilizza le funzionalità dell'editor a fianco,
+                                ma ricorda, tutte le immagini devono essere caricate in un tuo spazio web ed accessibili
+                                attraverso un indirizzo web, da inserire nel campo <b>Source</b>.
+                            </p>
+                            <p>
+                                Ti suggeriamo i seguenti se non hai già un tuo spazio web:
+                                <ul>
+                                    <li><a href="http://www.drive.google.com/">Google Drive</a></li>
+                                    <li><a href="https://www.dropbox.com/">Dropbox</a></li>
+                                </ul>
+                            </p>
+                        </h6>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- LESSON CONTENT HELP AREA - END -->
+        </div>
+        <div class="col-md-9">
+            <!-- LESSON CONTENT AREA - BEGIN -->
             <fieldset>
                 <legend>{{labels.content}}</legend>
                 <div class="form-group">
@@ -113,96 +243,130 @@
                     </div>
                 </div>
             </fieldset>
+            <!-- LESSON CONTENT AREA - END -->
+        </div>
+    </div>
 
-            <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <!-- LESSON FEEDBACKS HELP AREA - BEGIN -->
+            <fieldset ng-show="local.viewHelp">
+                <legend style="border-bottom:0px;">&nbsp;</legend>
+                <div class="row helprow">
+                    <div class="rightarrowdiv">
+                        <h6>
+                            I  <b>Feedback</b> sono il frutto della retrospettiva della lezione, della tua analisi, del tuo punto di vista.<br />
+                            <br />
+                            Cosa è andato bene? Quali gli aspetti positivi della lezione?
+                            <br /><br />
+                            Cosa invece non ha funzionato? Cosa poteva essere evitato? Cosa migliorato?
+                            <br /><br />
+                            <p>
+                                Metti la qualità dell'insegnamento sopra al resto e non temere di indicare gli aspetti negativi riscontrati.
+                                <br />
+                                Sono principalmente questi che consentono di migliorare la tecnica, il metodo e la qualità dell'insegnamento.<br />
+                                Sbagliando si impara!
+                            </p>
+                        </h6>
+                    </div>
+                </div>
+            </fieldset>
+            <!-- LESSON FEEDBACKS HELP AREA - END -->
+        </div>
+        <div class="col-md-9">
+            <!-- LESSON FEEDBACKS AREA - BEGIN -->
+            <fieldset>
+                <legend>&nbsp;</legend>
+                <div id="LessonSummary" class="row">
+                    <div id="lessonGoods" class="col-md-6">
+                        <div class="panel panel-info">
+                            <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
+                            <div class="panel-body" ng-model="local.lesson.lessonGoods">
 
-            <!-- Lesson's Feedbacks Area -->
-            <div id="LessonSummary" class="row">
-                <div id="lessonGoods" class="col-md-6">
-                    <div class="panel panel-info">
-                        <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
-                        <div class="panel-body" ng-model="local.lesson.lessonGoods">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-1 input-group">
+                                            <input class="form-control" type="text" ng-model="local.lessonGood">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="actions.addGood()" type="button">{{labels.buttonAdd}}</button>
+                                            </span>
+                                        </div>
 
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-1 input-group">
-                                        <input class="form-control" type="text" ng-model="local.lessonGood">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" ng-click="actions.addGood()" type="button">Salva</button>
-                                        </span>
                                     </div>
 
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-lg-12">
-                                        <ol>
-                                            <li ng-repeat="good in local.lesson.goods | filter:actions.filterByActiveStatus">
-                                                <wr-input wr-text="good.content" wr-ref="$index" edit-text="actions.editGood(ref)" remove-text="actions.removeGood(ref)"></wr-input>
-                                                <!--
-        <input type="text" value="{{good}}" ng-show="local['goodedit'+$index]" class="input-sm" />
-        <span ng-show="!local['goodedit'+$index]">{{good}}</span>
-        [
-        <div class="btn-group">
-            <span class="glyphicon glyphicon-pencil" ng-click="local['goodedit'+$index]=!local['goodedit'+$index];"></span>
-        </div>
-        |
-        <div class="btn-group">
-            <span class="glyphicon glyphicon-remove" ng-click="local.lesson.goods.splice($index, 1)"></span>
-        </div>
-        ]
-        -->
-                                            </li>
-                                        </ol>
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            <ol>
+                                                <li ng-repeat="good in local.lesson.goods | filter:actions.filterByActiveStatus">
+                                                    <wr-input wr-text="good.content" wr-ref="$index" edit-text="actions.editGood(ref)" remove-text="actions.removeGood(ref)"></wr-input>
+                                                </li>
+                                            </ol>
+                                        </div>
                                     </div>
-                                </div>
 
 
-                            </fieldset>
+                                </fieldset>
 
 
 
+                            </div>
+                        </div>
+                    </div>
+                    <div id="lessonBads" class="col-md-6">
+                        <div class="panel panel-warning">
+                            <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
+                            <div class="panel-body">
+
+                                <fieldset>
+                                    <div class="form-group">
+                                        <div class="col-lg-10 col-lg-offset-1 input-group">
+                                            <input class="form-control" type="text" ng-model="local.lessonBad">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" ng-click="actions.addBad()" type="button">{{labels.buttonAdd}}</button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-lg-12">
+                                            <ol>
+                                                <li ng-repeat="bad in local.lesson.bads | filter:actions.filterByActiveStatus">
+                                                    <wr-input wr-text="bad.content" wr-ref="$index" edit-text="actions.editBad(ref)" remove-text="actions.removeBad(ref)"></wr-input>
+                                                </li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="lessonBads" class="col-md-6">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
-                        <div class="panel-body">
+            </fieldset>
+            <!-- LESSON FEEDBACKS AREA - END -->
+</div>
+    </div>
 
-                            <fieldset>
-                                <div class="form-group">
-                                    <div class="col-lg-10 col-lg-offset-1 input-group">
-                                        <input class="form-control" type="text" ng-model="local.lessonBad">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" ng-click="actions.addBad()" type="button">Salva</button>
-                                        </span>
-                                    </div>
-
-                                </div>
-
-                                <div class="form-group">
-                                    <div class="col-lg-12">
-                                        <ol>
-                                            <li ng-repeat="bad in local.lesson.bads | filter:actions.filterByActiveStatus">
-                                                <wr-input wr-text="bad.content" wr-ref="$index" edit-text="actions.editBad(ref)" remove-text="actions.removeBad(ref)"></wr-input>
-                                            </li>
-                                        </ol>
-                                    </div>
-                                </div>
-
-
-                            </fieldset>
-
-
-
-                        </div>
+    <div class="row">
+        <div class="col-md-3">
+            <!-- LESSON CONCLUSION HELP AREA - BEGIN -->
+            <fieldset ng-show="local.viewHelp">
+                <legend style="border-bottom:0px;">&nbsp;</legend>
+                <div class="row helprow">
+                    <div class="rightarrowdiv">
+                        <h6>
+                            Nelle <b>Conclusioni</b> inserisci i punti salienti della lezione.<br /><br />
+                            Il paragrafo è utilizzato nella lista dei risultati della ricerca come <i>abstract</i> della lezione,
+                            perciò è importante riuscire a sintetizzare il contenuto e gli aspetti caratterizzanti.
+                        </h6>
                     </div>
                 </div>
-            </div>
-
-
-
+            </fieldset>
+            <!-- LESSON CONCLUSION HELP AREA - END -->
+        </div>
+        <div class="col-md-9">
+            <!-- LESSON CONCLUSION AREA - BEGIN -->
             <fieldset>
                 <legend>{{labels.conclusion}}</legend>
                 <div class="form-group">
@@ -211,80 +375,30 @@
                     </div>
                 </div>
             </fieldset>
+            <!-- LESSON CONCLUSION AREA - END -->
+            <hr />
 
         </div>
     </div>
 
-    <!--
-    <fieldset>
-        <legend>Titolo della Lezione</legend>
-        <div class="form-group">
-            <label for="inputTitle" class="col-lg-2 control-label">Titolo</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputTitle" placeholder="Titolo">
-            </div>
-        </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>{{labels.specifics}}</legend>
-        <div class="form-group">
-            <label for="inputDiscipline" class="col-lg-2 control-label">{{labels.discipline}}</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputDiscipline" placeholder="{{labels.discipline}}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputScuola" class="col-lg-2 control-label">{{labels.school}}</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputScuola" placeholder="{{labels.school}}">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputClasse" class="col-lg-2 control-label">{{labels.classroom}}</label>
-            <div class="col-lg-10">
-                <input type="text" class="form-control" id="inputClasse" placeholder="{{labels.classroom}}">
-            </div>
-        </div>
-    </fieldset>
-
-    <fieldset>
-        <legend>{{labels.content}}</legend>
-        <div class="form-group">
-            <div class="col-lg-12">
-                <textarea type="textarea" class="form-control" id="inputContent" ui-tinymce="model.tinymceoptions" ng-model="model.content" rows="20"></textarea>
-            </div>
-        </div>
-    </fieldset>
-
-    <hr />
-
-    <div id="LessonSummary" class="row">
-        <div id="lessonGoods" class="col-md-6">
-            <div class="panel panel-info">
-                <div class="panel-heading"><h3>{{labels.lessonGoods}}</h3></div>
-                <div class="panel-body" ng-model="model.lessonGoods">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-9">
+            <!-- Button (Double) -->
+            <div class="control-group pull-right">
+                <div class="controls">
+                    <a ng-click="actions.saveLesson()" class="btn btn-primary btn-lg" ng-show="local.user.isLogged">
+                        <span class="glyphicon glyphicon-floppy-disk pull-left"></span>
+                        <span>{{labels.saveLessonButton}}</span>
+                    </a>
+                    <a ng-click="actions.cancelEditing()" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-off pull-left"></span>
+                        <span>{{labels.cancelButton}}</span>
+                    </a>
                 </div>
             </div>
-        </div>
-        <div id="lessonBads" class="col-md-6">
-            <div class="panel panel-warning">
-                <div class="panel-heading"><h3>{{labels.lessonBads}}</h3></div>
-                <div class="panel-body" ng-model="model.lessonGoods">
-                </div>
-            </div>
+
         </div>
     </div>
 
-
-
-    <fieldset>
-        <legend>{{labels.conclusion}}</legend>
-        <div class="form-group">
-            <div class="col-lg-12">
-                <textarea type="textarea" class="form-control" id="inputConclusion" ui-tinymce="model.tinymceoptions" ng-model="model.conclusion" rows="5"></textarea>
-            </div>
-        </div>
-    </fieldset>
-    -->
 </form>

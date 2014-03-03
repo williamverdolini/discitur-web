@@ -373,6 +373,15 @@
                     return deferred.promise;
 
                 },
+                getDisciplines : function (q) {
+                    return _lessonService.getDistinctValues('discipline', { disciplineQ: q });
+                },
+                getSchools : function (q) {
+                    return _lessonService.getDistinctValues('school', { schoolQ: q });
+                },
+                getClassRooms : function (q) {
+                    return _lessonService.getDistinctValues('classroom', { classroomQ: q });
+                },
                 // Get Async list of lesson's users comments
                 getComments: function (inputParams) {
                     DiscUtil.validateInput(
@@ -645,6 +654,40 @@
                             });
                     // create deferring result
                     return deferred.promise;
+                },
+                // Create new Lesson
+                create: function (lesson) {
+                    var _lesson = _lessonMap(lesson);
+
+                    /* NO INPUT VALIDATION DONE ON CLIENT
+                    DiscUtil.validateInput(
+                        'LessonService.save',       // function name for logging purposes
+                        new LessonDTO(),            // hashmap to check inputParameters e set default values
+                        _lesson                      // actual input params
+                        );
+                    */
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'POST', url: DisciturSettings.apiUrl + 'lesson', data: _lesson })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                deferred.resolve(_dataTransfer(result))
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error creating lesson id:" + _lesson.lessonId + " -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+
+                },
+                // New LessonDto Factory
+                newLesson: function () {
+                    return new LessonDTO();
                 }
 
             };

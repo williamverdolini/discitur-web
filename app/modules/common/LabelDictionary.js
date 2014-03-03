@@ -5,6 +5,7 @@
         loading: "Caricamento in corso...",
         lessonTitleHeading: "Titolo della Lezione",
         lessonTitle: "Titolo",
+        notPublished: "Lezione non pubblicata",
         specifics : "Caratteristiche",
         discipline: "Disciplina",
         school: "Scuola",
@@ -74,7 +75,7 @@
             lessonGoods: "Cosa è andato bene",
             lessonBads: "Cosa è andato male"
         },
-        'LessonNewsCtrl': {
+        'LessonListCtrl': {
             publishedOn: "Pubblicato il",
             noLessonFound: "Nessuna Lezione trovata."
         },
@@ -83,6 +84,8 @@
         },
         'LessonEditCtrl': {
             saveLessonButton: "Salva la Lezione",
+            deleteLessonButton: "Elimina la Lezione",
+            cancelButton: "Annulla",
             publicLesson: "Pubblica"
         }
     }
