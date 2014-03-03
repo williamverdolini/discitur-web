@@ -20,6 +20,7 @@
                 },
                 link: function (scope, element, attrs) {
                     //-------- private methods-------
+
                     // call Label Service to get dynamic labels
                     var _getLabel = function (label) {
                         return LabelService.get('LessonRatingDrv', label);
@@ -63,7 +64,9 @@
                         ratingSave: _getLabel('ratingSave'),
                         ratingRequired: _getLabel('ratingRequired'),
                         ratingNotDelete: _getLabel('ratingNotDelete'),
-                        ratingInput: _getLabel('ratingInput')
+                        ratingInput: _getLabel('ratingInput'),
+                        editTooltip: _getLabel('editTooltip'),
+                        deleteTooltip: _getLabel('deleteTooltip')
                     };
 
                     //-------- public methods-------

@@ -95,7 +95,9 @@
                     "<br />Sono principalmente questi che consentono di migliorare la tecnica, il metodo e la qualità dell'insegnamento.<br />Sbagliando si impara!</p></h6>",
         helpConclusion: "<h6>Nelle <b>Conclusioni</b> inserisci i punti salienti della lezione.<br /><br />"+
                     "Il paragrafo è utilizzato nella lista dei risultati della ricerca come <i>abstract</i> della lezione,"+
-                    "perciò è importante riuscire a sintetizzare il contenuto e gli aspetti caratterizzanti.</h6>"
+                    "perciò è importante riuscire a sintetizzare il contenuto e gli aspetti caratterizzanti.</h6>",
+        editTooltip: "Modifica",
+        deleteTooltip: "Elimina"
     }
 )
 .value('overrides',

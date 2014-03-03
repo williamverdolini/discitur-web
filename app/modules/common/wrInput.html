@@ -4,11 +4,11 @@
     <span ng-show="!local.edit">{{wrText}}</span>
     [
     <div class="btn-group">
-        <span class="glyphicon glyphicon-pencil" ng-click="actions.edit()"></span>
+        <span class="glyphicon glyphicon-pencil" ng-click="actions.edit()" tooltip="{{labels.editTooltip}}"></span>
     </div>
     |
     <div class="btn-group">
-        <span class="glyphicon glyphicon-remove" ng-click="actions.remove()"></span>
+        <span class="glyphicon glyphicon-remove" ng-click="actions.remove()" tooltip="{{labels.deleteTooltip}}"></span>
     </div>
     ]
 

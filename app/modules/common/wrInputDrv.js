@@ -31,6 +31,8 @@
                     }
 
                     scope.labels = {
+                        editTooltip: _getLabel('editTooltip'),
+                        deleteTooltip: _getLabel('deleteTooltip')
                     };
 
                     //-------- public methods-------

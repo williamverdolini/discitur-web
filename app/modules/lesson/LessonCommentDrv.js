@@ -20,6 +20,7 @@
                 },
                 link: function (scope, element, attrs) {
                     //-------- private methods-------
+
                     // call Label Service to get dynamic labels
                     var _getLabel = function (label) {
                         return LabelService.get('LessonCtrl', label);
@@ -50,7 +51,9 @@
                         commentPreview: _getLabel('commentPreview'),
                         commentSave: _getLabel('commentSave'),
                         commentRequired: _getLabel('commentRequired'),
-                        commentNotDelete: _getLabel('commentNotDelete')
+                        commentNotDelete: _getLabel('commentNotDelete'),
+                        editTooltip: _getLabel('editTooltip'),
+                        deleteTooltip: _getLabel('deleteTooltip')
                     };
 
                     //-------- public methods-------

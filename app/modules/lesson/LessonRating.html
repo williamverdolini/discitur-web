@@ -10,8 +10,8 @@
                 <div class="panel-heading">
                     <b>{{userRating.author.username}}</b> - <small>{{userRating.date | date:'dd/MM/yyyy HH:mm'}}</small>
                     <div class="btn-group btn-group-xs pull-right" ng-show="local.user.isLogged && local.sameUser">
-                        <button type="button" class="btn btn-inverse" ng-click="local.edit=!local.edit;local.EditText=userRating.content;local.EditRating=userRating.rating"><span class="glyphicon glyphicon-edit"></span></button>
-                        <button type="button" class="btn btn-inverse" ng-click="actions.deleteRating()"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button type="button" class="btn btn-inverse" ng-click="local.edit=!local.edit;local.EditText=userRating.content;local.EditRating=userRating.rating" tooltip="{{labels.editTooltip}}"><span class="glyphicon glyphicon-edit"></span></button>
+                        <button type="button" class="btn btn-inverse" ng-click="actions.deleteRating()" tooltip="{{labels.deleteTooltip}}"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
                 </div>
                 <div class="panel-body">

@@ -10,8 +10,8 @@
                 <div class="panel-heading">
                     <b>{{comment.author.username}}</b> - <small>{{comment.date | date:'dd/MM/yyyy HH:mm'}}</small>
                     <div class="btn-group btn-group-xs pull-right" ng-show="local.isLogged && local.sameUser">
-                        <button type="button" class="btn btn-inverse" ng-click="local.edit=!local.edit;local.EditText=comment.content"><span class="glyphicon glyphicon-edit"></span></button>
-                        <button type="button" class="btn btn-inverse" ng-click="actions.deleteComment()"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button type="button" class="btn btn-inverse" ng-click="local.edit=!local.edit;local.EditText=comment.content" tooltip="{{labels.editTooltip}}"><span class="glyphicon glyphicon-edit"></span></button>
+                        <button type="button" class="btn btn-inverse" ng-click="actions.deleteComment()" tooltip="{{labels.deleteTooltip}}"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
                 </div>
                 <div class="panel-body" >
@@ -25,8 +25,8 @@
                             </div>
                             <!-- User Comment Toolbar-->
                             <div class="form-group">
-                                <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" />
-                                <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserEditCommentForm.CommentTXT.$invalid && local.UserEditCommentForm.CommentTXT.$dirty" disabled value="{{labels.commentRequired}}" />
+                                <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" tooltip="{{labels.editTooltip}}" />
+                                <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserEditCommentForm.CommentTXT.$invalid && local.UserEditCommentForm.CommentTXT.$dirty" disabled value="{{labels.commentRequired}}" tooltip="{{labels.deleteTooltip}}" />
                             </div>
 
                         </form>
@@ -96,8 +96,8 @@
                 <!-- User Answer Comment -->
                 <div class="form-group">
                     <div class="col-md-12" ng-show="local.isLogged">
-                        <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" />
-                        <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserCommentForm.CommentTXT.$invalid && local.UserCommentForm.CommentTXT.$dirty" disabled value="{{labels.commentRequired}}" />
+                        <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" tooltip="{{labels.editTooltip}}" />
+                        <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserCommentForm.CommentTXT.$invalid && local.UserCommentForm.CommentTXT.$dirty" disabled value="{{labels.commentRequired}}" tooltip="{{labels.deleteTooltip}}" />
                     </div>
                 </div>
             </form>
