@@ -1,7 +1,7 @@
 ﻿<div class="row" ng-repeat="lesson in lessons">
     <div>
         <h2>
-            {{lesson.title}} 
+            {{lesson.title}} <small ng-show="!lesson.isPublished" tooltip="{{labels.notPublished}}" tooltip-placement="bottom">(<span class="glyphicon glyphicon-lock"></span>)</small>
             <h4><rating value="lesson.rate" readonly="true"></rating><span class="label label-info">{{lesson.rate}}</span></h4>
             <h4><small>{{lesson.author.name}} {{lesson.author.surname}} - {{labels.publishedOn}}: {{lesson.publishedOn | date}}</small></h4>
         </h2>
@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-md-8">
             <div>
-                <p>{{lesson.conclusion}} </p>
+                <p ng-bind-html="lesson.conclusion"></p>
                 <p><a class="btn btn-default" ng-href="#/lesson/{{lesson.lessonId}}">{{labels.viewMore}}</a></p>
             </div>
         </div>
