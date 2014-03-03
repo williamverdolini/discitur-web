@@ -18,19 +18,23 @@
             }
             //--------- Controller public methods ------   
             $scope.getDisciplines = function (q) {
-                return LessonService.getDistinctValues('discipline', { disciplineQ: q });
+                return LessonService.getDisciplines(q);
+                //return LessonService.getDistinctValues('discipline', { disciplineQ: q });
             }
 
             $scope.getSchools = function (q) {
-                return LessonService.getDistinctValues('school', { schoolQ: q });
+                return LessonService.getSchools(q);
+                //return LessonService.getDistinctValues('school', { schoolQ: q });
             }
 
             $scope.getClassRooms = function (q) {
-                return LessonService.getDistinctValues('classroom', { classroomQ: q });
+                return LessonService.getClassRooms(q);
+                //return LessonService.getDistinctValues('classroom', { classroomQ: q });
             }
 
             $scope.getTags = function (q) {
-                return LessonService.getDistinctValues('tag', { tagQ: q });
+                return LessonService.getTags(q);
+                //return LessonService.getDistinctValues('tag', { tagQ: q });
             }
 
             $scope.addSearchedTag = function () {

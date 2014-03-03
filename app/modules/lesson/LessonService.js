@@ -243,6 +243,45 @@
                     data2api.status = lesson.status;
                 return data2api;
             }
+            // Get Async list of values
+            var _getDistinctValues= function (type, inputParams) {
+                switch (type) {
+                    case('discipline') :
+                        DiscUtil.validateInput('LessonService.getDistinctValues.discipline', { disciplineQ: null }, inputParams);
+                        break;
+                    case ('school'):
+                        DiscUtil.validateInput('LessonService.getDistinctValues.school', { schoolQ: null }, inputParams);
+                        break;
+                    case ('classroom'):
+                        DiscUtil.validateInput('LessonService.getDistinctValues.classroom', { classroomQ: null }, inputParams);
+                        break;
+                    case ('tag'):
+                        DiscUtil.validateInput('LessonService.getDistinctValues.tag', { tagQ: null }, inputParams);
+                        break;
+                    default:
+                        throw { code: 20003, message: 'invalid type string for LessonService.getDistinctValues :' + type }
+                }
+
+                // create deferring result
+                var deferred = $q.defer();
+
+                // Retrieve Async data for lesson id in input        
+                $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson', params: inputParams, cache: true })
+                    .success(
+                        // Success Callback: Data Transfer Object Creation
+                        function (result) {
+                            deferred.resolve(result)
+                        })
+                    .error(
+                        // Error Callback
+                        function (data) {
+                            deferred.reject("Error for LessonService.getDistinctValues:" + data);
+                        });
+                // create deferring result
+                return deferred.promise;
+
+            }
+
 
             //-------- private properties -------
             var _currentInput;
@@ -336,6 +375,7 @@
                     //return this.search(_currentInput)
                 },
                 // Get Async list of disciplines
+                /*
                 getDistinctValues: function (type, inputParams) {
                     switch (type) {
                         case('discipline') :
@@ -373,14 +413,22 @@
                     return deferred.promise;
 
                 },
+                */
+                // Get Async list of unique disciplines by value
                 getDisciplines : function (q) {
-                    return _lessonService.getDistinctValues('discipline', { disciplineQ: q });
+                    return _getDistinctValues('discipline', { disciplineQ: q });
                 },
+                // Async list of unique schools by value
                 getSchools : function (q) {
-                    return _lessonService.getDistinctValues('school', { schoolQ: q });
+                    return _getDistinctValues('school', { schoolQ: q });
                 },
+                // Async list of unique classrooms by value
                 getClassRooms : function (q) {
-                    return _lessonService.getDistinctValues('classroom', { classroomQ: q });
+                    return _getDistinctValues('classroom', { classroomQ: q });
+                },
+                // Async list of unique tags by value
+                getTags: function (q) {
+                    return _getDistinctValues('tag', { tagQ: q });
                 },
                 // Get Async list of lesson's users comments
                 getComments: function (inputParams) {
