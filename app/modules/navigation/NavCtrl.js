@@ -36,7 +36,7 @@
             ]
 
             $scope.isActiveMenu = function(index){
-                return ($location.path().indexOf($scope.menu[index].route) == 0);
+                return ($location.path().indexOf($scope.menu[index].route) >= 0);
             }
             $scope.hasSubMenu = function (index) {
                 return ($scope.menu[index].subMenu !== undefined && $scope.menu[index].subMenu.length>0);
