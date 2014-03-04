@@ -19,11 +19,11 @@
                     <div class="col-md-12" ng-bind-html="comment.content" ng-show="!local.edit"></div>
                     <!-- Edit User Comment -->
                     <div class="col-md-12" ng-show="local.isLogged && local.edit">
-                        <form name="local.UserEditCommentForm" class="form-horizontal" novalidate ng-submit="actions.editComment()">
+                        <form name="local.UserEditCommentForm" class="form-horizontal" novalidate ng-submit="actions.updateComment()">
                             <div class="form-group">
                                 <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.EditText" placeholder="{{labels.commentPlaceholder}}" ng-required="true"></textarea>
                             </div>
-                            <!-- User Comment Toolbar-->
+                            <!-- User Comment Toolbar -->
                             <div class="form-group">
                                 <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.commentSave}}" tooltip="{{labels.editTooltip}}" />
                                 <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserEditCommentForm.CommentTXT.$invalid && local.UserEditCommentForm.CommentTXT.$dirty" disabled value="{{labels.commentRequired}}" tooltip="{{labels.deleteTooltip}}" />
@@ -44,7 +44,7 @@
         <!-- User Anwser (nested comment of other user's comments) -->
         <div class="row">
             <div class="col-md-12" ng-show="local.isLogged && local.answer">
-                <form name="local.UserCommentForm" class="form-horizontal" novalidate ng-submit="actions.saveComment()">
+                <form name="local.UserCommentForm" class="form-horizontal" novalidate ng-submit="actions.createComment()">
                     <tabset>
                         <!-- Edit New User Answer -->
                         <tab heading="{{labels.commentEdit}}">
@@ -78,7 +78,7 @@
     <div class="col-md-12" ng-if="local.base">
         <div class="col-md-12" ng-show="!local.isLogged">{{labels.commentHelp}}</div>
         <div class="col-md-12">
-            <form name="local.UserCommentForm" class="form-horizontal" ng-submit="actions.saveComment()" novalidate>
+            <form name="local.UserCommentForm" class="form-horizontal" ng-submit="actions.createComment()" novalidate>
                 <tabset>
                     <!-- Edit New User Comment -->
                     <tab heading="{{labels.commentEdit}}">

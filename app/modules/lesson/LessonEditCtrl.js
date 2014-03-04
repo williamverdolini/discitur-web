@@ -98,14 +98,17 @@
                 },
                 // get existant tags value searched by input
                 getTags: function (q) {
-                    return LessonService.getDistinctValues('tag', { tagQ: q });
+                    return LessonService.getTags(q);
                 },
+                // get existant Disciplines value searched by input
                 getDisciplines: function (q) {
                     return LessonService.getDisciplines(q);
                 },
+                // get existant schools value searched by input
                 getSchools: function (q) {
                     return LessonService.getSchools(q);
                 },
+                // get existant classroom value searched by input
                 getClassRooms: function (q) {
                     return LessonService.getClassRooms(q);
                 },
@@ -187,7 +190,7 @@
                                 })
                         }
                         else {
-                            LessonService.save($scope.local.lesson)
+                            LessonService.update($scope.local.lesson)
                                 .then(function (data) {// success
                                     $state.go('lessonDetail', { lessonId: data.lessonId }, { inherit: false });
                                 })

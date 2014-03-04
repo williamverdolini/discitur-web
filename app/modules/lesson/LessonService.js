@@ -70,7 +70,8 @@
         'RatingDTO',
         'DisciturSettings',
         'DiscUtil',
-        function ($resource, $http, $q, LessonDTO, CommentDTO, RatingDTO, DisciturSettings, DiscUtil) {
+        '$cacheFactory',
+        function ($resource, $http, $q, LessonDTO, CommentDTO, RatingDTO, DisciturSettings, DiscUtil, $cacheFactory) {
             //-------- private methods -------
             // Private methods for DTO purposes
 
@@ -301,8 +302,8 @@
                     var deferred = $q.defer();
 
                     // Retrieve Async data for lesson id in input        
-                    //$http.get('../api/lesson/' + inputParams.id)
-                    $http.get(DisciturSettings.apiUrl + 'lesson/' + inputParams.id)
+                    // cahce is enabled. Only after modification (Lessonservice.save) the chache is reloaded
+                    $http.get(DisciturSettings.apiUrl + 'lesson/' + inputParams.id, {cache:true})
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
@@ -374,46 +375,6 @@
                     return _currentInput;
                     //return this.search(_currentInput)
                 },
-                // Get Async list of disciplines
-                /*
-                getDistinctValues: function (type, inputParams) {
-                    switch (type) {
-                        case('discipline') :
-                            DiscUtil.validateInput('LessonService.getDistinctValues.discipline', { disciplineQ: null }, inputParams);
-                            break;
-                        case ('school'):
-                            DiscUtil.validateInput('LessonService.getDistinctValues.school', { schoolQ: null }, inputParams);
-                            break;
-                        case ('classroom'):
-                            DiscUtil.validateInput('LessonService.getDistinctValues.classroom', { classroomQ: null }, inputParams);
-                            break;
-                        case ('tag'):
-                            DiscUtil.validateInput('LessonService.getDistinctValues.tag', { tagQ: null }, inputParams);
-                            break;
-                        default:
-                            throw { code: 20003, message: 'invalid type string for LessonService.getDistinctValues :' + type }
-                    }
-
-                    // create deferring result
-                    var deferred = $q.defer();
-
-                    // Retrieve Async data for lesson id in input        
-                    $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson', params: inputParams })
-                        .success(
-                            // Success Callback: Data Transfer Object Creation
-                            function (result) {
-                                deferred.resolve(result)
-                            })
-                        .error(
-                            // Error Callback
-                            function (data) {
-                                deferred.reject("Error for LessonService.getDistinctValues:" + data);
-                            });
-                    // create deferring result
-                    return deferred.promise;
-
-                },
-                */
                 // Get Async list of unique disciplines by value
                 getDisciplines : function (q) {
                     return _getDistinctValues('discipline', { disciplineQ: q });
@@ -443,7 +404,7 @@
                     var deferred = $q.defer();
 
                     // Retrieve Async data for lesson id in input        
-                    $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson/' + inputParams.id + '/comments' })
+                    $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson/' + inputParams.id + '/comments', cache: true })
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
@@ -458,9 +419,9 @@
                     return deferred.promise;
                 },
                 // Save Async User Comment
-                saveComment: function (comment, commentsArray) {
+                createComment: function (comment, commentsArray) {
                     DiscUtil.validateInput(
-                        'LessonService.saveComment',       // function name for logging purposes
+                        'LessonService.createComment',       // function name for logging purposes
                         new CommentDTO(),                  // hashmap to check inputParameters e set default values
                         comment                            // actual input params
                         );
@@ -472,6 +433,9 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
+                                // if success, clear cache of getComments
+                                $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + comment.lessonId + '/comments')
+
                                 var _newComment = _commentTransfer(result);
                                 // if lesson comments array is passed, the new comment is enriched with client properties
                                 _newComment = _lessonService.setCommentPrivates(_newComment, commentsArray);
@@ -486,9 +450,9 @@
                     return deferred.promise;
                 },
                 // Save Async User Comment
-                editComment: function (comment) {
+                updateComment: function (comment) {
                     DiscUtil.validateInput(
-                        'LessonService.editComment',       // function name for logging purposes
+                        'LessonService.updateComment',       // function name for logging purposes
                         new CommentDTO(),                  // hashmap to check inputParameters e set default values
                         comment                            // actual input params
                         );
@@ -502,6 +466,9 @@
                             function (result, status) {
                                 // I don't understand this...I should go on error callback...
                                 if (status >= 200 && status < 300) {
+                                    // if success, clear cache of getComments
+                                    $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + comment.lessonId + '/comments')
+
                                     var _newComment = _commentTransfer(result);
                                     _newComment._num = comment._num;
                                     _newComment._order = comment._order;
@@ -574,7 +541,7 @@
                     var deferred = $q.defer();
 
                     // Retrieve Async data for lesson id in input        
-                    $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson/' + inputParams.id + '/ratings' })
+                    $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson/' + inputParams.id + '/ratings', cache: true })
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
@@ -589,9 +556,9 @@
                     return deferred.promise;
                 },
                 // Save Async User Rating
-                saveRating: function (rating) {
+                createRating: function (rating) {
                     DiscUtil.validateInput(
-                        'LessonService.saveRating',       // function name for logging purposes
+                        'LessonService.createRating',       // function name for logging purposes
                         new RatingDTO(),                  // hashmap to check inputParameters e set default values
                         rating                            // actual input params
                         );
@@ -603,23 +570,24 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
+                                // if success, clear cache of getRatings
+                                $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + rating.lessonId + '/ratings')
+
                                 var _newRating = _ratingTransfer(result);
-                                // if lesson comments array is passed, the new comment is enriched with client properties
-                                //_newRating = _lessonService.setCommentPrivates(_newRating, commentsArray);
                                 deferred.resolve(_newRating)
                             })
                         .error(
                             // Error Callback
                             function (data) {
-                                deferred.reject("Error saving rating on lesson id:" + rating.lessonId + " -> " + data);
+                                deferred.reject("Error creating rating on lesson id:" + rating.lessonId + " -> " + data);
                             });
                     // create deferring result
                     return deferred.promise;
                 },
                 // Save Async User Rating
-                editRating: function (rating) {
+                updateRating: function (rating) {
                     DiscUtil.validateInput(
-                        'LessonService.editRating',       // function name for logging purposes
+                        'LessonService.updateRating',       // function name for logging purposes
                         new RatingDTO(),                  // hashmap to check inputParameters e set default values
                         rating                            // actual input params
                         );
@@ -631,15 +599,16 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
+                                // if success, clear cache of getRatings
+                                $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + rating.lessonId + '/ratings')
+
                                 var _modifiedRating = _ratingTransfer(result);
-                                // if lesson comments array is passed, the new comment is enriched with client properties
-                                //_newRating = _lessonService.setCommentPrivates(_newRating, commentsArray);
                                 deferred.resolve(_modifiedRating)
                             })
                         .error(
                             // Error Callback
                             function (data) {
-                                deferred.reject("Error saving rating on lesson id:" + rating.lessonId + " -> " + data);
+                                deferred.reject("Error updating rating on lesson id:" + rating.lessonId + " -> " + data);
                             });
                     // create deferring result
                     return deferred.promise;
@@ -675,7 +644,7 @@
                     return deferred.promise;
                 },
                 // Save Lesson
-                save: function (lesson) {
+                update: function (lesson) {
                     var _lesson = _lessonMap(lesson);
 
                     /* NO INPUT VALIDATION DONE ON CLIENT
@@ -693,12 +662,14 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
+                                // if success, clear cache 
+                                $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + _lesson.LessonId)
                                 deferred.resolve(_dataTransfer(result))
                             })
                         .error(
                             // Error Callback
                             function (data) {
-                                deferred.reject("Error saving lesson id:" + _lesson.lessonId + " -> " + data);
+                                deferred.reject("Error updating lesson id:" + _lesson.lessonId + " -> " + data);
                             });
                     // create deferring result
                     return deferred.promise;

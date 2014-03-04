@@ -63,7 +63,7 @@
                             $rootScope.$broadcast('disc.login', scope.actions)
                         },
                         // save User Comment
-                        saveComment: function () {
+                        createComment: function () {
                             // retrieve current form
                             var localForm = scope.local.UserCommentForm;
                             var localTxtArea = localForm.CommentTXT;
@@ -76,7 +76,7 @@
                                 _comment.parentId = scope.comment ? scope.comment.id : null;
                                 _comment.level = scope.comment ? scope.comment.level + 1 : 0;
                                 _comment.author.userid = AuthService.user.userid;
-                                LessonService.saveComment(_comment)
+                                LessonService.createComment(_comment)
                                     .then(function (savedComment) {
                                         //  Parent controll method to add new comment into local lesson's comment array
                                         scope.addComment({ comment: savedComment });
@@ -90,7 +90,7 @@
                             }
                         },
                         // Edit User Comment
-                        editComment: function () {
+                        updateComment: function () {
                             // retrieve current form
                             var localForm = scope.local.UserEditCommentForm;
                             var localTxtArea = localForm.CommentTXT;
@@ -100,7 +100,7 @@
                                 angular.extend(_comment, scope.comment);
                                 _comment.content = localTxtArea.$modelValue
 
-                                LessonService.editComment(_comment)
+                                LessonService.updateComment(_comment)
                                     .then(function (modifiedComment) {
                                         //  Parent controll method to add new comment into local lesson's comment array
                                         scope.comment = modifiedComment;

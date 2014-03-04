@@ -84,7 +84,7 @@
                                     _rating.rating = scope.local.EditRating;
                                     _rating.content = localTxtArea.$modelValue;
                                     _rating.author.userid = AuthService.user.userid;
-                                    LessonService.saveRating(_rating)
+                                    LessonService.createRating(_rating)
                                         .then(function (savedRating) {
                                             //  Parent controll method to add new Rating into local lesson's Rating array
                                             scope.addRating({ rating: savedRating });
@@ -95,7 +95,7 @@
                                 else {
                                     scope.userRating.rating = scope.local.EditRating;
                                     scope.userRating.content = localTxtArea.$modelValue;
-                                    LessonService.editRating(scope.userRating)
+                                    LessonService.updateRating(scope.userRating)
                                         .then(function (modifiedRating) {
                                             scope.userRating = modifiedRating;
                                             scope.local.edit = false;
