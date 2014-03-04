@@ -16,13 +16,14 @@
             this.classroom = null;
             this.rate = null;
             this.author = null;
-            this.published = null;
+            this.isPublished = false;
             this.publishedOn = null;
             this.goods = [];
             this.bads = [];
             this.tags = [];
             this.content = null;
             this.conclusion = null;
+            this.lastModifUser = null;
             this.version = null;
         }
         return (LessonDTO);
@@ -104,6 +105,7 @@
                 lesson.tags.status = 'I';
                 lesson.content = lessonData.Content;
                 lesson.conclusion = lessonData.Conclusion;
+                lesson.lastModifUser = lessonData.LastModifUser;
                 lesson.version = lessonData.Vers;
                 return lesson;
             }
@@ -645,18 +647,15 @@
                 },
                 // Save Lesson
                 update: function (lesson) {
-                    var _lesson = _lessonMap(lesson);
-
-                    /* NO INPUT VALIDATION DONE ON CLIENT
                     DiscUtil.validateInput(
-                        'LessonService.save',       // function name for logging purposes
+                        'LessonService.update',       // function name for logging purposes
                         new LessonDTO(),            // hashmap to check inputParameters e set default values
-                        _lesson                      // actual input params
+                        lesson                      // actual input params
                         );
-                    */
+                    // DTO mappint to API
+                    var _lesson = _lessonMap(lesson);
                     // create deferring result
                     var deferred = $q.defer();
-
                     // Retrieve Async data for lesson id in input        
                     $http({ method: 'PUT', url: DisciturSettings.apiUrl + 'lesson/' + _lesson.LessonId, data: _lesson })
                         .success(
@@ -676,15 +675,13 @@
                 },
                 // Create new Lesson
                 create: function (lesson) {
+                    DiscUtil.validateInput(
+                        'LessonService.create',       // function name for logging purposes
+                        new LessonDTO(),            // hashmap to check inputParameters e set default values
+                        lesson                      // actual input params
+                        );
                     var _lesson = _lessonMap(lesson);
 
-                    /* NO INPUT VALIDATION DONE ON CLIENT
-                    DiscUtil.validateInput(
-                        'LessonService.save',       // function name for logging purposes
-                        new LessonDTO(),            // hashmap to check inputParameters e set default values
-                        _lesson                      // actual input params
-                        );
-                    */
                     // create deferring result
                     var deferred = $q.defer();
 
