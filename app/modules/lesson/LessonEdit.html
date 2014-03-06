@@ -48,7 +48,7 @@
         <div class="col-md-9">
             <!-- LESSON TITLE AREA - BEGIN -->
             <fieldset>
-                <legend>{{labels.lessonTitleHeading}} <a ng-click="local.viewHelp=!local.viewHelp"><span class="glyphicon glyphicon-question-sign pull-right" tooltip="Mostra Help" tooltip-placement="left"></span></a></legend>
+                <legend>{{labels.lessonTitleHeading}} <a ng-click="actions.showHideHelp()"><span class="glyphicon glyphicon-question-sign pull-right" tooltip="{{labels.showHideHelp}}" tooltip-placement="left"></span></a></legend>
                 <div class="form-group">
                     <label for="inputTitle" class="col-lg-2 control-label">{{labels.lessonTitle}}</label>
                     <div class="col-lg-10">

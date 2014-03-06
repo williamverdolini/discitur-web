@@ -58,7 +58,8 @@
     })
     .constant('DisciturSettings', {
         apiUrl: 'http://localhost:59739/api/',
-        authToken: 'disc.auth.token'
+        authToken: 'disc.auth.token',
+        viewHelp: 'disc.viewHelp'
     })
     .factory('DiscUtil', ['$cacheFactory', function ($cacheFactory) {
         var _getMessage = function (obj) {

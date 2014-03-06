@@ -55,7 +55,7 @@
                 // first digest cycle: find static watchers
                 if (_watchers == null) {
                     _watchers = [];
-                    var _reLabels = /^{{labels\.\w+}}$/
+                    var _reLabels = /^{{labels\..*}}/
                     for (var i = $scope.$$watchers.length - 1; i >= 0; i--) {
                         if ($scope.$$watchers[i].exp &&
                             $scope.$$watchers[i].exp.exp &&

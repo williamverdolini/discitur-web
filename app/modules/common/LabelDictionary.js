@@ -68,6 +68,7 @@
 
         editLessonButton: "Modifica",
         requiredField: "Dato obbligario",
+        showHideHelp: "Mostra/Nascondi Help",
 
         helpTitle: "<h6>Marcando il check <b>Pubblica</b> "+
                     "la lezione sarà visibile a tutti.<br />"+
