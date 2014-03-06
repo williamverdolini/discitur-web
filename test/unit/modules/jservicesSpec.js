@@ -1,5 +1,8 @@
 describe("Unit - module:Common - Testing Services", function() {
-  var $LabelService;
+    var $LabelService,
+        _dictionary,
+        _overrides;
+        
 
   //excuted before each "it" is run.
   beforeEach(function (){
@@ -8,13 +11,23 @@ describe("Unit - module:Common - Testing Services", function() {
     module('Common');
     
     //inject your service for testing.
-    inject(function(LabelService) {
-      $LabelService = LabelService;
+    inject(function (LabelService, dictionary, overrides) {
+        $LabelService = LabelService;
+        _dictionary = dictionary;
+        _overrides = overrides;
     });
   });
 
   it('should contain a LabelService service', function() {
     expect($LabelService).not.toBe(null);
+  });
+
+  it('should contain a dictionary value', function () {
+      expect(_dictionary).not.toBe(null);
+  });
+  
+  it('should contain a overrides value', function () {
+      expect(_overrides).not.toBe(null);
   });
 
   it('should LabelService contain get method', function() {
@@ -23,11 +36,53 @@ describe("Unit - module:Common - Testing Services", function() {
 
 });
 
+describe("Unit - module:Commen - Testing Directive", function () {
+    var _scope,
+        _element,
+        _injector;
+
+    beforeEach(function () {
+        //load the module.
+        module('Common');
+
+        //inject your service for testing.
+        inject(function ($compile, $rootScope, $injector) {
+            _scope = $rootScope;
+            _injector = $injector;
+
+            _element = angular.element("<div>{{2+2}}</div>");
+            $compile(_element)(_scope);
+        });
+    });
+    /*
+    it("should 4", function () {
+        _scope.$digest();
+        expect(_element.html()).toBe('4');
+    });
+    */
+
+    it("Should containe wrInput Directive", function () {
+        var exist = _injector.has('wrInputDirective');
+        expect(exist).toBe(true);
+    });
+
+})
+
+
+
+
+
+
+
+
+
 describe("Unit - module:Lesson - Testing Services", function () {
 
   describe("LessonService [signature]", function () {
       var _LessonService;
       var _CommentDTO;
+      var _RatingDTO;
+      var _LessonDTO;
 
         //excuted before each "it" is run.
         beforeEach(function () {
@@ -36,9 +91,11 @@ describe("Unit - module:Lesson - Testing Services", function () {
             module('Lesson');
 
             //inject your service for testing.
-            inject(function (LessonService, CommentDTO) {
+            inject(function (LessonService, CommentDTO, RatingDTO, LessonDTO) {
                 _LessonService = LessonService;
                 _CommentDTO = CommentDTO;
+                _RatingDTO = RatingDTO;
+                _LessonDTO = LessonDTO;
             });
         });
         
@@ -58,20 +115,32 @@ describe("Unit - module:Lesson - Testing Services", function () {
             expect(angular.isFunction(_LessonService.getPage)).toBe(true);
         });
 
-        it('should LessonService contain getDistinctValues method', function () {
-            expect(angular.isFunction(_LessonService.getDistinctValues)).toBe(true);
+        it('should LessonService contain getDisciplines method', function () {
+            expect(angular.isFunction(_LessonService.getDisciplines)).toBe(true);
+        });
+
+        it('should LessonService contain getSchools method', function () {
+            expect(angular.isFunction(_LessonService.getSchools)).toBe(true);
+        });
+
+        it('should LessonService contain getClassRooms method', function () {
+            expect(angular.isFunction(_LessonService.getClassRooms)).toBe(true);
+        });
+
+        it('should LessonService contain getTags method', function () {
+            expect(angular.isFunction(_LessonService.getTags)).toBe(true);
         });
 
         it('should LessonService contain getComments method', function () {
             expect(angular.isFunction(_LessonService.getComments)).toBe(true);
         });
 
-        it('should LessonService contain saveComment method', function () {
-            expect(angular.isFunction(_LessonService.saveComment)).toBe(true);
+        it('should LessonService contain createComment method', function () {
+            expect(angular.isFunction(_LessonService.createComment)).toBe(true);
         });
 
-        it('should LessonService contain editComment method', function () {
-            expect(angular.isFunction(_LessonService.editComment)).toBe(true);
+        it('should LessonService contain updateComment method', function () {
+            expect(angular.isFunction(_LessonService.updateComment)).toBe(true);
         });
 
         it('should LessonService contain deleteComment method', function () {
@@ -81,6 +150,35 @@ describe("Unit - module:Lesson - Testing Services", function () {
         it('should LessonService contain setCommentPrivates method', function () {
             expect(angular.isFunction(_LessonService.setCommentPrivates)).toBe(true);
         });
+
+        it('should LessonService contain getRatings method', function () {
+            expect(angular.isFunction(_LessonService.getRatings)).toBe(true);
+        });
+
+        it('should LessonService contain createRating method', function () {
+            expect(angular.isFunction(_LessonService.createRating)).toBe(true);
+        });
+
+        it('should LessonService contain updateRating method', function () {
+            expect(angular.isFunction(_LessonService.updateRating)).toBe(true);
+        });
+
+        it('should LessonService contain deleteRating method', function () {
+            expect(angular.isFunction(_LessonService.deleteRating)).toBe(true);
+        });
+
+        it('should LessonService contain update method', function () {
+            expect(angular.isFunction(_LessonService.update)).toBe(true);
+        });
+
+        it('should LessonService contain create method', function () {
+            expect(angular.isFunction(_LessonService.create)).toBe(true);
+        });
+
+        it('should LessonService contain newLesson method', function () {
+            expect(angular.isFunction(_LessonService.newLesson)).toBe(true);
+        });
+
 
         describe('LessonService [signature-parameters]', function () {
             it('Should LessonService.search() not accept no parameter, throw exception otherwise', function () {
@@ -214,7 +312,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
                 expect(invalidParamEx).not.toBeDefined;
             })
 
-            it('Should LessonService.getDistinctValues() accept type=discipline|school|classroom|tag and inputParams (Object)', function () {
+            it('Should LessonService._getDistinctValues() accept type=discipline|school|classroom|tag and inputParams (Object)', function () {
                 var invalidParamEx;
                 var inputParams = {}
 
@@ -222,10 +320,10 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
                 //make the call.
                 try {
-                    _LessonService.getDistinctValues('discipline', inputParams);
-                    _LessonService.getDistinctValues('school', inputParams);
-                    _LessonService.getDistinctValues('classroom', inputParams);
-                    _LessonService.getDistinctValues('tag', inputParams);
+                    _LessonService.getDisciplines();
+                    _LessonService.getSchools();
+                    _LessonService.getClassRooms();
+                    _LessonService.getTags();
                 }
                 catch (ex) {
                     invalidParamEx = ex;
@@ -271,7 +369,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
                 expect(invalidParamEx).not.toBeDefined();
             })
 
-            it('Should LessonService.saveComment() not accept Object with uncorrect parameters, and throws exception', function () {
+            it('Should LessonService.createComment() not accept Object with uncorrect parameters, and throws exception', function () {
                 var invalidParamEx;
                 var inputParams = {
                     color: 'blue'
@@ -281,7 +379,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
                 //make the call.
                 try {
-                    var returnedPromise = _LessonService.saveComment(inputParams);
+                    var returnedPromise = _LessonService.createComment(inputParams);
                 }
                 catch (ex) {
                     invalidParamEx = ex;
@@ -291,14 +389,14 @@ describe("Unit - module:Lesson - Testing Services", function () {
                 expect(invalidParamEx.code).toEqual(20002);
             })
 
-            it('Should LessonService.saveComment() accept CommentDTO Object', function () {
+            it('Should LessonService.createComment() accept CommentDTO Object', function () {
                 var invalidParamEx;
                 var inputParams = new _CommentDTO();
 
                 var invalidParamEx;
                 //make the call.
                 try {
-                    var returnedPromise = _LessonService.saveComment(inputParams);
+                    var returnedPromise = _LessonService.createComment(inputParams);
                 }
                 catch (ex) {
                     invalidParamEx = ex;
@@ -306,7 +404,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
                 expect(invalidParamEx).not.toBeDefined();
             })
 
-            it('Should LessonService.editComment() not accept Object with uncorrect parameters, and throws exception', function () {
+            it('Should LessonService.updateComment() not accept Object with uncorrect parameters, and throws exception', function () {
                 var invalidParamEx;
                 var inputParams = {
                     color: 'blue'
@@ -316,7 +414,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
                 //make the call.
                 try {
-                    var returnedPromise = _LessonService.editComment(inputParams);
+                    var returnedPromise = _LessonService.updateComment(inputParams);
                 }
                 catch (ex) {
                     invalidParamEx = ex;
@@ -326,14 +424,14 @@ describe("Unit - module:Lesson - Testing Services", function () {
                 expect(invalidParamEx.code).toEqual(20002);
             })
 
-            it('Should LessonService.editComment() accept CommentDTO Object', function () {
+            it('Should LessonService.updateComment() accept CommentDTO Object', function () {
                 var invalidParamEx;
                 var inputParams = new _CommentDTO();
 
                 var invalidParamEx;
                 //make the call.
                 try {
-                    var returnedPromise = _LessonService.editComment(inputParams);
+                    var returnedPromise = _LessonService.updateComment(inputParams);
                 }
                 catch (ex) {
                     invalidParamEx = ex;
@@ -422,8 +520,29 @@ describe("Unit - module:Lesson - Testing Services", function () {
             expect(angular.isFunction(promise.finally)).toBe(true);
         });
 
-        it('should LessonService.getDistinctValues return a promise', function () {
-            var promise = _LessonService.getDistinctValues('discipline', {});
+        it('should LessonService.getDisciplines return a promise', function () {
+            var promise = _LessonService.getDisciplines();
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.getSchools return a promise', function () {
+            var promise = _LessonService.getSchools();
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.getClassRooms return a promise', function () {
+            var promise = _LessonService.getClassRooms();
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.getTags return a promise', function () {
+            var promise = _LessonService.getTags();
             expect(angular.isFunction(promise.then)).toBe(true);
             expect(angular.isFunction(promise.catch)).toBe(true);
             expect(angular.isFunction(promise.finally)).toBe(true);
@@ -436,15 +555,15 @@ describe("Unit - module:Lesson - Testing Services", function () {
             expect(angular.isFunction(promise.finally)).toBe(true);
         });
 
-        it('should LessonService.saveComment return a promise', function () {
-            var promise = _LessonService.saveComment(new _CommentDTO());
+        it('should LessonService.createComment return a promise', function () {
+            var promise = _LessonService.createComment(new _CommentDTO());
             expect(angular.isFunction(promise.then)).toBe(true);
             expect(angular.isFunction(promise.catch)).toBe(true);
             expect(angular.isFunction(promise.finally)).toBe(true);
         });
 
-        it('should LessonService.editComment return a promise', function () {
-            var promise = _LessonService.editComment(new _CommentDTO());
+        it('should LessonService.updateComment return a promise', function () {
+            var promise = _LessonService.updateComment(new _CommentDTO());
             expect(angular.isFunction(promise.then)).toBe(true);
             expect(angular.isFunction(promise.catch)).toBe(true);
             expect(angular.isFunction(promise.finally)).toBe(true);
@@ -464,7 +583,51 @@ describe("Unit - module:Lesson - Testing Services", function () {
             expect(angular.isFunction(promise.finally)).toBe(false);
         });
 
+        it('should LessonService.getRatings return a promise', function () {
+            var promise = _LessonService.getRatings({ id: 1 });
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
 
+        it('should LessonService.createRating return a promise', function () {
+            var promise = _LessonService.createRating(new _RatingDTO());
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.updateRating return a promise', function () {
+            var promise = _LessonService.updateRating(new _RatingDTO());
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.deleteRating return a promise', function () {
+            var promise = _LessonService.deleteRating(new _RatingDTO());
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.create return a promise', function () {
+            var _lesson = new _LessonDTO();
+            _lesson.author = { name: null, surname: null, userid: null }
+            var promise = _LessonService.create(_lesson);
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
+
+        it('should LessonService.update return a promise', function () {
+            var _lesson = new _LessonDTO();
+            _lesson.author = { name: null, surname: null, userid: null }
+            var promise = _LessonService.update(_lesson);
+            expect(angular.isFunction(promise.then)).toBe(true);
+            expect(angular.isFunction(promise.catch)).toBe(true);
+            expect(angular.isFunction(promise.finally)).toBe(true);
+        });
   })
 
   describe("LessonService [invoke]", function () {
@@ -716,7 +879,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.flush();
     });
 
-    it('Should the LessonService.getDistinctValues(\'discipline\',{disciplineQ:it}) pass default parameters of ?disciplineQ=it', function () {
+    it('Should the LessonService.getDisciplines(it) pass default parameters of ?disciplineQ=it', function () {
         //create an object with a function to spy on.
         var _test = {
             successCB: function () { },
@@ -732,7 +895,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
         //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
         //make the call.
-        var returnedPromise = _LessonService.getDistinctValues('discipline', { disciplineQ: 'it' });
+        var returnedPromise = _LessonService.getDisciplines('it');
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB);
@@ -748,7 +911,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         expect(_test.errorCB).not.toHaveBeenCalled();
     });
 
-    it('Should the LessonService.getDistinctValues(\'school\',{schoolQ:it}) pass default parameters of ?schoolQ=it', function () {
+    it('Should the LessonService.getSchools(it) pass default parameters of ?schoolQ=it', function () {
         //create an object with a function to spy on.
         var _test = {
             successCB: function () { },
@@ -764,7 +927,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
         //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
         //make the call.
-        var returnedPromise = _LessonService.getDistinctValues('school', { schoolQ: 'it' });
+        var returnedPromise = _LessonService.getSchools('it');
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB);
@@ -780,7 +943,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         expect(_test.errorCB).not.toHaveBeenCalled();
     });
 
-    it('Should the LessonService.getDistinctValues(\'classroom\',{classroomQ:it}) pass default parameters of ?classroomQ=it', function () {
+    it('Should the LessonService.getClassRooms(it) pass default parameters of ?classroomQ=it', function () {
         //create an object with a function to spy on.
         var _test = {
             successCB: function () { },
@@ -796,7 +959,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
         //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
         //make the call.
-        var returnedPromise = _LessonService.getDistinctValues('classroom', { classroomQ: 'it' });
+        var returnedPromise = _LessonService.getClassRooms('it');
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB);
@@ -812,7 +975,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         expect(_test.errorCB).not.toHaveBeenCalled();
     });
 
-    it('Should the LessonService.getDistinctValues(\'tag\',{tagQ:it}) pass default parameters of ?tagQ=it', function () {
+    it('Should the LessonService.getTags(it) pass default parameters of ?tagQ=it', function () {
         //create an object with a function to spy on.
         var _test = {
             successCB: function () { },
@@ -828,7 +991,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
         //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
         //make the call.
-        var returnedPromise = _LessonService.getDistinctValues('tag', { tagQ: 'it' });
+        var returnedPromise = _LessonService.getTags('it');
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB);
@@ -844,7 +1007,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         expect(_test.errorCB).not.toHaveBeenCalled();
     });
 
-    it('Should the LessonService.getDistinctValues(\'discipline\',{disciplineQ:it}) return array of strings', function () {
+    it('Should the LessonService.getDisciplines(it) return array of strings', function () {
         //create an object with a function to spy on.
         var _test = {
             successCB: function (data) {
@@ -861,7 +1024,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson' + '?disciplineQ=it').respond(_MockedData.disciplines)
 
         //make the call.
-        var returnedPromise = _LessonService.getDistinctValues('discipline', { disciplineQ: 'it' });
+        var returnedPromise = _LessonService.getDisciplines('it');
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB);
@@ -870,7 +1033,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.flush();
     });
 
-    it('Should the LessonService.getDistinctValues(\'school\',{schoolQ:it}) return array of strings', function () {
+    it('Should the LessonService.getSchools(it) return array of strings', function () {
         //create an object with a function to spy on.
         var _test = {
             successCB: function (data) {
@@ -887,7 +1050,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson' + '?schoolQ=it').respond(_MockedData.schools)
 
         //make the call.
-        var returnedPromise = _LessonService.getDistinctValues('school', { schoolQ: 'it' });
+        var returnedPromise = _LessonService.getSchools('it');
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB);
@@ -896,7 +1059,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.flush();
     });
 
-    it('Should the LessonService.getDistinctValues(\'classroom\',{classroomQ:it}) return array of strings', function () {
+    it('Should the LessonService.getClassRooms(it) return array of strings', function () {
         //create an object with a function to spy on.
         var _test = {
             successCB: function (data) {
@@ -913,7 +1076,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson' + '?classroomQ=it').respond(_MockedData.classrooms)
 
         //make the call.
-        var returnedPromise = _LessonService.getDistinctValues('classroom', { classroomQ: 'it' });
+        var returnedPromise = _LessonService.getClassRooms('it');
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB);
@@ -922,7 +1085,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.flush();
     });
 
-    it('Should the LessonService.getDistinctValues(\'tag\',{tagQ:it}) return array of strings', function () {
+    it('Should the LessonService.getTags(it) return array of strings', function () {
         //create an object with a function to spy on.
         var _test = {
             successCB: function (data) {
@@ -939,7 +1102,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson' + '?tagQ=it').respond(_MockedData.tags)
 
         //make the call.
-        var returnedPromise = _LessonService.getDistinctValues('tag', { tagQ: 'it' });
+        var returnedPromise = _LessonService.getTags('it');
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB);
@@ -1015,7 +1178,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.flush();
     });
 
-    it('Should the LessonService.saveComment(CommentsDTO.lessonId=555) call api\\lesson\\555\\comment URL in POST', function () {
+    it('Should the LessonService.createComment(CommentsDTO.lessonId=555) call api\\lesson\\555\\comment URL in POST', function () {
         var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
 
         //create an object with a function to spy on.
@@ -1035,7 +1198,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         //make the call.
         var _input = new _CommentDTO();
         _input.lessonId = 555;
-        var returnedPromise = _LessonService.saveComment(_input);
+        var returnedPromise = _LessonService.createComment(_input);
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB,_test.errorCB);
@@ -1051,7 +1214,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         expect(_test.errorCB).not.toHaveBeenCalled();
     });
 
-    it('Should the LessonService.saveComment(CommentsDTO.lessonId=555) return a User CommentDTO attached to lessonId=555', function () {
+    it('Should the LessonService.createComment(CommentsDTO.lessonId=555) return a User CommentDTO attached to lessonId=555', function () {
         var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
 
         //create an object with a function to spy on.
@@ -1075,7 +1238,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         //make the call.
         var _input = new _CommentDTO();
         _input.lessonId = 555;
-        var returnedPromise = _LessonService.saveComment(_input);
+        var returnedPromise = _LessonService.createComment(_input);
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB, _test.errorCB);
@@ -1089,7 +1252,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         //expect(_test.errorCB).not.toHaveBeenCalled();
     });
 
-    it('Should the LessonService.saveComment(CommentsDTO.lessonId=555, []) return a User CommentDTO attached to lessonId=555 with _num=1 and _order=0.001', function () {
+    it('Should the LessonService.createComment(CommentsDTO.lessonId=555, []) return a User CommentDTO attached to lessonId=555 with _num=1 and _order=0.001', function () {
         var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
 
         //create an object with a function to spy on.
@@ -1111,7 +1274,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         //make the call.
         var _input = new _CommentDTO();
         _input.lessonId = 555;
-        var returnedPromise = _LessonService.saveComment(_input,[]);
+        var returnedPromise = _LessonService.createComment(_input, []);
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB, _test.errorCB);
@@ -1120,7 +1283,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.flush();
     });
 
-    it('Should the LessonService.saveComment(CommentsDTO, [with 2 elements]) return a User CommentDTO with _num=3 and _order=0.003', function () {
+    it('Should the LessonService.createComment(CommentsDTO, [with 2 elements]) return a User CommentDTO with _num=3 and _order=0.003', function () {
         var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
 
         //create an object with a function to spy on.
@@ -1143,7 +1306,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _input.lessonId = 555;
         _input.level = 0
         _input.parentId = null;
-        var returnedPromise = _LessonService.saveComment(_input, [{ id: 1 }, {id:2}]);
+        var returnedPromise = _LessonService.createComment(_input, [{ id: 1 }, { id: 2 }]);
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB, _test.errorCB);
@@ -1152,7 +1315,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.flush();
     });
 
-    it('Should the LessonService.saveComment(CommentsDTO.parentId=1, [with 2 eleemtns, and with element.id=1, element._order=0.002]) return a User CommentDTO with _num=3 and _order=0.002003', function () {
+    it('Should the LessonService.createComment(CommentsDTO.parentId=1, [with 2 eleemtns, and with element.id=1, element._order=0.002]) return a User CommentDTO with _num=3 and _order=0.002003', function () {
         var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment'
 
         //create an object with a function to spy on.
@@ -1176,7 +1339,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _input.level = 1
         _input.parentId = 1;
         debugger
-        var returnedPromise = _LessonService.saveComment(_input, [{ id: 1, level: 0, _order: '0.002', _num: 2 }, { id: 2 }]);
+        var returnedPromise = _LessonService.createComment(_input, [{ id: 1, level: 0, _order: '0.002', _num: 2 }, { id: 2 }]);
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB, _test.errorCB);
@@ -1185,7 +1348,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _httpBackend.flush();
     });
 
-    it('Should the LessonService.editComment(CommentsDTO{lessonId:555, id:999}) call api\\lesson\\555\\comment\\999 URL in PUT', function () {
+    it('Should the LessonService.updateComment(CommentsDTO{lessonId:555, id:999}) call api\\lesson\\555\\comment\\999 URL in PUT', function () {
         var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment/999'
 
         //create an object with a function to spy on.
@@ -1206,7 +1369,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         var _input = new _CommentDTO();
         _input.lessonId = 555;
         _input.id = 999;
-        var returnedPromise = _LessonService.editComment(_input);
+        var returnedPromise = _LessonService.updateComment(_input);
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB, _test.errorCB);
@@ -1222,7 +1385,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         expect(_test.errorCB).not.toHaveBeenCalled();
     });
 
-    it('Should the LessonService.editComment(CommentsDTO{lessonId:555, id:999}) return a User CommentDTO with same id', function () {
+    it('Should the LessonService.updateComment(CommentsDTO{lessonId:555, id:999}) return a User CommentDTO with same id', function () {
         var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/comment/999'
 
         //create an object with a function to spy on.
@@ -1246,7 +1409,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         var _input = new _CommentDTO();
         _input.lessonId = 555;
         _input.id = 999;
-        var returnedPromise = _LessonService.editComment(_input);
+        var returnedPromise = _LessonService.updateComment(_input);
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB, _test.errorCB);
@@ -1381,35 +1544,34 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
     });
 
 
-    describe('- LessonNewsCtrl -', function () {
-        it("Should Exists LessonNewsCtrl controller", function () {
-            var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: [], LessonService: _LessonService, $state: _$state });
+    describe('- LessonListCtrl -', function () {
+        it("Should Exists LessonListCtrl controller", function () {
+            var _ctrl = _$controller('LessonListCtrl', { $scope: _scope, LabelService: _LabelService, lessonsData: [], LessonService: _LessonService, $state: _$state });
             expect(_ctrl).toBeDefined();
         });
 
         describe("Labels", function () {
-            it("Should LessonNewsCtrl have labels object in its $scope", function () {
-                //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
-                var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: [], LessonService: _LessonService, $state: _$state });
+            it("Should LessonListCtrl have labels object in its $scope", function () {
+                var _ctrl = _$controller('LessonListCtrl', { $scope: _scope, LabelService: _LabelService, lessonsData: [], LessonService: _LessonService, $state: _$state });
                 expect(_scope.labels).toBeDefined();
             });
 
-            it("Should LessonNewsCtrl have publishedOn label", function () {
+            it("Should LessonListCtrl have publishedOn label", function () {
                 //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
-                var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: [], LessonService: _LessonService, $state: _$state });
+                var _ctrl = _$controller('LessonListCtrl', { $scope: _scope, LabelService: _LabelService, lessonsData: [], LessonService: _LessonService, $state: _$state });
                 expect(_scope.labels.publishedOn).toBeDefined();
             });
 
-            it("Should LessonNewsCtrl have viewMore label", function () {
+            it("Should LessonListCtrl have viewMore label", function () {
                 //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: [] });
-                var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: [], LessonService: _LessonService, $state: _$state });
+                var _ctrl = _$controller('LessonListCtrl', { $scope: _scope, LabelService: _LabelService, lessonsData: [], LessonService: _LessonService, $state: _$state });
                 expect(_scope.labels.viewMore).toBeDefined();
             });
         })
 
-        it("Should LessonNewsCtrl have lessons array in its $scope", function () {
+        it("Should LessonListCtrl have lessons array in its $scope", function () {
             //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: {lessons:[]} });
-            var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: {lessons:[]}, LessonService: _LessonService, $state: _$state });
+            var _ctrl = _$controller('LessonListCtrl', { $scope: _scope, LabelService: _LabelService, lessonsData: { lessons: [] }, LessonService: _LessonService, $state: _$state });
             expect(_scope.lessons).toBeDefined();
         });
 
@@ -1417,7 +1579,7 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
         // At first I have to create mock data, but maybe I already have it (MockedData)!
         // With this test I have to start thinking about Service and resolving Data for the Controller
         // So I pause the this test and begin about services
-        it("Should LessonNewsCtrl.lessons be populated with lessonNewsData array in input", function () {
+        it("Should LessonListCtrl.lessons be populated with lessonNewsData array in input", function () {
             // Create mocked api route with faked response data
             // I want to emulate what I will do in real app code, so I use the same config as in the app code
             _$httpBackend.expectGET(_DisciturSettings.apiUrl + 'lesson' + _defQueryString).respond(_MockedData.lessons)
@@ -1429,7 +1591,7 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
             _$httpBackend.flush();
 
             //var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, lessonNewsData: _lessonNewsData });
-            var _ctrl = _$controller('LessonNewsCtrl', { $scope: _scope, LabelService: _LabelService, lessonNewsData: _lessonNewsData, LessonService: _LessonService, $state: _$state });
+            var _ctrl = _$controller('LessonListCtrl', { $scope: _scope, LabelService: _LabelService, lessonsData: _lessonNewsData, LessonService: _LessonService, $state: _$state });
             expect(_scope.lessons).toEqual(_lessonNewsData.lessons)
 
         });
