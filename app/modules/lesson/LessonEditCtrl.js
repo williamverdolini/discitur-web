@@ -6,56 +6,71 @@
         'lessonData',
         'LessonService',
         '$state',
+        'DisciturBaseCtrl',
+        '$injector',
+        'DisciturSettings',
         function (
             $scope,
             LabelService,
             AuthService,
             lessonData,
             LessonService,
-            $state
+            $state,
+            DisciturBaseCtrl,
+            $injector,
+            DisciturSettings
             ) {
-            //-------- private method -------
-            var _getLabel = function (label) {
-                return LabelService.get('LessonEditCtrl', label);
-            }
-            //-------- public method -------
-            // Invoke search service for paging through state transition to preserve paging history
-            // the state transition is forced cause the same params could be used in previous navigations
+            // inherit Discitur Base Controller
+            $injector.invoke(DisciturBaseCtrl, this, { $scope: $scope });
 
+            //-------- private properties -------
+            $scope._ctrl = 'LessonEditCtrl';
+
+            //-------- private methods -------
+            var _initViewHelp = function () {
+                // get viewHelp setting from localStorage
+                // otherwise set initial viewHelp setting to default value (true).
+                var _viewHelp = localStorage.getItem(DisciturSettings.viewHelp);
+                if(_viewHelp !== null)
+                    $scope.local.viewHelp = $scope.$eval(_viewHelp);
+                else
+                    localStorage.setItem(DisciturSettings.viewHelp, $scope.local.viewHelp);
+            }
 
             //--------- public properties ------
             $scope.labels = {
-                lessonTitleHeading: _getLabel('lessonTitleHeading'),
-                lessonTitle: _getLabel('lessonTitle'),
-                specifics: _getLabel('specifics'),
-                discipline: _getLabel('discipline'),
-                school: _getLabel('school'),
-                classroom: _getLabel('classroom'),
-                tags: _getLabel('tags'),
-                author: _getLabel('author'),
-                publishedOn: _getLabel('publishedOn'),
-                rating: _getLabel('rating'),
-                content: _getLabel('content'),
-                lessonGoods: _getLabel('lessonGoods'),
-                noLessonGoods: _getLabel('noLessonGoods'),
-                lessonBads: _getLabel('lessonBads'),
-                noLessonBads: _getLabel('noLessonBads'),
-                conclusion: _getLabel('conclusion'),
-                comments: _getLabel('comments'),
-                ratings: _getLabel('ratings'),
-                ratingtHelp: _getLabel('ratingtHelp'),
-                saveLessonButton: _getLabel('saveLessonButton'),
-                cancelButton: _getLabel('cancelButton'),
-                publicLesson: _getLabel('publicLesson'),
-                buttonAdd: _getLabel('buttonAdd'),
-                buttonDel: _getLabel('buttonDel'),
-                requiredField: _getLabel('requiredField'),
-                helpTitle: _getLabel('helpTitle'),
-                helpSpecifics: _getLabel('helpSpecifics'),
-                helpTags: _getLabel('helpTags'),
-                helpContent: _getLabel('helpContent'),
-                helpFeedbacks: _getLabel('helpFeedbacks'),
-                helpConclusion: _getLabel('helpConclusion')
+                lessonTitleHeading: $scope.getLabel('lessonTitleHeading'),
+                lessonTitle: $scope.getLabel('lessonTitle'),
+                specifics: $scope.getLabel('specifics'),
+                discipline: $scope.getLabel('discipline'),
+                school: $scope.getLabel('school'),
+                classroom: $scope.getLabel('classroom'),
+                tags: $scope.getLabel('tags'),
+                author: $scope.getLabel('author'),
+                publishedOn: $scope.getLabel('publishedOn'),
+                rating: $scope.getLabel('rating'),
+                content: $scope.getLabel('content'),
+                lessonGoods: $scope.getLabel('lessonGoods'),
+                noLessonGoods: $scope.getLabel('noLessonGoods'),
+                lessonBads: $scope.getLabel('lessonBads'),
+                noLessonBads: $scope.getLabel('noLessonBads'),
+                conclusion: $scope.getLabel('conclusion'),
+                comments: $scope.getLabel('comments'),
+                ratings: $scope.getLabel('ratings'),
+                ratingtHelp: $scope.getLabel('ratingtHelp'),
+                saveLessonButton: $scope.getLabel('saveLessonButton'),
+                cancelButton: $scope.getLabel('cancelButton'),
+                publicLesson: $scope.getLabel('publicLesson'),
+                buttonAdd: $scope.getLabel('buttonAdd'),
+                buttonDel: $scope.getLabel('buttonDel'),
+                requiredField: $scope.getLabel('requiredField'),
+                showHideHelp: $scope.getLabel('showHideHelp'),
+                helpTitle: $scope.getLabel('helpTitle'),
+                helpSpecifics: $scope.getLabel('helpSpecifics'),
+                helpTags: $scope.getLabel('helpTags'),
+                helpContent: $scope.getLabel('helpContent'),
+                helpFeedbacks: $scope.getLabel('helpFeedbacks'),
+                helpConclusion: $scope.getLabel('helpConclusion')
             };
 
             $scope.model = {
@@ -84,12 +99,15 @@
                     }
                     else
                         return false;
-                    //local.user.isLogged && local.user.username == local.lesson.author.username
                 },
                 isFieldRequired : function(fieldName){
                     return $scope.local.editForm[fieldName].$invalid && ($scope.local.editForm[fieldName].$dirty || $scope.local.editForm.submitted)
-                }
+                },
+                viewHelp: true
             }
+
+
+            //-------- public methods -------
 
             $scope.actions = {
                 // custom filter to select object with status prop != 'C' (Not Canceled)
@@ -205,32 +223,17 @@
                         $state.go('lessonDetail', { lessonId: lessonData.lessonId }, { inherit: false });
                     else
                         $state.go('lessonSearch', { keywod: ''}, { inherit: false });
+                },
+                // Show/Hide View Help setting
+                showHideHelp: function () {
+                    //localStorage.removeItem(DisciturSettings.viewHelp);
+                    $scope.local.viewHelp = !$scope.local.viewHelp;
+                    localStorage.setItem(DisciturSettings.viewHelp, $scope.local.viewHelp);
                 }
-
 
             }
 
-
             //--------- Controller initialization ------
-            // detach static bindings (labels)
-            var counter = 0;
-            var detachStaticScope = $scope.$watch(function () {
-                counter += 1;
-                if (counter > 1) {
-                    for (var i = $scope.$$watchers.length - 1; i >= 0; i--) {
-                        if ($scope.$$watchers[i].exp &&
-                            $scope.$$watchers[i].exp.exp &&
-                            $scope.$$watchers[i].exp.exp.indexOf('{{labels.') == 0) {
-                            $scope.$$watchers.splice(i, 1);
-                            detachStaticScope();
-                        }
-                    }
-                }
-                console.log($scope.$$watchers)
-            })
-
-
-
-            //--------- Controller initialization ------
+            _initViewHelp();
         }
     ]);
