@@ -1,7 +1,7 @@
 ﻿angular.module('Lesson')
     .controller('LessonEditCtrl', [
         '$scope',
-        'LabelService',
+        //'LabelService',
         'AuthService',
         'lessonData',
         'LessonService',
@@ -11,7 +11,7 @@
         'DisciturSettings',
         function (
             $scope,
-            LabelService,
+            //LabelService,
             AuthService,
             lessonData,
             LessonService,
@@ -235,5 +235,15 @@
 
             //--------- Controller initialization ------
             _initViewHelp();
+
+            $scope.$watch(function () {
+                return AuthService.user.isLogged;
+            },
+                function (isLogged) {
+                    if (!isLogged)
+                        $state.go('lessonSearch', { keyword: '' }, { inherit: false });
+                }
+            );
+
         }
     ]);
