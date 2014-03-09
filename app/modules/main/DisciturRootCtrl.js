@@ -2,9 +2,11 @@
     .controller('DisciturRootCtrl', [
         '$scope',
         '$rootScope',
-        'LabelService',
-        //'AuthService',
-        function ($scope, $rootScope, LabelService) {
+        'DisciturBaseCtrl',
+        '$injector',
+        'AuthService',
+        '$state',
+        function ($scope, $rootScope, DisciturBaseCtrl, $injector, AuthService, $state) {
             //-----------------------------------------------------------
             // Loading layer management
             // 
@@ -30,16 +32,13 @@
             });
             */
 
-            //------- label initialization -------//
-            var _getLabel = function (label) {
-                return LabelService.get('DisciturMasterCtrl', label);
-            }
+            // inherit Discitur Base Controller
+            $injector.invoke(DisciturBaseCtrl, this, { $scope: $scope });
 
-            $scope.labels = {
-                appTitle: _getLabel('appTitle'),
-                loading: _getLabel('loading')
-            };
+            //-------- private properties -------
+            $scope._ctrl = 'DisciturMasterCtrl';
 
+            //------- private methods -------//
             var _getMessage = function (obj) {
                 var _message = "";
                 for (var key in obj) {
@@ -52,23 +51,27 @@
                 return _message;
             }
 
-            //------- Event Global Broadcasting -------//
+            //-------- public properties -------
+            $scope.labels = {
+                appTitle: $scope.getLabel('appTitle'),
+                loading: $scope.getLabel('loading')
+            };
+
+            //------- Global Event Management -------//
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                //if (toState.resolve) {
                 console.log("$stateChangeStart")
-                // Show a loading message until promises are not resolved
-                //$scope.loading = true;
-                //}
+                // Default behaviour for authorized states: redirect to login page (in this app to the lesson list page)
+                if (toState.authorized && !AuthService.user.isLogged) {
+                    // event preventDefault to stop the flow and redirect
+                    event.preventDefault();
+                    $state.go('lessonSearch');
+                }
             });
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 console.log("$stateChangeSuccess")
-                // Hide loading message
-                //$scope.loading = false;
             });
             $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
                 console.error('$stateChangeError: ' + error)
-                // Hide loading message
-                //$scope.loading = false;
             });
 
 
