@@ -1,6 +1,7 @@
 ﻿angular.module('Lesson',
     [
         'Discitur',
+        'disc.user',
         'Common',
         'ngResource',
         'ui.router',
@@ -47,6 +48,11 @@
                 onEnter: function () {
                     console.log("Entering Lesson Search");
                 },
+                resolve: {
+                    lessonsData: function (LessonService, $stateParams) {
+                        return LessonService.search($stateParams);
+                    }
+                },
                 views: {
                     'sidebar': {
                         templateUrl: 'modules/lesson/LessonListSideBar.html',
@@ -54,13 +60,7 @@
                     },
                     'main': {
                         templateUrl: 'modules/lesson/LessonList.html',
-                        controller: 'LessonListCtrl',
-                        resolve: {
-                            lessonsData: function (LessonService, $stateParams) {
-                                return LessonService.search($stateParams);
-                            }
-
-                        }
+                        controller: 'LessonListCtrl'
                     }
                 }
             })
@@ -88,8 +88,13 @@
             .state('lessonEdit', {
                 url: 'edit/lesson/:lessonId',
                 parent: 'master.1cl',
-                onEnter: function () {
+                onEnter: function (AuthService, lessonData, $location) {
                     console.log("Entering Lesson Edit");
+                    // the controller can be accessed only if authenticated
+                    if (!AuthService.user.isLogged ||
+                        (lessonData.lessonId != null && lessonData.author.userid != AuthService.user.userid))
+                        // use location due to $state.go land on blank page...
+                        $location.path('lesson');
                 },
                 templateUrl: 'modules/lesson/LessonEdit.html',
                 controller: 'LessonEditCtrl',
@@ -113,6 +118,7 @@
                     
             })
             .state('404lesson', {
+                authorized: true,
                 url: '404lesson',
                 parent: 'master.2cl',
                 onEnter: function () {
@@ -120,7 +126,8 @@
                 },
                 views: {
                     'sidebar': {
-                        templateUrl: 'modules/lesson/sidebar.html'
+                        templateUrl: 'modules/lesson/LessonListSideBar.html',
+                        controller: 'LessonListSideBarCtrl'
                     },
                     'main':{
                         controller: 'Lesson404Ctrl',
