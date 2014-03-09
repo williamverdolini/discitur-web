@@ -7,7 +7,7 @@
         <li class="dropdown">
             <a href="#" class="dropdown-toggle">{{model.username}}<b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a>{{labels.userProfile}}</a></li>
+                <li><a ng-click="actions.userProfile()">{{labels.userProfile}}</a></li>
                 <li><a ng-click="actions.searchUserLessons()">{{labels.userLessons}}</a></li>
                 <li><a ng-click="actions.signOff()">{{labels.userSignOff}}</a></li>
             </ul>

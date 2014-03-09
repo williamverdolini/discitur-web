@@ -42,6 +42,9 @@
                 searchUserLessons: function () {
                     // set inherit option to false to avoid conflict with parameters in URL set by advancedSearch
                     $state.go('lessonSearch', { publishedBy: $scope.model.username }, { inherit: false });
+                },
+                userProfile: function () {
+                    $state.go('userProfile', null, { inherit: false });
                 }
             }
             // Login Event management

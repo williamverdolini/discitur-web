@@ -7,6 +7,24 @@
         'ngSanitize',
         'ui.bootstrap'
     ])
-    .config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.interceptors.push('UserAuthInterceptor');
-    }]);
+    .config(
+    [
+        '$httpProvider',
+        '$stateProvider',
+        function ($httpProvider, $stateProvider) {
+            $httpProvider.interceptors.push('UserAuthInterceptor');
+
+            $stateProvider
+                .state('userProfile', {
+                    url: 'userProfile',
+                    parent: 'master.1cl',
+                    authorized: true,
+                    templateUrl: 'modules/user/UserProfile.html',
+                    controller: 'UserProfileCtrl',
+                    resolve: {
+                        user: function (AuthService) { return AuthService.user; }
+                    }
+                })
+
+        }
+    ]);
