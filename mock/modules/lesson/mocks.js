@@ -42,8 +42,10 @@
         ratings6: [
             //{ "Author": { "UserName": 'Willy', "UserId": 2, "Picture": "img/def-user-icon.png" }, "Rating": 3, "CreationDate": "2014-02-08T00:00:00", "Content": 'propvaprova prova, e riprova', "LessonId": 6 },
             { "Author": { "UserName": 'Fede', "UserId": 1, "Picture": "img/def-user-icon.png" }, "Rating": 3, "CreationDate": "2014-02-08T00:00:00", "Content": 'propvaprova prova, e riprova', "LessonId": 6 }
-        ]
-    })
+        ],
+        savedRating: { "Author": { "UserName": 'Fede', "UserId": 1, "Picture": "img/def-user-icon.png" }, "Rating": 3, "CreationDate": "2014-02-08T00:00:00", "Content": "Contenuto salvato", "LessonId": 555, "Id": 10 },
+        savedRating999: { "Author": { "UserName": 'Fede', "UserId": 1, "Picture": "img/def-user-icon.png" }, "Rating": 3, "CreationDate": "2014-02-08T00:00:00", "Content": "Contenuto salvato", "LessonId": 555, "Id": 999 }
+})
 
     .run(function ($httpBackend, DisciturSettings, MockedData) {
 

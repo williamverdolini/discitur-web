@@ -637,12 +637,14 @@ describe("Unit - module:Lesson - Testing Services", function () {
     // - mock http service: this is done through _$httpBackend (angular-mock)
     // - create a mock for the service.
     //
-    var _MockedData,
-        _httpBackend,
-        _LessonService,
-        _DisciturSettings,
-        _defQueryString,
-        _CommentDTO;
+      var _MockedData,
+          _httpBackend,
+          _LessonService,
+          _DisciturSettings,
+          _defQueryString,
+          _CommentDTO,
+          _RatingDTO,
+          _LessonDTO;
 
     // Befaore each test in the suite I inject the modules needed
     beforeEach(function () {
@@ -651,12 +653,15 @@ describe("Unit - module:Lesson - Testing Services", function () {
 
       //get your service, also get $httpBackend
       //$httpBackend will be a mock, thanks to angular-mocks.js
-      inject(function (MockedData, $httpBackend, LessonService, DisciturSettings, CommentDTO) {
+      inject(function (MockedData, $httpBackend, LessonService, DisciturSettings, CommentDTO, RatingDTO, LessonDTO, $cacheFactory) {
         _MockedData = MockedData;
         _httpBackend = $httpBackend;      
         _LessonService = LessonService;
         _DisciturSettings = DisciturSettings;
         _CommentDTO = CommentDTO;
+        _RatingDTO = RatingDTO;
+        _LessonDTO = LessonDTO;
+        _$cacheFactory = $cacheFactory;
       });
 
       _defQueryString = '?orderBy=PublishDate&orderDir=DESC&pageSize=3&startRow=0';
@@ -1480,6 +1485,506 @@ describe("Unit - module:Lesson - Testing Services", function () {
         _input.lessonId = 555;
         _input.id = 999;
         var returnedPromise = _LessonService.deleteComment(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.getRatings({id:1}) call api\\lesson\\1\\ratings URL', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/1/ratings'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectGET(_defURLComments).respond(_MockedData.ratings6)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var returnedPromise = _LessonService.getRatings({ id: 1 });
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.getRatings({id:6}) return a User RatingDTO array', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/6/ratings'
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === Array).toBe(true);
+                expect(data.length).toBe(1);
+                expect(data[0].lessonId, 'proprieta\' lessonId').toBeDefined();
+                expect(data[0].rating, 'proprieta\' rating').toBeDefined();
+                expect(data[0].content, 'proprieta\' content').toBeDefined();
+                expect(data[0].date, 'proprieta\' date').toBeDefined();
+                //expect(data[0].pageSize, 'proprieta\' pageSize').toBeDefined();
+                //expect(data[0].lessons, 'proprieta\' lessons').toBeDefined();
+            },
+            errorCB: function () { }
+        };
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectGET(_defURLComments).respond(_MockedData.ratings6)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var returnedPromise = _LessonService.getRatings({ id: 6 });
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.createRating(RatingDTO.lessonId=555) call api\\lesson\\555\\rating URL in POST', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/rating'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPOST(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var _input = new _RatingDTO();
+        _input.lessonId = 555;
+        var returnedPromise = _LessonService.createRating(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.createRating(RatingDTO.lessonId=555) return a User RatingDTO attached to lessonId=555', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/rating'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _RatingDTO).toBe(true);
+                expect(data.lessonId === 555, 'proprieta\' lessonId=555').toBe(true);
+                //expect(data[0].pageSize, 'proprieta\' pageSize').toBeDefined();
+                //expect(data[0].lessons, 'proprieta\' lessons').toBeDefined();
+            },
+            errorCB: function () { }
+        };
+
+
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPOST(_defURLComments).respond(_MockedData.savedRating)
+
+        //make the call.
+        var _input = new _RatingDTO();
+        _input.lessonId = 555;
+        var returnedPromise = _LessonService.createRating(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        //expect(_test.successCB).toHaveBeenCalled();
+        //expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.createRating(RatingDTO.lessonId=555) return a User RatingDTO attached to lessonId=555 with rating=3 and content=Contenuto salvato', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/rating'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _RatingDTO).toBe(true);
+                expect(data.id === 10, 'proprieta\' id=10').toBe(true);
+                expect(data.lessonId === 555, 'proprieta\' lessonId=555').toBe(true);
+                expect(data.rating, 'proprieta\' rating').toBe(3);
+                expect(data.content, 'proprieta\' content').toBe('Contenuto salvato');
+            },
+            errorCB: function () { }
+        };
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPOST(_defURLComments).respond(_MockedData.savedRating)
+
+        //make the call.
+        var _input = new _RatingDTO();
+        _input.lessonId = 555;
+        var returnedPromise = _LessonService.createRating(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.updateRating(RatingDTO{lessonId:555, id:999}) call api\\lesson\\555\\rating\\999 URL in PUT', function () {
+        var _defURLRatings = _DisciturSettings.apiUrl + 'lesson/555/rating/999'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLRatings).respond(_MockedData.savedRating999)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var _input = new _RatingDTO();
+        _input.lessonId = 555;
+        _input.id = 999;
+        var returnedPromise = _LessonService.updateRating(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.updateRating(RatingDTO{lessonId:555, id:999}) return a User RatingDTO with same id', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/rating/999'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _RatingDTO).toBe(true);
+                expect(data.id, 'proprieta\' id').toBe(_input.id);
+                expect(data.lessonId, 'proprieta\' lessonId').toBe(_input.lessonId);
+            },
+            errorCB: function () { }
+        };
+
+
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLComments).respond(_MockedData.savedRating999)
+
+        //make the call.
+        var _input = new _RatingDTO();
+        _input.lessonId = 555;
+        _input.id = 999;
+        var returnedPromise = _LessonService.updateRating(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.deleteRating(RatingDTO{lessonId:555, id:999}) call api\\lesson\\555\\rating\\999\\delete URL in PUT', function () {
+        var _defURLRatings = _DisciturSettings.apiUrl + 'lesson/555/rating/999/delete'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLRatings).respond(_MockedData.savedCommentl0)
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var _input = new _RatingDTO();
+        _input.lessonId = 555;
+        _input.id = 999;
+        var returnedPromise = _LessonService.deleteRating(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.deleteRating(RatingDTO{lessonId:555, id:999}) return a User RatingDTO with same id', function () {
+        var _defURLComments = _DisciturSettings.apiUrl + 'lesson/555/rating/999/delete'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _RatingDTO).toBe(true);
+                expect(data.id, 'proprieta\' id').toBe(_input.id);
+                expect(data.lessonId, 'proprieta\' lessonId').toBe(_input.lessonId);
+            },
+            errorCB: function () { }
+        };
+
+
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLComments).respond(_MockedData.savedCommentl0)
+
+        //make the call.
+        var _input = new _RatingDTO();
+        _input.lessonId = 555;
+        _input.id = 999;
+        var returnedPromise = _LessonService.deleteRating(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //flush the backend to "execute" the request.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.get({id:1}) call api\\lesson\\1 URL', function () {
+        var _defURLlesson = _DisciturSettings.apiUrl + 'lesson/1'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectGET(_defURLlesson).respond(_MockedData.lessons.Records[0])
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var returnedPromise = _LessonService.get({ id: 1 });
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.get({id:1}) use cache the second time', function () {
+        var _defURLlesson = _DisciturSettings.apiUrl + 'lesson/1'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { console.log("ciao"); },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectGET(_defURLlesson).respond(_MockedData.lessons.Records[0])
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var returnedPromise = _LessonService.get({ id: 1 });
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //make the call.
+        var secondCall = _LessonService.get({ id: 1 });
+        //use the handler you're spying on to handle the resolution of the promise.
+        secondCall.then(_test.successCB);
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        var _cachedObj = _$cacheFactory.get('$http').get(_DisciturSettings.apiUrl + 'lesson/1');
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+        expect(_test.successCB.calls.length).toEqual(2);
+        // cached status code
+        expect(_cachedObj[0]).toEqual(200);
+        // cached returned data
+        expect(_cachedObj[1]).toEqual(_MockedData.lessons.Records[0]);
+    });
+
+    it('Should the LessonService.get({id:1}) return a User LessonDTO obj', function () {
+        var _defURLLesson = _DisciturSettings.apiUrl + 'lesson/1'
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _LessonDTO).toBe(true);
+                /*
+                expect(data.length).toBe(1);
+                expect(data[0].lessonId, 'proprieta\' lessonId').toBeDefined();
+                expect(data[0].rating, 'proprieta\' rating').toBeDefined();
+                expect(data[0].content, 'proprieta\' content').toBeDefined();
+                expect(data[0].date, 'proprieta\' date').toBeDefined();
+                */
+                //expect(data[0].pageSize, 'proprieta\' pageSize').toBeDefined();
+                //expect(data[0].lessons, 'proprieta\' lessons').toBeDefined();
+            },
+            errorCB: function () { }
+        };
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectGET(_defURLLesson).respond(_MockedData.lessons.Records[0])
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var returnedPromise = _LessonService.get({ id: 1 });
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+    });
+
+    it('Should the LessonService.update(LessonDTO{id:999}) call api\\lesson\\999 URL in PUT', function () {
+        var _defURLRatings = _DisciturSettings.apiUrl + 'lesson/999'
+
+        //create an object with a function to spy on.
+        var _test = {
+            successCB: function () { },
+            errorCB: function () { }
+        };
+        //set up a spy for the callback handler.
+        spyOn(_test, 'successCB');
+        spyOn(_test, 'errorCB');
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLRatings).respond(_MockedData.lessons.Records[0])
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [START] -------------------------
+        //make the call.
+        var _input = new _LessonDTO();
+        _input.lessonId = 999;
+        _input.author = { name: null, surname: null, userid: null };
+        var returnedPromise = _LessonService.update(_input);
+
+        //use the handler you're spying on to handle the resolution of the promise.
+        returnedPromise.then(_test.successCB, _test.errorCB);
+
+        //--------------------- TEST CODE TO DRIVE THE DEVELOPMENT [END] ---------------------------
+
+        //flush the backend to "execute" the request to do the expectedGET assertion.
+        _httpBackend.flush();
+
+        //check your spy to see if it's been called with the returned value.  
+        //expect(_test.successCB).toHaveBeenCalledWith(_MockedData.lessons);
+        expect(_test.successCB).toHaveBeenCalled();
+        expect(_test.errorCB).not.toHaveBeenCalled();
+    });
+
+    it('Should the LessonService.update(LessonDTO{id:1}) return a LessonDTO with the same id', function () {
+        var _defURLRatings = _DisciturSettings.apiUrl + 'lesson/1'
+
+        //create an object with a function to spy on.
+        // DO NOT USE Spy (It prevents to callback in promise chain)
+        var _test = {
+            successCB: function (data) {
+                expect(data.constructor === _LessonDTO).toBe(true);
+                expect(data.lessonId, 'proprieta\' lessonId').toBe(_input.lessonId);
+            },
+            errorCB: function () { }
+        };
+
+
+
+        // Create mocked api route.
+        // I want to emulate what I will do in real app code, so I use the same config as in the real code
+        _httpBackend.expectPUT(_defURLRatings).respond(_MockedData.lessons.Records[0])
+
+        //make the call.
+        var _input = new _LessonDTO();
+        _input.lessonId = 1;
+        _input.author = { name: null, surname: null, userid: null };
+        var returnedPromise = _LessonService.update(_input);
 
         //use the handler you're spying on to handle the resolution of the promise.
         returnedPromise.then(_test.successCB, _test.errorCB);
