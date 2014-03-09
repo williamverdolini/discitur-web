@@ -18,13 +18,15 @@
             this.author = null;
             this.isPublished = false;
             this.publishedOn = null;
-            this.goods = [];
-            this.bads = [];
-            this.tags = [];
             this.content = null;
             this.conclusion = null;
             this.lastModifUser = null;
             this.version = null;
+            this.goods = [];
+            this.bads = [];
+            this.tags = [];
+            this.ratings = [];
+            this.comments = [];
         }
         return (LessonDTO);
     })
@@ -87,6 +89,7 @@
                 lesson.author = {
                     name: lessonData.Author.Name,
                     surname: lessonData.Author.Surname,
+                    userid: lessonData.Author.UserId,
                     username: lessonData.Author.UserName
                 }
                 lesson.isPublished = lessonData.Published=='1';
@@ -302,19 +305,36 @@
                     );
                     // create deferring result
                     var deferred = $q.defer();
+                    var CB = {
+                        success: function (data) { deferred.resolve(_dataTransfer(data)); },
+                        error: function (data) { deferred.reject("no Lesson for id:" + inputParams.id); }
+                    }
 
                     // Retrieve Async data for lesson id in input        
                     // cahce is enabled. Only after modification (Lessonservice.save) the chache is reloaded
-                    $http.get(DisciturSettings.apiUrl + 'lesson/' + inputParams.id, {cache:true})
+                    $http.get(DisciturSettings.apiUrl + 'lesson/' + inputParams.id,
+                        {
+                            cache: true/*,
+                            // TODO: use this to mapping purpose!!
+                            transformResponse: function (data, headers) {
+                                return JSON.parse(data);
+                            }
+                            */
+                        })
                         .success(
                             // Success Callback: Data Transfer Object Creation
-                            function (result) {
-                                deferred.resolve(_dataTransfer(result));
+                            function (data, status, headers, config) {
+                                if (200 <= status && status < 300)
+                                    CB.success(data);
+                                    //deferred.resolve(_dataTransfer(data));
+                                else
+                                    CB.error(data);
                             })
                         .error(
                             // Error Callback
-                            function () {
-                                deferred.reject("no Lesson for id:" + inputParams.id);
+                            function (data, status, headers, config) {
+                                //deferred.reject("no Lesson for id:" + inputParams.id);
+                                CB.error(data);
                             });
 
                     return deferred.promise;
