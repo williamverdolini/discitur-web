@@ -621,8 +621,9 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
-                                // if success, clear cache of getRatings
+                                // if success, clear cache of getRatings and lesson (ratings update lesson average rating)
                                 $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + rating.lessonId + '/ratings')
+                                $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + rating.lessonId)
 
                                 var _modifiedRating = _ratingTransfer(result);
                                 deferred.resolve(_modifiedRating)
