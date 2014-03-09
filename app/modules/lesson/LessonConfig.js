@@ -9,7 +9,11 @@
         'ui.bootstrap',
         'ui.tinymce'
     ])
-    .config(function ($stateProvider, $urlRouterProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, $uiViewScrollProvider) {
+        // to prevent autoscroll (introduced by angular-ui-router 0.2.8 https://github.com/angular-ui/ui-router/releases/tag/0.2.8)
+        // see: https://github.com/angular-ui/ui-router/issues/787
+        $uiViewScrollProvider.useAnchorScroll();
+
 
         // provate method to load Lesson data by lessonId passed through $stateParams
         var _getLessonData = function (LessonService, $q, $stateParams, $state, DiscUtil) {
