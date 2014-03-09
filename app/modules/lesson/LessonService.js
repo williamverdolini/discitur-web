@@ -311,16 +311,8 @@
                     }
 
                     // Retrieve Async data for lesson id in input        
-                    // cahce is enabled. Only after modification (Lessonservice.save) the chache is reloaded
-                    $http.get(DisciturSettings.apiUrl + 'lesson/' + inputParams.id,
-                        {
-                            cache: true/*,
-                            // TODO: use this to mapping purpose!!
-                            transformResponse: function (data, headers) {
-                                return JSON.parse(data);
-                            }
-                            */
-                        })
+                    // cache is enabled. Only after modification (Lessonservice.save) the chache is reloaded
+                    $http.get(DisciturSettings.apiUrl + 'lesson/' + inputParams.id, {cache: true})
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (data, status, headers, config) {

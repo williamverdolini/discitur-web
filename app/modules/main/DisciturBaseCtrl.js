@@ -11,11 +11,11 @@
 
                 //--------- Controller initialization ------
                 // detach static bindings (labels)
-                var _watchers = null;
+                var _watching = false;
                 var _detachStaticWatchers = $scope.$watch(function () {
                     // first digest cycle: do nothing to populate view
-                    if (_watchers == null) {
-                        _watchers = [];
+                    if (!_watching) {
+                        _watching = true;
                     }
                         // second digest cycle: remove static watchers
                     else {
