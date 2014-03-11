@@ -4,6 +4,7 @@
         'AuthService',
         '$state',
         'lessonData',
+        'lastLessonList',
         'DisciturBaseCtrl',
         '$injector',
         function (
@@ -11,6 +12,7 @@
             AuthService,
             $state,
             lessonData,
+            lastLessonList,
             DisciturBaseCtrl,
             $injector
              ) {
@@ -22,12 +24,14 @@
 
             //--------- public properties ------
             $scope.labels = {
+                lastLessonsTitle: $scope.getLabel('lastLessonsTitle'),
                 editLessonButton: $scope.getLabel('editLessonButton')
             };
 
             $scope.local = {
                 user: AuthService.user,
-                lesson: lessonData
+                lesson: lessonData,
+                lastLessonList: lastLessonList
             }
 
             //-------- public method -------

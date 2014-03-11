@@ -1,10 +1,11 @@
 ﻿<div class="panel panel-default">
-    <div class="panel-heading">Alcune altre lezioni pubblicate</div>
+    <div class="panel-heading">{{labels.lastLessonsTitle}}</div>
     <ul class="list-group">
-        <li class="list-group-item"><a href="#/lesson/1">La rivoluzione Francese secondo Robespierre</a></li>
-        <li class="list-group-item"><a href="#/lesson/2">Impegno Civile</a></li>
-        <li class="list-group-item"><a href="#/lesson/3">La Carta Geografica</a></li>
+        <li class="list-group-item" ng-repeat="lesson in local.lastLessonList">
+            <a href="#/lesson/{{lesson.lessonId}}">{{lesson.title}}</a>
+        </li>
     </ul>
+
 
 </div>
 

@@ -98,7 +98,9 @@
                     "Il paragrafo è utilizzato nella lista dei risultati della ricerca come <i>abstract</i> della lezione,"+
                     "perciò è importante riuscire a sintetizzare il contenuto e gli aspetti caratterizzanti.</h6>",
         editTooltip: "Modifica",
-        deleteTooltip: "Elimina"
+        deleteTooltip: "Elimina",
+        lastLessonsTitle: "Le ultime lezioni pubblicate"
+
     }
 )
 .value('overrides',

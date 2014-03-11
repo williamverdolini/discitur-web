@@ -59,7 +59,8 @@
     .constant('DisciturSettings', {
         apiUrl: 'http://localhost:59739/api/',
         authToken: 'disc.auth.token',
-        viewHelp: 'disc.viewHelp'
+        viewHelp: 'disc.viewHelp',
+        lastLessonsNum: 5
     })
     .factory('DiscUtil', ['$cacheFactory', function ($cacheFactory) {
         var _getMessage = function (obj) {

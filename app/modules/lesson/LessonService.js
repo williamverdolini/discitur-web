@@ -30,6 +30,13 @@
         }
         return (LessonDTO);
     })
+    .factory('LessonSummaryDTO', function () {
+        function LessonSummaryDTO() {
+            this.lessonId = null;
+            this.title = null;
+        }
+        return (LessonSummaryDTO);
+    })
     .factory('CommentDTO', function () {
         function CommentDTO() {
             this.lessonId = null;
@@ -71,10 +78,11 @@
         'LessonDTO',
         'CommentDTO',
         'RatingDTO',
+        'LessonSummaryDTO',
         'DisciturSettings',
         'DiscUtil',
         '$cacheFactory',
-        function ($resource, $http, $q, LessonDTO, CommentDTO, RatingDTO, DisciturSettings, DiscUtil, $cacheFactory) {
+        function ($resource, $http, $q, LessonDTO, CommentDTO, RatingDTO, LessonSummaryDTO, DisciturSettings, DiscUtil, $cacheFactory) {
             //-------- private methods -------
             // Private methods for DTO purposes
 
@@ -192,6 +200,17 @@
                     ratings.sort(function (c1, c2) { return c1.date - c2.date })
                 }
                 return ratings;
+            }
+            // Lesson Summaries data transfer
+            var _lessonSummariesTransfer = function(lessonsData){
+                var lsa = []
+                for (var i = 0; i < lessonsData.length; i++) {
+                    var ls = new  LessonSummaryDTO();
+                    ls.lessonId = lessonsData[i].Key;
+                    ls.title = lessonsData[i].Value;
+                    lsa.push(ls);
+                }
+                return lsa;
             }
             // Lesson Comment data Transfer
             var _ratingTransfer = function (ratingData) {
@@ -676,6 +695,7 @@
                             function (result) {
                                 // if success, clear cache 
                                 $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + _lesson.LessonId)
+                                $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson?lastNum=' + DisciturSettings.lastLessonsNum)
                                 deferred.resolve(_dataTransfer(result))
                             })
                         .error(
@@ -703,6 +723,7 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
+                                $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson?lastNum=' + DisciturSettings.lastLessonsNum)
                                 deferred.resolve(_dataTransfer(result))
                             })
                         .error(
@@ -717,6 +738,27 @@
                 // New LessonDto Factory
                 newLesson: function () {
                     return new LessonDTO();
+                },
+                // get last 5 lessons (summary data)
+                getLastLessons: function () {
+                    // create deferring result
+                    var deferred = $q.defer();
+
+                    // Retrieve Async data for lesson id in input        
+                    $http({ method: 'GET', url: DisciturSettings.apiUrl + 'lesson', params: { lastNum: DisciturSettings.lastLessonsNum }, cache: true })
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                deferred.resolve(_lessonSummariesTransfer(result));
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error for getLastLessons:" + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
+
                 }
 
             };

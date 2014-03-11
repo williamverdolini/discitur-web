@@ -55,6 +55,9 @@
                 resolve: {
                     lessonsData: function (LessonService, $stateParams) {
                         return LessonService.search($stateParams);
+                    },
+                    lastLessonList: function (LessonService) {
+                        return LessonService.getLastLessons();
                     }
                 },
                 views: {
@@ -76,7 +79,10 @@
                 },
                 // resolve create service data shared by component views
                 resolve: {
-                    lessonData: _getLessonData
+                    lessonData: _getLessonData,
+                    lastLessonList: function (LessonService) {
+                        return LessonService.getLastLessons();
+                    }
                 },
                 views: {
                     'sidebar': {
