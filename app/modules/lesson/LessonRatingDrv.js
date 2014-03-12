@@ -34,7 +34,7 @@
                         scope.userRating.author.image = AuthService.user.image
                         scope.local.sameUser = true;
                         scope.local.edit = true;
-                        scope.local.EditText = "";
+                        //scope.local.EditText = "";
                     }
 
                     //-------- private variables-------
@@ -49,7 +49,7 @@
                         user: AuthService.user,
                         sameUser: scope.userRating ? (scope.userRating.author.username == AuthService.user.username) : false,
                         edit: false,
-                        EditText: null,
+                        EditText: "",
                         EditRating: null,
                         showDeleteRatingErr: false,
                         showNoRatingErr: false
@@ -123,6 +123,11 @@
                                     }
                                 )
                         },
+                        editRating: function () {
+                            scope.local.edit = !scope.local.edit;
+                            scope.local.EditText = scope.userRating.content;
+                            scope.local.EditRating = scope.userRating.rating;
+                        }
                     }
 
                     //-------- Initialization -------

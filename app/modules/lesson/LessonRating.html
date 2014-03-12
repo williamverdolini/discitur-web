@@ -10,7 +10,7 @@
                 <div class="panel-heading">
                     <b>{{userRating.author.username}}</b> - <small>{{userRating.date | date:'dd/MM/yyyy HH:mm'}}</small>
                     <div class="btn-group btn-group-xs pull-right" ng-show="local.user.isLogged && local.sameUser">
-                        <button type="button" class="btn btn-inverse" ng-click="local.edit=!local.edit;local.EditText=userRating.content;local.EditRating=userRating.rating" tooltip="{{labels.editTooltip}}"><span class="glyphicon glyphicon-edit"></span></button>
+                        <button type="button" class="btn btn-inverse" ng-click="actions.editRating()" tooltip="{{labels.editTooltip}}"><span class="glyphicon glyphicon-edit"></span></button>
                         <button type="button" class="btn btn-inverse" ng-click="actions.deleteRating()" tooltip="{{labels.deleteTooltip}}"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
                 </div>
@@ -30,14 +30,18 @@
                             </div>
 
                             <div class="form-group">
-                                <textarea name="EditText" class="form-control" rows="3" ng-model="local.EditText" placeholder="{{labels.ratingtPlaceholder}}"></textarea>
+                                <textarea type="textarea"
+                                          class="form-control"
+                                          name="EditText"
+                                          ng-model="local.EditText"
+                                          rows="3"
+                                          placeholder="{{labels.ratingtPlaceholder}}"></textarea>
                             </div>
                             <!-- User Rating Toolbar-->
                             <div class="form-group">
                                 <input type="submit" class="btn btn-default btn-xs" name="saveButton" value="{{labels.ratingSave}}" />
                                 <input type="button" class="btn btn-danger btn-xs" ng-show="local.UserEditRatingForm.EditText.$invalid && local.UserEditRatingForm.EditText.$dirty" disabled value="{{labels.ratingRequired}}" />
                             </div>
-
                         </form>
                     </div>
                 </div>
