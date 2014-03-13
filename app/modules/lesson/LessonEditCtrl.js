@@ -70,7 +70,8 @@
                 helpTags: $scope.getLabel('helpTags'),
                 helpContent: $scope.getLabel('helpContent'),
                 helpFeedbacks: $scope.getLabel('helpFeedbacks'),
-                helpConclusion: $scope.getLabel('helpConclusion')
+                helpConclusion: $scope.getLabel('helpConclusion'),
+                addItem: $scope.getLabel('addItem')
             };
 
             $scope.model = {

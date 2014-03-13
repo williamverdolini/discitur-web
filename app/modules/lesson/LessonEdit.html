@@ -160,7 +160,7 @@
                                    typeahead="k for k in actions.getTags($viewValue) | filter:$viewValue"
                                    typeahead-on-select="actions.selectTag()">
                             <span class="input-group-btn">
-                                <button class="btn btn-default" ng-click="actions.selectTag()" type="button">{{labels.buttonAdd}}</button>
+                                <button class="btn btn-default" ng-click="actions.selectTag()" type="button" tooltip="{{labels.addItem}}">{{labels.buttonAdd}}</button>
                             </span>
                         </div>
                     </div>
@@ -246,7 +246,7 @@
                                         <div class="col-lg-10 col-lg-offset-1 input-group">
                                             <input class="form-control" type="text" ng-model="local.lessonGood">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-default" ng-click="actions.addGood()" type="button">{{labels.buttonAdd}}</button>
+                                                <button class="btn btn-default" ng-click="actions.addGood()" type="button" tooltip="{{labels.addItem}}">{{labels.buttonAdd}}</button>
                                             </span>
                                         </div>
 
@@ -280,7 +280,7 @@
                                         <div class="col-lg-10 col-lg-offset-1 input-group">
                                             <input class="form-control" type="text" ng-model="local.lessonBad">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-default" ng-click="actions.addBad()" type="button">{{labels.buttonAdd}}</button>
+                                                <button class="btn btn-default" ng-click="actions.addBad()" type="button" tooltip="{{labels.addItem}}">{{labels.buttonAdd}}</button>
                                             </span>
                                         </div>
 
