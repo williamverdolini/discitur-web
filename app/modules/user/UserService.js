@@ -20,6 +20,8 @@
         'UserDTO',
         function ($http, $q, DiscUtil, DisciturSettings, UserDTO) {
             //-------- private methods -------
+
+            // User data transfer from API
             var _setUserData = function (apiData) {
                 var _user = new UserDTO();
                 _user.userid = apiData.UserId;
@@ -31,13 +33,13 @@
                 _user.isLogged = true;
                 return _user;
             }
-
+            // clear User information after Logout
             var _setUserLoginOutData = function () {
                 var _user = new UserDTO();
                 angular.extend(_user, { isLogged: false })
                 return _user;
             }
-
+            // store token in localStorage if passed, otherwise clear localStorage
             var _setToken = function (token) {
                 if (!token) {
                     localStorage.removeItem(DisciturSettings.authToken);
@@ -153,6 +155,14 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result, status) {
+                                var _user = _setUserData(result);
+
+                                //angular.extend(_authService.user, _user);
+                                angular.copy(_user, _authService.user);
+
+                                deferred.resolve(_authService.user);
+
+                                /*
                                 // I don't understand this...I should go on error callback...
                                 if (status >= 200 && status < 300) {
                                     //var _user = _setUserLoginData(result);
@@ -179,13 +189,22 @@
                                     }
                                     deferred.reject(_authErr);
                                 }
+                                */
                             })
                         .error(
                             // Error Callback
                             function (error, status) {
+                                // remove Auth Token
+                                _setToken(null);
+                                // unload current user data
+                                var _user = _setUserLoginOutData();
+                                //angular.extend(_authService.user, _user);
+                                angular.copy(_user, _authService.user);
+
+
                                 var _authErr = {
-                                    code: error.error,
-                                    description: error.error_description,
+                                    code: status,
+                                    description: result,
                                     status: status
                                 }
                                 deferred.reject(_authErr);

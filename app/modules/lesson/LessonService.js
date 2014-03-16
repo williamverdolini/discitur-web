@@ -324,28 +324,32 @@
                     );
                     // create deferring result
                     var deferred = $q.defer();
+                    /*
                     var CB = {
                         success: function (data) { deferred.resolve(_dataTransfer(data)); },
                         error: function (data) { deferred.reject("no Lesson for id:" + inputParams.id); }
                     }
-
+                    */
                     // Retrieve Async data for lesson id in input        
                     // cache is enabled. Only after modification (Lessonservice.save) the chache is reloaded
                     $http.get(DisciturSettings.apiUrl + 'lesson/' + inputParams.id, {cache: true})
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (data, status, headers, config) {
+                                deferred.resolve(_dataTransfer(data));
+                                /*
                                 if (200 <= status && status < 300)
                                     CB.success(data);
                                     //deferred.resolve(_dataTransfer(data));
                                 else
                                     CB.error(data);
+                                */
                             })
                         .error(
                             // Error Callback
                             function (data, status, headers, config) {
-                                //deferred.reject("no Lesson for id:" + inputParams.id);
-                                CB.error(data);
+                                deferred.reject("no Lesson for id:" + inputParams.id);
+                                //CB.error(data);
                             });
 
                     return deferred.promise;
@@ -498,17 +502,17 @@
                             // Success Callback: Data Transfer Object Creation
                             function (result, status) {
                                 // I don't understand this...I should go on error callback...
-                                if (status >= 200 && status < 300) {
-                                    // if success, clear cache of getComments
-                                    $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + comment.lessonId + '/comments')
+                                //if (status >= 200 && status < 300) {
+                                // if success, clear cache of getComments
+                                $cacheFactory.get('$http').remove(DisciturSettings.apiUrl + 'lesson/' + comment.lessonId + '/comments')
 
-                                    var _newComment = _commentTransfer(result);
-                                    _newComment._num = comment._num;
-                                    _newComment._order = comment._order;
-                                    deferred.resolve(_newComment)
-                                }
-                                else
-                                    deferred.reject("Error editing comment on lesson id:" + comment.lessonId + " -> " + result);
+                                var _newComment = _commentTransfer(result);
+                                _newComment._num = comment._num;
+                                _newComment._order = comment._order;
+                                deferred.resolve(_newComment)
+                                //}
+                                //else
+                                //    deferred.reject("Error editing comment on lesson id:" + comment.lessonId + " -> " + result);
                             })
                         .error(
                             // Error Callback
@@ -533,12 +537,15 @@
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result, status) {
+                                deferred.resolve(comment);
+                                /*
                                 // I don't understand this...I should go on error callback...
                                 if (status >= 200 && status < 300) {
                                     deferred.resolve(comment);
                                 }
                                 else
                                     deferred.reject("Error deleting comment on lesson id:" + comment.lessonId + " -> " + arguments.toString());
+                                */
                             })
                         .error(
                             // Error Callback

@@ -59,7 +59,7 @@
 
             //------- Global Event Management -------//
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                console.log("$stateChangeStart")
+                //console.log("$stateChangeStart")
                 // Default behaviour for authorized states: redirect to login page (in this app to the lesson list page)
                 if (toState.authorized && !AuthService.user.isLogged) {
                     // event preventDefault to stop the flow and redirect
@@ -68,10 +68,15 @@
                 }
             });
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-                console.log("$stateChangeSuccess")
+                //console.log("$stateChangeSuccess")
             });
             $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
-                console.error('$stateChangeError: ' + error)
+                //console.error('$stateChangeError: ' + error)
+                if (toState.name === 'lessonDetail') {
+                    // event preventDefault to stop the flow and redirect
+                    //event.preventDefault();
+                    return $state.go('404lesson');
+                }
             });
 
 

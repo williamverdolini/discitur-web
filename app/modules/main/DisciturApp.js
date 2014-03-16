@@ -104,27 +104,28 @@
 
 
     }])
-    // Authentication Intercepor:
-    // set Header Authorization Token (if exists)
+    // LoadingInterceptor Intercepor:
+    // display/hide loading bar
     .factory('LoadingInterceptor', [
+        '$q',
         '$rootScope',
         'DisciturSettings',
-        function ($rootScope,DisciturSettings) {
+        function ($q, $rootScope,DisciturSettings ) {
             return {
                 request: function (config) {
                     if (config.url.indexOf(DisciturSettings.apiUrl)>=0)
                         $rootScope.$loading = true;
-                    return config;
+                    return config || $q.when(config);
                 },
                 response: function (result) {
                     if (result.config.url.indexOf(DisciturSettings.apiUrl) >= 0)
                         $rootScope.$loading = false;
-                    return result;
+                    return result || $q.when(result);
                 },
                 responseError: function (result) {
                     if ($rootScope.$loading)
                         $rootScope.$loading = false;
-                    return result;
+                    return $q.reject(result);
                 }
             }
         }
