@@ -100,7 +100,14 @@
                     "perciò è importante riuscire a sintetizzare il contenuto e gli aspetti caratterizzanti.</h6>",
         editTooltip: "Modifica",
         deleteTooltip: "Elimina",
-        lastLessonsTitle: "Le ultime lezioni pubblicate"
+        lastLessonsTitle: "Le ultime lezioni pubblicate",
+        socialTitleFBLike: "I Like it",
+        socialTitleGPone: "Google +1",
+        socialTitleTWShare: "Share on Twitter",
+        socialTitleFBShare: "Share on Facebook",
+        socialTitleGPShare: "Share on Google Plus",
+        socialTitleLIShare: "Share on LinkedIn"
+
 
     }
 )

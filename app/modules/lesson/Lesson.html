@@ -1,85 +1,4 @@
-﻿<style>
-    .social-bar {
-        text-align: right;
-        margin: 22px 0;
-        height: 30px;
-        /*overflow: hidden;*/
-        margin: 0;
-        position: absolute;
-        right: 15px;
-        bottom: 12px;
-    }
-
-    .social-item {
-        display: inline-block;
-        margin-left: 10px;
-        vertical-align: top;
-        height: 20px;
-        /*overflow: hidden;*/
-        /*width: 98px;*/
-    }
-
-    .nav-container2 {
-        margin: auto;
-        right: 52px;
-        position:absolute;
-    }
-
-    .social-media-list {
-        width: 393px;
-    }
-
-        .social-media-list li {
-            display: block;
-            float: left;
-            text-align: center;
-            margin: 0 auto;
-        }
-
-    .google-plus-one {
-        overflow: hidden;
-        position: relative;
-    }
-
-        .google-plus-one i {
-            position: absolute;
-            left: -4px;
-            bottom: -5px;
-        }
-
-        .google-plus-one span {
-            font-size: 16px;
-            font-weight: 900;
-            line-height: 10px;
-            margin-left: 15px;
-        }
-
-    .btn-sm.google-plus-one span {
-        font-size: 14px;
-    }
-
-    .btn-sm.google-plus-one i {
-        bottom: -3px;
-    }
-
-    .btn-lg.google-plus-one span {
-        font-size: 20px;
-        margin-left: 18px;
-    }
-
-    .btn-lg.google-plus-one i {
-        bottom: -5px;
-    }
-
-    .btn-xs.google-plus-one span {
-        font-size: 12px;
-    }
-
-    .btn-xs.google-plus-one i {
-        bottom: -7px;
-    }
-</style>
-<!-- Lesson's Heading Area -->
+﻿<!-- Lesson's Heading Area -->
 <div id="LessonHeading" class="jumbotron">
 
     <input type="hidden" name="lesson.id" value="{{lesson.lessonId}}" />
@@ -89,7 +8,8 @@
             <div class="Lesson-Features col-md-12">
                 <span>{{labels.specifics}}</span>
 
-
+                <social-bar css-class="social-bar" abs-url="{{absUrl}}" url-title="{{lesson.title}}"></social-bar>
+                <!--
                 <div class="social-bar">
                     <a class="btn btn-xs btn-facebook" target="_blank" title="Mi piace" href="http://www.facebook.com/plugins/like.php?href={{absUrlComponent}}">
                         <i class="fa fa-thumbs-o-up fa-lg fb"></i>
@@ -112,6 +32,7 @@
                     </a>
 
                 </div>
+                -->
             </div>
             <!--<span class="Lesson-Features col-md-12">{{labels.specifics}}</span>-->
             <h4>
