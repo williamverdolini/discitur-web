@@ -8,6 +8,8 @@
         '$rootScope',
         'AuthService',
         'CommentDTO',
+        'DisciturBaseCtrl',
+        '$injector',
         function (
             $scope,
             LabelService,
@@ -16,31 +18,41 @@
             lessonData,
             $rootScope,
             AuthService,
-            CommentDTO
+            CommentDTO,
+            DisciturBaseCtrl,
+            $injector
             ) {
+            // inherit Discitur Base Controller
+            $injector.invoke(DisciturBaseCtrl, this, { $scope: $scope });
+
+            //-------- private properties -------
+            $scope._ctrl = 'LessonCtrl';
+
             //-------- private methods-------
+            /*
             var _getLabel = function (label) {
                 return LabelService.get('LessonCtrl', label);
             }
+            */
             //-------- public properties-------
             $scope.labels = {
-                specifics: _getLabel('specifics'),
-                discipline: _getLabel('discipline'),
-                school: _getLabel('school'),
-                classroom: _getLabel('classroom'),
-                author: _getLabel('author'),
-                publishedOn: _getLabel('publishedOn'),
-                rating: _getLabel('rating'),
-                content: _getLabel('content'),
-                lessonGoods: _getLabel('lessonGoods'),
-                noLessonGoods: _getLabel('noLessonGoods'),
-                lessonBads: _getLabel('lessonBads'),
-                noLessonBads: _getLabel('noLessonBads'),
-                conclusion: _getLabel('conclusion'),
-                comments: _getLabel('comments'),
-                ratings: _getLabel('ratings'),
-                ratingtHelp: _getLabel('ratingtHelp'),
-                notPublished: _getLabel('notPublished')
+                specifics: $scope.getLabel('specifics'),
+                discipline: $scope.getLabel('discipline'),
+                school: $scope.getLabel('school'),
+                classroom: $scope.getLabel('classroom'),
+                author: $scope.getLabel('author'),
+                publishedOn: $scope.getLabel('publishedOn'),
+                rating: $scope.getLabel('rating'),
+                content: $scope.getLabel('content'),
+                lessonGoods: $scope.getLabel('lessonGoods'),
+                noLessonGoods: $scope.getLabel('noLessonGoods'),
+                lessonBads: $scope.getLabel('lessonBads'),
+                noLessonBads: $scope.getLabel('noLessonBads'),
+                conclusion: $scope.getLabel('conclusion'),
+                comments: $scope.getLabel('comments'),
+                ratings: $scope.getLabel('ratings'),
+                ratingtHelp: $scope.getLabel('ratingtHelp'),
+                notPublished: $scope.getLabel('notPublished')
             };
 
             $scope.local = {
@@ -167,7 +179,7 @@
                 .then(function (ratings) { $scope.lesson.ratings = ratings; }) // success
 
 
-            var _watchers = null;
+            //var _watchers = null;
 
             /*
             var _detachStaticWatchers = $scope.$watch(function () {
