@@ -16,7 +16,7 @@
 
 
         // provate method to load Lesson data by lessonId passed through $stateParams
-        var _getLessonData = function (LessonService, $q, $stateParams, $state, DiscUtil) {
+        var _getLessonData = function (LessonService, $q, $stateParams, $state, DiscUtil, AuthService) {
             // create deferring result
             var deferred = $q.defer();
 
@@ -28,16 +28,20 @@
             LessonService.get({ id: lessondId })
                 .then(
                     // Success Callback
-                    function (result) {
+                    function (lesson) {
                         //var cache = $cacheFactory('disciturCache');
                         //cache.put('currentLesson', result)
-                        DiscUtil.cache.put('lesson', result)
-                        deferred.resolve(result)
+                        // if lesson is private is visible only for the author
+                        if (!lesson.isPublished && lesson.author.userid != AuthService.user.userid) {
+                            deferred.reject("no Lesson for id:" + lessondId);
+                        }
+                        DiscUtil.cache.put('lesson', lesson)
+                        deferred.resolve(lesson)
                     },
                     // Error Callback
                     function () {
                         deferred.reject("no Lesson for id:" + lessondId);
-                        $state.go('404lesson')
+                        //$state.go('404lesson')
                                             
                     });
             //}, 2000);
@@ -96,6 +100,7 @@
                 }
             })
             .state('lessonEdit', {
+                authorized: true,
                 url: 'edit/lesson/:lessonId',
                 parent: 'master.1cl',
                 onEnter: function (AuthService, lessonData, $location) {
@@ -128,11 +133,16 @@
                     
             })
             .state('404lesson', {
-                authorized: true,
+                //authorized: true,
                 url: '404lesson',
                 parent: 'master.2cl',
                 onEnter: function () {
                     console.log("master.2cl.404lesson");
+                },
+                resolve: {
+                    lastLessonList: function (LessonService) {
+                        return LessonService.getLastLessons();
+                    }
                 },
                 views: {
                     'sidebar': {

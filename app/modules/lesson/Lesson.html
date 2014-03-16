@@ -1,10 +1,119 @@
-﻿<!-- Lesson's Heading Area -->
+﻿<style>
+    .social-bar {
+        text-align: right;
+        margin: 22px 0;
+        height: 30px;
+        /*overflow: hidden;*/
+        margin: 0;
+        position: absolute;
+        right: 15px;
+        bottom: 12px;
+    }
+
+    .social-item {
+        display: inline-block;
+        margin-left: 10px;
+        vertical-align: top;
+        height: 20px;
+        /*overflow: hidden;*/
+        /*width: 98px;*/
+    }
+
+    .nav-container2 {
+        margin: auto;
+        right: 52px;
+        position:absolute;
+    }
+
+    .social-media-list {
+        width: 393px;
+    }
+
+        .social-media-list li {
+            display: block;
+            float: left;
+            text-align: center;
+            margin: 0 auto;
+        }
+
+    .google-plus-one {
+        overflow: hidden;
+        position: relative;
+    }
+
+        .google-plus-one i {
+            position: absolute;
+            left: -4px;
+            bottom: -5px;
+        }
+
+        .google-plus-one span {
+            font-size: 16px;
+            font-weight: 900;
+            line-height: 10px;
+            margin-left: 15px;
+        }
+
+    .btn-sm.google-plus-one span {
+        font-size: 14px;
+    }
+
+    .btn-sm.google-plus-one i {
+        bottom: -3px;
+    }
+
+    .btn-lg.google-plus-one span {
+        font-size: 20px;
+        margin-left: 18px;
+    }
+
+    .btn-lg.google-plus-one i {
+        bottom: -5px;
+    }
+
+    .btn-xs.google-plus-one span {
+        font-size: 12px;
+    }
+
+    .btn-xs.google-plus-one i {
+        bottom: -7px;
+    }
+</style>
+<!-- Lesson's Heading Area -->
 <div id="LessonHeading" class="jumbotron">
+
     <input type="hidden" name="lesson.id" value="{{lesson.lessonId}}" />
     <h1>{{lesson.title}} <small ng-show="!lesson.isPublished" tooltip="{{labels.notPublished}}" tooltip-placement="bottom">(<span class="glyphicon glyphicon-lock"></span>)</small></h1>
     <div class="row">
         <div class="col-md-12">
-            <span class="Lesson-Features col-md-12">{{labels.specifics}}</span>
+            <div class="Lesson-Features col-md-12">
+                <span>{{labels.specifics}}</span>
+
+
+                <div class="social-bar">
+                    <a class="btn btn-xs btn-facebook" target="_blank" title="Mi piace" href="http://www.facebook.com/plugins/like.php?href={{absUrlComponent}}">
+                        <i class="fa fa-thumbs-o-up fa-lg fb"></i>
+                    </a>
+                    <a class="btn btn-xs btn-google-plus google-plus-one" target="_blank" title="+1" href="https://apis.google.com/_/+1/fastbutton?usegapi=1&size=large&url={{absUrlComponent}}">
+                        <i class="fa fa-google-plus fa-2x google"></i>
+                        <span class="google">1</span>
+                    </a>
+                    <a class="btn btn-xs btn-twitter" target="_blank" title="Share On Twitter" href="https://twitter.com/share?url={{absUrlComponent}}&via=__wilver__">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a class="btn btn-xs btn-facebook" target="_blank" title="Share On Facebook" href="http://www.facebook.com/sharer.php?u={{absUrlComponent}}">
+                        <i class="fa fa-facebook fa-lg"></i>
+                    </a>
+                    <a class="btn btn-xs btn-google-plus" target="_blank" title="Share On Google+" href="https://plus.google.com/share?url={{absUrlComponent}}">
+                        <i class="fa fa-google-plus fa-lg google"></i>
+                    </a>
+                    <a class="btn btn-xs btn-linkedin" target="_blank" title="Share On Linkedin" href="http://www.linkedin.com/shareArticle?url={{absUrlComponent}}">
+                        <i class="fa fa-linkedin fa-lg linkin"></i>
+                    </a>
+
+                </div>
+            </div>
+            <!--<span class="Lesson-Features col-md-12">{{labels.specifics}}</span>-->
             <h4>
                 <dl class="dl-horizontal">
                 <dt>{{labels.discipline}} :</dt>
@@ -29,6 +138,9 @@
         </span>
     </div>
 </div>
+
+
+
 <!-- Lesson's Content Area -->
 <div id="LessonContent" class="row">
     <div class="col-md-12">
@@ -118,5 +230,18 @@
             </tab>
         </tabset>
     </div>
+
+    <!-- Lesson's Content Area -->
+    <div class="col-md-12">
+        <!--
+        <a href="https://twitter.com/share" data-url="{{absUrl}}" class="twitter-share-button" data-via="__wilver__">Tweet</a>
+        <a class="fb-share-button" data-href="{{absUrl}}" data-type="button_count"></a>
+        <div class="g-plusone" data-size="medium" data-href="{{absUrl}}"></div>
+
+        <a href="https://twitter.com/share" data-url="{{absUrl}}" class="btn btn-twitter" data-via="__wilver__"><i class="fa fa-twitter"></i></a>
+        -->
+
+    </div>
+
 
 </div>

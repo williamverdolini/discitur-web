@@ -1,8 +1,12 @@
 ﻿angular.module('Discitur')
     .factory('DisciturBaseCtrl',
     [
+        'LabelService',
         function () {
-            function DisciturBaseCtrl($scope, LabelService) {
+            function DisciturBaseCtrl($scope, LabelService,$location) {
+                //-------- public methods-------
+                $scope.absUrl = $location.absUrl();
+                $scope.absUrlComponent = encodeURIComponent($scope.absUrl);
                 //-------- public methods-------
                 $scope.getLabel = function (label) {
                     return LabelService.get($scope._ctrl, label);
