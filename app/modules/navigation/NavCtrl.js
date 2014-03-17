@@ -29,7 +29,8 @@
                     id: 2, title: "Il Progetto", route: "/project", subMenu: [
                         { id: 21, title: "Il Manifesto", route: "/project/mission" },
                         { id: 22, title: "Chi siamo", route: "/project/About" },
-                        { id: 23, title: "BackStage", route: "/project/backstage" }
+                        { id: 23, title: "Contribuisci", route: "/project/contribute" },
+                        { id: 24, title: "BackStage", route: "/project/backstage" }
                     ]
                 },
                 { id: 3, title: "Contatti", route: "/project/contact" }

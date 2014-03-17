@@ -54,6 +54,11 @@
                 parent: 'master.1cl',
                 templateUrl: 'modules/main/site/BackStage.html'
             })
+            .state('master.1cl.contribute', {
+                url: 'project/contribute',
+                parent: 'master.1cl',
+                templateUrl: 'modules/main/site/Contribute.html'
+            })
 
     })
     .constant('DisciturSettings', {
