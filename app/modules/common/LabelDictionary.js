@@ -112,7 +112,18 @@
         surname: "Cognome",
         email: "Email",
         confirmPassword: "Conferma Password",
-        signupButton: "Registrati"
+        signupButton: "Registrati",
+        requiredUserName: "UserName obbligatorio",
+        minLengthUserName: "Inserisci uno User Name di almeno 4 caratteri",
+        requiredPassword: "Password obbligatoria",
+        minLengthPassword: "inserisci una Password di almeno 7 caratteri",
+        requiredName: "Nome obbligatorio",
+        requiredSurname: "Cognome obbligatorio",
+        requiredEmail: "Email obbligatoria",
+        validEmail: "Email non valida",
+        requiredConfirmPassword: "Conferma Password obbligatoria",
+        minLengthConfirmPassword: "inserisci una Conferma Password di almeno 7 caratteri",
+        matchConfirmPassword: "Conferma Password non corretta"
     }
 )
 .value('overrides',

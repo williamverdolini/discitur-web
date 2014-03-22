@@ -40,7 +40,7 @@
                 username: null,
                 password: null,
                 user: null,
-                SUname : null,
+                SUname: null,
                 SUsurname: null,
                 SUemail: null,
                 SUusername: null,
@@ -71,9 +71,18 @@
                 password: $scope.getLabel('password'),
                 confirmPassword: $scope.getLabel('confirmPassword'),
                 signupButton: $scope.getLabel('signupButton'),
+                requiredUserName: $scope.getLabel('requiredUserName'),
+                minLengthUserName: $scope.getLabel('minLengthUserName'),
+                requiredPassword: $scope.getLabel('requiredPassword'),
+                minLengthPassword: $scope.getLabel('minLengthPassword'),
+                requiredName: $scope.getLabel('requiredName'),
+                requiredSurname: $scope.getLabel('requiredSurname'),
+                requiredEmail: $scope.getLabel('requiredEmail'),
+                validEmail: $scope.getLabel('validEmail'),
+                requiredConfirmPassword: $scope.getLabel('requiredConfirmPassword'),
+                minLengthConfirmPassword: $scope.getLabel('minLengthConfirmPassword'),
+                matchConfirmPassword: $scope.getLabel('matchConfirmPassword')
             };
-
-
 
             //-------- private methods -------
             /*
@@ -89,8 +98,6 @@
                 $scope.local.errors.message = error.description;
                 $scope.local.errors.show = true;
             };
-            var _validSignupCB = function () { }
-            var _invalidSignupCB = function() {}
 
             //--------- public methods ------   
             $scope.actions = {
@@ -113,13 +120,13 @@
                     else {
                         if ($scope.local.LoginForm.username.$invalid) {
                             $scope.local.errors.message = ""
-                            $scope.local.errors.message += $scope.local.LoginForm.username.$error.required ? "UserName obbligatorio" : "";
-                            $scope.local.errors.message += $scope.local.LoginForm.username.$error.minlength ? "Inserisci uno User Name di almeno 4 caratteri" : "";
+                            $scope.local.errors.message += $scope.local.LoginForm.username.$error.required ? $scope.labels.requiredUserName : "";
+                            $scope.local.errors.message += $scope.local.LoginForm.username.$error.minlength ? $scope.labels.minLengthUserName : "";
                             //$scope.local.errors.message = _getLabel('usernameNotValid');
                             $scope.local.errors.show = true;
                         }
                         if ($scope.local.LoginForm.password.$invalid) {
-                            $scope.local.errors.message = $scope.labels.passwordNotValid;
+                            $scope.local.errors.message = $scope.labels.minLengthPassword;
                             $scope.local.errors.show = true;
                         }
 
@@ -143,7 +150,9 @@
                             _validLoginCB,
                             function (error) {
                                 _validationErrors.init();
-                                _validationErrors.addMessage("Comferma Password obbligatoria");
+                                _validationErrors.addMessage(error.description);
+                                $scope.local.SUerrors.message = _validationErrors.message;
+                                $scope.local.SUerrors.show = true;
                             }
                         );
                     }
@@ -152,24 +161,29 @@
                         //_messages = '';
                         if ($scope.local.SignupForm.$invalid) {
                             if ($scope.local.SignupForm.name.$error.required)
-                                _validationErrors.addMessage("Nome obbligatorio");
+                                _validationErrors.addMessage($scope.labels.requiredName);
                             if ($scope.local.SignupForm.surname.$error.required)
-                                _validationErrors.addMessage("Cognome obbligatorio");
+                                _validationErrors.addMessage($scope.labels.requiredSurname);
                             if ($scope.local.SignupForm.email.$error.required)
-                                _validationErrors.addMessage("Email obbligatoria");
-                            if ($scope.local.SignupForm.email.$error.email)
-                                _validationErrors.addMessage("Email non valida");
+                                _validationErrors.addMessage($scope.labels.requiredEmail);
+                            else if ($scope.local.SignupForm.email.$error.email)
+                                _validationErrors.addMessage($scope.labels.validEmail);
                             if ($scope.local.SignupForm.username.$error.required)
-                                _validationErrors.addMessage("UserName obbligatorio");
-                            if ($scope.local.SignupForm.username.$error.minlength)
-                                _validationErrors.addMessage("Inserisci uno User Name di almeno 4 caratteri");
+                                _validationErrors.addMessage($scope.labels.requiredUserName);
+                            else if ($scope.local.SignupForm.username.$error.minlength)
+                                _validationErrors.addMessage($scope.labels.minLengthUserName);
                             if ($scope.local.SignupForm.password.$error.required)
-                                _validationErrors.addMessage("Password obbligatoria");
+                                _validationErrors.addMessage($scope.labels.requiredPassword);
+                            else if ($scope.local.SignupForm.password.$error.minlength)
+                                _validationErrors.addMessage($scope.labels.minLengthPassword);
                             if ($scope.local.SignupForm.confirmPassword.$error.required)
-                                _validationErrors.addMessage("Comferma Password obbligatoria");
+                                _validationErrors.addMessage($scope.labels.requiredConfirmPassword);
+                            else if ($scope.local.SignupForm.confirmPassword.$error.minlength)
+                                _validationErrors.addMessage($scope.labels.minLengthConfirmPassword);
+                            else if ($scope.local.SignupForm.confirmPassword.$error.pwmatch)
+                                _validationErrors.addMessage($scope.labels.matchConfirmPassword);
                             //TODO: sistemare ed inserire direttive per robustezza pwd e conferma password, univocità username
                             // http://blog.brunoscopelliti.com/angularjs-directive-to-test-the-strength-of-a-password
-                            // http://blog.brunoscopelliti.com/form-validation-the-angularjs-way
 
                             $scope.local.SUerrors.message = _validationErrors.message;
                             $scope.local.SUerrors.show = true;

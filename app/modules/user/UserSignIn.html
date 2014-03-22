@@ -21,7 +21,7 @@
                             <div class="form-group">
                                 <label class="col-sm-5 control-label">{{labels.password}}</label>
                                 <div class="col-sm-7">
-                                    <input class="form-control input-sm" type="password" name="password" ng-model="local.password" required>
+                                    <input class="form-control input-sm" type="password" ng-minlength="7" name="password" ng-model="local.password" required>
                                 </div>
                             </div>
                             <div class="alert alert-danger" ng-show="local.errors.show" ng-bind-html="local.errors.message"></div>
@@ -70,7 +70,7 @@
                             <div class="form-group">
                                 <label class="col-sm-5 control-label">{{labels.confirmPassword}}</label>
                                 <div class="col-sm-7">
-                                    <input class="form-control input-sm" type="password" name="confirmPassword" ng-minlength="7" ng-model="local.SUconfirmpassword" required>
+                                    <input class="form-control input-sm" type="password" name="confirmPassword" ng-minlength="7" ng-model="local.SUconfirmpassword" pw-check="local.SUpassword" required>
                                 </div>
                             </div>
 
