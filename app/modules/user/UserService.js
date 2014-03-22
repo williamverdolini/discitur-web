@@ -20,10 +20,11 @@
         'UserDTO',
         function ($http, $q, DiscUtil, DisciturSettings, UserDTO) {
             //-------- private methods -------
-            var _encode = function (message) {
 
-                var key = CryptoJS.enc.Utf8.parse('7061737323313233');
-                var iv = CryptoJS.enc.Utf8.parse('7061737323313233');
+            // encode message with CriptoJS
+            var _encode = function (message) {
+                var key = CryptoJS.enc.Utf8.parse(DisciturSettings.criptoKey);
+                var iv = CryptoJS.enc.Utf8.parse(DisciturSettings.criptoKey);
                 var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(message), key,
                     {
                         keySize: 128 / 8,
@@ -31,16 +32,24 @@
                         mode: CryptoJS.mode.CBC,
                         padding: CryptoJS.pad.Pkcs7
                     });
-                /*
-                var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+
+                return String(encrypted);
+            }
+            // decode message with CriptoJS
+            var _decode = function (encryptedMessage) {
+                //var key = CryptoJS.enc.Utf8.parse('7061737323313233');
+                //var iv = CryptoJS.enc.Utf8.parse('7061737323313233');
+                var key = CryptoJS.enc.Utf8.parse(DisciturSettings.criptoKey);
+                var iv = CryptoJS.enc.Utf8.parse(DisciturSettings.criptoKey);
+
+                var decrypted = CryptoJS.AES.decrypt(encryptedMessage, key, {
                     keySize: 128 / 8,
                     iv: iv,
                     mode: CryptoJS.mode.CBC,
                     padding: CryptoJS.pad.Pkcs7
                 });
-                */
-
-                return String(encrypted);
+                
+                return String(decrypted);
             }
             // User data transfer from API
             var _setUserData = function (apiData) {
@@ -68,20 +77,56 @@
                     localStorage.setItem(DisciturSettings.authToken, token);
                 }
             };
-
-            var _getUserInfo = function () {
-                _authService.getUserInfo().then(
-                    function (successData) {
-                        //_authService.user = successData;
-                        //angular.copy(successData, _authService.user);
-                        
-                        // do something
-
+            // get token from server
+            var _loadToken = function (inputParams) {
+                DiscUtil.validateInput(
+                    'UserService._loadToken',   // function name for logging purposes
+                    {                          // hashmap to check inputParameters
+                        username: null,
+                        password: null
                     },
-                    function (errorData) {
-                        // do something...
+                    inputParams                 // actual input params
+                );
+
+                var encodedData = {
+                    username: inputParams.username,
+                    password: _encode(inputParams.password),
+                    grant_type: 'password'
+                }
+
+                // create deferring result
+                var deferred = $q.defer();
+
+                $http.post(DisciturSettings.apiUrl + 'Token', $.param(encodedData))
+                    .success(function (result) {
+                        // Set Auth Token to send to server requests
+                        if (result.access_token) {
+                            _setToken(result.access_token);
+                            deferred.resolve(result);
+                        }
+                        else {
+                            var _authErr = {
+                                code: result.error,
+                                description: result.error_description,
+                                status: status
+                            }
+                            deferred.reject(_authErr);
+                        }
                     })
+                    .error(function (error, status) {
+                        var _authErr = {
+                            code: error.error,
+                            description: error.error_description,
+                            status: status
+                        }
+                        deferred.reject(_authErr);
+                    });
+
+
+                return deferred.promise;
+
             }
+
 
             var _authService = {
                 //-------- public properties-------
@@ -99,57 +144,24 @@
                         inputParams            // actual input params
                     );
 
-                    //inputParams.grant_type = 'password';
-
-                    var encodedData = {
-                        username: inputParams.username,
-                        password: _encode(inputParams.password),
-                        grant_type: 'password'
-                    }
-                    
-
                     // create deferring result
                     var deferred = $q.defer();
-
-                    // Retrieve Async data CurrentUser        
-                    // For actual implementation of OAuth Middleware Provider, the parameters must be passed in querystring format
-                    // http://stackoverflow.com/questions/19645171/how-do-you-set-katana-project-to-allow-token-requests-in-json-format
-                    $http.post(DisciturSettings.apiUrl + 'Token', $.param(encodedData))
-                        .success(
-                            // Success Callback: Data Transfer Object Creation
-                            function (result) {
-                                // var _user = _setUserLoginData(result);
-                                // Set Auth Token to send to server requests
-                                if (result.access_token) {
-                                    _setToken(result.access_token);
-                                    // Get User Info (with auth token)
-                                    _authService.getUserInfo().then(
+                    // do server-side login and get authorization token
+                    _loadToken(inputParams).then(
+                        function () { //success
+                            // get user Info to populate user object client-side
+                            _authService.getUserInfo().then( 
                                             function (successData) {
                                                 deferred.resolve(successData);
                                             },
                                             function (errorData) {
                                                 deferred.reject(errorData);
                                             })
-                                }
-                                else {
-                                    var _authErr = {
-                                        code: result.error,
-                                        description: result.error_description,
-                                        status: status
-                                    }
-                                    deferred.reject(_authErr);
-                                }
-                            })
-                        .error(
-                            // Error Callback
-                            function (error, status) {
-                                var _authErr = {
-                                    code: error.error,
-                                    description: error.error_description,
-                                    status: status
-                                }
-                                deferred.reject(_authErr);
-                            });
+                        },
+                        function (error, status) {
+                            deferred.reject(error);
+                        });
+
                     return deferred.promise;
                 },
                 // unload user information and become Anonymous
@@ -185,40 +197,10 @@
                             // Success Callback: Data Transfer Object Creation
                             function (result, status) {
                                 var _user = _setUserData(result);
-
                                 //angular.extend(_authService.user, _user);
                                 angular.copy(_user, _authService.user);
 
                                 deferred.resolve(_authService.user);
-
-                                /*
-                                // I don't understand this...I should go on error callback...
-                                if (status >= 200 && status < 300) {
-                                    //var _user = _setUserLoginData(result);
-                                    var _user = _setUserData(result);
-
-                                    //angular.extend(_authService.user, _user);
-                                    angular.copy(_user, _authService.user);
-
-                                    deferred.resolve(_authService.user);
-                                }
-                                else {
-                                    // remove Auth Token
-                                    _setToken(null);
-                                    // unload current user data
-                                    var _user = _setUserLoginOutData();
-                                    //angular.extend(_authService.user, _user);
-                                    angular.copy(_user, _authService.user);
-
-
-                                    var _authErr = {
-                                        code: status,
-                                        description: result,
-                                        status: status
-                                    }
-                                    deferred.reject(_authErr);
-                                }
-                                */
                             })
                         .error(
                             // Error Callback
@@ -230,7 +212,6 @@
                                 //angular.extend(_authService.user, _user);
                                 angular.copy(_user, _authService.user);
 
-
                                 var _authErr = {
                                     code: status,
                                     description: result,
@@ -238,9 +219,9 @@
                                 }
                                 deferred.reject(_authErr);
                             });
-
                     return deferred.promise;
                 },
+                // register user and get authorization token
                 signup: function (inputParams) {
                     DiscUtil.validateInput(
                         'UserService.signup',   // function name for logging purposes
@@ -255,36 +236,43 @@
                     );
 
                     var deferred = $q.defer();
-
+                    // encode password before sending to web api
                     var encodedInput = {};
                     angular.copy(inputParams, encodedInput);
-                    //encodedInput.username = _encode(inputParams.username);
                     encodedInput.password = _encode(inputParams.password);
 
                     $http.post(DisciturSettings.apiUrl + 'Account/Register', encodedInput)
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
+                                // server-2-client mapping
                                 var _user = _setUserData(result);
-
-                                //angular.extend(_authService.user, _user);
                                 angular.copy(_user, _authService.user);
-
-                                deferred.resolve(_authService.user);
-                                //deferred.resolve(result);
+                                // load auth token from server 
+                                _loadToken(
+                                    {
+                                        username: inputParams.username,
+                                        password: inputParams.password
+                                    }).then(
+                                        function () {
+                                            deferred.resolve(_authService.user);
+                                        },
+                                        function (data) {
+                                            deferred.reject(data);
+                                        }
+                                    )
                             })
                         .error(
                             // Error Callback
                             function (error, status) {
                                 var _authErr = {
-                                    code: error.error,
-                                    description: error.error_description,
+                                    code: error.Message,
+                                    description: error.ModelState[""][0],
                                     status: status
                                 }
                                 deferred.reject(_authErr);
                             });
                     return deferred.promise;
-
                 }
             }
 
@@ -292,7 +280,7 @@
             // get security token from local storage
             var _token = localStorage.getItem(DisciturSettings.authToken);
             if (_token) {
-                _getUserInfo();
+                _authService.getUserInfo();
             }
 
             return _authService;
