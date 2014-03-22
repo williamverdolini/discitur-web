@@ -20,7 +20,28 @@
         'UserDTO',
         function ($http, $q, DiscUtil, DisciturSettings, UserDTO) {
             //-------- private methods -------
+            var _encode = function (message) {
 
+                var key = CryptoJS.enc.Utf8.parse('7061737323313233');
+                var iv = CryptoJS.enc.Utf8.parse('7061737323313233');
+                var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(message), key,
+                    {
+                        keySize: 128 / 8,
+                        iv: iv,
+                        mode: CryptoJS.mode.CBC,
+                        padding: CryptoJS.pad.Pkcs7
+                    });
+                /*
+                var decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+                    keySize: 128 / 8,
+                    iv: iv,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+                */
+
+                return String(encrypted);
+            }
             // User data transfer from API
             var _setUserData = function (apiData) {
                 var _user = new UserDTO();
@@ -78,14 +99,22 @@
                         inputParams            // actual input params
                     );
 
-                    inputParams.grant_type = 'password';
+                    //inputParams.grant_type = 'password';
+
+                    var encodedData = {
+                        username: inputParams.username,
+                        password: _encode(inputParams.password),
+                        grant_type: 'password'
+                    }
+                    
+
                     // create deferring result
                     var deferred = $q.defer();
 
                     // Retrieve Async data CurrentUser        
                     // For actual implementation of OAuth Middleware Provider, the parameters must be passed in querystring format
                     // http://stackoverflow.com/questions/19645171/how-do-you-set-katana-project-to-allow-token-requests-in-json-format
-                    $http.post(DisciturSettings.apiUrl + 'Token', $.param(inputParams))
+                    $http.post(DisciturSettings.apiUrl + 'Token', $.param(encodedData))
                         .success(
                             // Success Callback: Data Transfer Object Creation
                             function (result) {
@@ -211,6 +240,51 @@
                             });
 
                     return deferred.promise;
+                },
+                signup: function (inputParams) {
+                    DiscUtil.validateInput(
+                        'UserService.signup',   // function name for logging purposes
+                        {                      // hashmap to check inputParameters
+                            name: null,
+                            surname: null,
+                            email: null,
+                            username:null,
+                            password: null
+                        },
+                        inputParams            // actual input params
+                    );
+
+                    var deferred = $q.defer();
+
+                    var encodedInput = {};
+                    angular.copy(inputParams, encodedInput);
+                    //encodedInput.username = _encode(inputParams.username);
+                    encodedInput.password = _encode(inputParams.password);
+
+                    $http.post(DisciturSettings.apiUrl + 'Account/Register', encodedInput)
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                var _user = _setUserData(result);
+
+                                //angular.extend(_authService.user, _user);
+                                angular.copy(_user, _authService.user);
+
+                                deferred.resolve(_authService.user);
+                                //deferred.resolve(result);
+                            })
+                        .error(
+                            // Error Callback
+                            function (error, status) {
+                                var _authErr = {
+                                    code: error.error,
+                                    description: error.error_description,
+                                    status: status
+                                }
+                                deferred.reject(_authErr);
+                            });
+                    return deferred.promise;
+
                 }
             }
 

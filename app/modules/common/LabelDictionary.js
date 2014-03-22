@@ -106,9 +106,13 @@
         socialTitleTWShare: "Share on Twitter",
         socialTitleFBShare: "Share on Facebook",
         socialTitleGPShare: "Share on Google Plus",
-        socialTitleLIShare: "Share on LinkedIn"
-
-
+        socialTitleLIShare: "Share on LinkedIn",
+        // Registration Form
+        name: "Nome",
+        surname: "Cognome",
+        email: "Email",
+        confirmPassword: "Conferma Password",
+        signupButton: "Registrati"
     }
 )
 .value('overrides',
