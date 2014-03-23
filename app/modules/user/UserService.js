@@ -273,6 +273,23 @@
                                 deferred.reject(_authErr);
                             });
                     return deferred.promise;
+                },
+                // initialize Authentication data
+                resolveAuth: function () {
+                    // create deferring result
+                    var deferred = $q.defer();
+                    // get security token from local storage
+                    var _token = localStorage.getItem(DisciturSettings.authToken);
+                    if (_token) {
+                        _authService.getUserInfo().then(
+                            function (user) { deferred.resolve(user); },
+                            function (data) { deferred.reject(data); }
+                            )
+                    }
+                    else
+                        deferred.resolve(_authService.user);
+
+                    return deferred.promise;
                 }
             }
 
@@ -282,6 +299,7 @@
             if (_token) {
                 _authService.getUserInfo();
             }
+
 
             return _authService;
         }

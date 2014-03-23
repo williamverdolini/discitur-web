@@ -6,32 +6,8 @@
         '$injector',
         'AuthService',
         '$state',
-        function ($scope, $rootScope, DisciturBaseCtrl, $injector, AuthService, $state) {
-            //-----------------------------------------------------------
-            // Loading layer management
-            // 
-            // thanks to: http://www.youtube.com/watch?v=P6KITGRQujQ&list=UUKW92i7iQFuNILqQOUOCrFw&index=4&feature=plcp
-            //-----------------------------------------------------------
-            /*
-            $rootScope.$on('$routeChangeStart', function (event, next, current) {
-                if (next.$$route && next.$$route.resolve) {
-                    // Show a loading message until promises are not resolved
-                    console.log("$routeChangeStart")
-                    $scope.loading = true;
-                }
-            });
-            $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-                // Hide loading message
-                console.log("$routeChangeSuccess")
-                $scope.loading = false;
-            });
-            $rootScope.$on('$routeChangeError', function (event, current, previous, rejection) {
-                // Hide loading message
-                console.warn(rejection)
-                $scope.loading = false;
-            });
-            */
-
+        '$urlRouter',
+        function ($scope, $rootScope, DisciturBaseCtrl, $injector, AuthService, $state, $urlRouter) {
             // inherit Discitur Base Controller
             $injector.invoke(DisciturBaseCtrl, this, { $scope: $scope });
 
@@ -51,6 +27,29 @@
                 return _message;
             }
 
+            // dynamic callback for change start event
+            var changeStartCallbacks = [
+                // 1. Initialize Authentication Data e delete itself
+                function (event) {
+                    event.preventDefault();
+                    AuthService.resolveAuth()['finally'](function () {
+                        // http://angular-ui.github.io/ui-router/site/#/api/ui.router.router.$urlRouter
+                        // Continue with the update and state transition if logic allows
+                        $urlRouter.sync();
+                    });
+                    changeStartCallbacks.splice(0, 1);
+
+                },
+                // 2. Manage authorized states
+                function (event, toState, toParams, fromState, fromParams) {
+                    if (toState.authorized && !AuthService.user.isLogged) {
+                        // event preventDefault to stop the flow and redirect
+                        event.preventDefault();
+                        $state.go('lessonSearch');
+                    }
+                }
+            ]
+
             //-------- public properties -------
             $scope.labels = {
                 appTitle: $scope.getLabel('appTitle'),
@@ -60,12 +59,7 @@
             //------- Global Event Management -------//
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 //console.log("$stateChangeStart")
-                // Default behaviour for authorized states: redirect to login page (in this app to the lesson list page)
-                if (toState.authorized && !AuthService.user.isLogged) {
-                    // event preventDefault to stop the flow and redirect
-                    event.preventDefault();
-                    $state.go('lessonSearch');
-                }
+                changeStartCallbacks[0](event, toState, toParams, fromState, fromParams);
             });
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 //console.log("$stateChangeSuccess")
@@ -78,8 +72,6 @@
                     return $state.go('404lesson');
                 }
             });
-
-
         }
     ])
 
