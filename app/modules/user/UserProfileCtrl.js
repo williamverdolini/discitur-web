@@ -25,7 +25,7 @@
             };
 
             $scope.local = {
-                user: user,
+                user: user
             }
             //-------- public methods -------
             $scope.actions = {

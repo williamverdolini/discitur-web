@@ -1,11 +1,66 @@
 ﻿<div class="lead row">
     <div class="col-lg-12">
-        <div class="panel panel-primary">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 Profilo Utente
             </div>
             <div class="panel-body">
-                Tutti i dati del tuo profilo
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <div class="well well-sm">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-4">
+                                        <img src="{{local.user.image}}" alt="" class="img-rounded img-responsive" />
+                                    </div>
+                                    <div class="col-sm-6 col-md-8">
+                                        <h2>
+                                            {{local.user.name}} {{local.user.surname}}
+                                        </h2>
+                                        <!--
+                                        <small>
+                                            <cite title="San Francisco, USA">
+                                                San Francisco, USA <i class="glyphicon glyphicon-map-marker">
+                                                </i>
+                                            </cite>
+                                        </small>
+                                        -->
+                                        <br />
+                                        <p>
+                                            <i class="glyphicon glyphicon-user"></i>{{local.user.username}}
+                                            <br />
+                                            <i class="glyphicon glyphicon-envelope"></i> <a href="mailto:{{local.user.email}}">{{local.user.email}}</a>
+                                            <br />
+                                            <!--
+                                            <i class="glyphicon glyphicon-globe"></i><a href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>
+                                            <br />
+                                            <i class="glyphicon glyphicon-gift"></i>June 02, 1988
+                                                -->
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                <!--
+                <form class="form-horizontal" name="local.SignupForm" ng-submit="actions.doSignup()" novalidate>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label">pwd{{labels.password}}</label>
+                        <div class="col-sm-7">
+                            <input class="form-control input-sm" type="password" name="password" ng-minlength="7" ng-model="local.SUpassword" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-5 control-label">Coferma{{labels.confirmPassword}}</label>
+                        <div class="col-sm-7">
+                            <input class="form-control input-sm" type="password" name="confirmPassword" ng-minlength="7" ng-model="local.SUconfirmpassword" pw-check="local.SUpassword" required>
+                        </div>
+                    </div>
+                </form>
+                -->
+
             </div>
         </div>
 
