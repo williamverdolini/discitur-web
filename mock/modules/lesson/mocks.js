@@ -50,12 +50,12 @@
     .run(function ($httpBackend, DisciturSettings, MockedData) {
 
         //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/').respond(MockedData.lessons);
-        $httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/1').respond(MockedData.lessons.Records[0]);
+        //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/1').respond(MockedData.lessons.Records[0]);
         //$httpBackend.whenGET(new RegExp(DisciturSettings.apiUrl + 'lesson\\?disciplineQ=\.*')).respond(MockedData.disciplines);
         //$httpBackend.whenGET(new RegExp(DisciturSettings.apiUrl + 'lesson\\?schoolQ=\.*')).respond(MockedData.schools);
         //$httpBackend.whenGET(new RegExp(DisciturSettings.apiUrl + 'lesson\\?classroomQ=\.*')).respond(MockedData.classrooms);
         //$httpBackend.whenGET(new RegExp(DisciturSettings.apiUrl + 'lesson\\?tagQ=\.*')).respond(MockedData.tags);
-        $httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/1/comments').respond(MockedData.comments);
+        //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/1/comments').respond(MockedData.comments);
         //$httpBackend.whenGET(DisciturSettings.apiUrl + 'lesson/6/ratings').respond(MockedData.ratings6);
 
 
