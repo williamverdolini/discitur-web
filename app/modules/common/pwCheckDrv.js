@@ -17,14 +17,14 @@
                 var _check = function (cPwd) {
                     var isValid = ngModel.$viewValue === cPwd;
                     ngModel.$setValidity('pwmatch', isValid);
-                    console.log(isValid + ' - ' + cPwd + ' - ' + ngModel.$viewValue);
                     return;
                 }
-
+                // watch on password value
                 scope.$watch(
                     function () { return scope.pwCheck },
                     function () { _check(scope.pwCheck); }
                     );
+                // watch on confirmPassword value
                 scope.$watch(
                     function () { return ngModel.$viewValue },
                     function () { _check(scope.pwCheck); }
