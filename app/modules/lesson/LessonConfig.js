@@ -3,7 +3,7 @@
         'Discitur',
         'disc.user',
         'Common',
-        'ngResource',
+        //'ngResource',
         'ui.router',
         'ngSanitize',
         'ui.bootstrap',
@@ -114,7 +114,7 @@
                 templateUrl: 'modules/lesson/LessonEdit.html',
                 controller: 'LessonEditCtrl',
                 resolve:{
-                    lessonData: function (LessonService, $q, $stateParams, $state, DiscUtil) {
+                    lessonData: function (LessonService, $q, $stateParams, $state, DiscUtil, AuthService) {
                         // try to get lesson from cache
                         // if not exists then load from service
                         var lessondId = $stateParams.lessonId
@@ -122,7 +122,7 @@
                             var cachedLessonData = DiscUtil.cache.get('lesson')
 
                             if (!angular.isDefined(cachedLessonData) || cachedLessonData.lessonId.toString() !== lessondId)
-                                return _getLessonData(LessonService, $q, $stateParams, $state, DiscUtil);
+                                return _getLessonData(LessonService, $q, $stateParams, $state, DiscUtil, AuthService);
                             else
                                 return cachedLessonData;
                         }
