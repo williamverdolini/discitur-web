@@ -53,7 +53,9 @@
                 SUerrors: {
                     show: false,
                     message: ''
-                }
+                },
+                showForgottedPwd: false,
+                isCollapsed: true
             };
 
             $scope.labels = {
@@ -81,7 +83,8 @@
                 validEmail: $scope.getLabel('validEmail'),
                 requiredConfirmPassword: $scope.getLabel('requiredConfirmPassword'),
                 minLengthConfirmPassword: $scope.getLabel('minLengthConfirmPassword'),
-                matchConfirmPassword: $scope.getLabel('matchConfirmPassword')
+                matchConfirmPassword: $scope.getLabel('matchConfirmPassword'),
+                forgottenPassword: $scope.getLabel('forgottenPassword')
             };
 
             //-------- private methods -------
@@ -190,6 +193,9 @@
                         }
 
                     }
+                },
+                showRetrievePwd: function () {
+                    $scope.local.showForgottedPwd = !$scope.local.showForgottedPwd;
                 }
             }
 

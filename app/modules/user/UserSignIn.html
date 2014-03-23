@@ -18,14 +18,50 @@
                                     <input class="form-control input-sm" type="text" ng-minlength="4" name="username" ng-model="local.username" required>
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label class="col-sm-5 control-label">{{labels.password}}</label>
                                 <div class="col-sm-7">
                                     <input class="form-control input-sm" type="password" ng-minlength="7" name="password" ng-model="local.password" required>
                                 </div>
                             </div>
-                            <div class="alert alert-danger" ng-show="local.errors.show" ng-bind-html="local.errors.message"></div>
-                            <button class="btn btn-primary pull-right" type="submit">{{labels.loginButtom}}</button>
+                            <div class="bs-callout bs-callout-danger" ng-show="local.errors.show">
+                                <button type="button" class="close" ng-click="local.errors.show=false">&times;</button>
+                                <div ng-bind-html="local.errors.message"></div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="control-group pull-right">
+                                        <a ng-click="actions.showRetrievePwd()" style="padding-right:5px">{{labels.forgottenPassword}}</a>
+                                        <button class="btn btn-primary" type="submit">{{labels.loginButtom}}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-show="local.showForgottedPwd">
+                                <div class="col-sm-12">
+                                    <div class="bs-callout bs-callout-info">Inserisci UserName o Email associati al tuo account e ti sarà inviata una email con nuove credenziali di accesso.</div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <!--
+            <div class="btn-group btn-group-sm">
+                <span class="input-group-addon input-sm">
+                    <button type="button" class="btn btn-default">Username</button>
+                    <button type="button" class="btn btn-default">Email</button>
+                </span>
+            </div>
+                -->
+                                    <div class="input-group">
+                                        <input type="text" class="form-control input-sm">
+                                        <div class="input-group-btn btn-group-sm">
+                                            <a class="btn btn-default" role="button">Invia email</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -74,8 +110,10 @@
                                 </div>
                             </div>
 
-
-                            <div class="alert alert-danger" ng-show="local.SUerrors.show" ng-bind-html="local.SUerrors.message"></div>
+                            <div class="bs-callout bs-callout-danger" ng-show="local.SUerrors.show">
+                                <button type="button" class="close" ng-click="local.SUerrors.show=false">&times;</button>
+                                <div ng-bind-html="local.SUerrors.message"></div>
+                            </div>
                             <button class="btn btn-primary pull-right" type="submit">{{labels.signupButton}}</button>
                         </form>
                     </div>

@@ -123,7 +123,8 @@
         validEmail: "Email non valida",
         requiredConfirmPassword: "Conferma Password obbligatoria",
         minLengthConfirmPassword: "inserisci una Conferma Password di almeno 7 caratteri",
-        matchConfirmPassword: "Conferma Password non corretta"
+        matchConfirmPassword: "Conferma Password non corretta",
+        forgottenPassword: "Password dimenticata?"
     }
 )
 .value('overrides',
