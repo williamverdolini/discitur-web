@@ -32,8 +32,8 @@
                         { id: 23, title: "Contribuisci", route: "/project/contribute" },
                         { id: 24, title: "BackStage", route: "/project/backstage" }
                     ]
-                },
-                { id: 3, title: "Contatti", route: "/project/contact" }
+                }/*,
+                { id: 3, title: "Contatti", route: "/project/contact" }*/
             ]
 
             $scope.isActiveMenu = function(index){
