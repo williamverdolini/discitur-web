@@ -40,29 +40,25 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" ng-show="local.showForgottedPwd">
-                                <div class="col-sm-12">
-                                    <div class="bs-callout bs-callout-info">Inserisci UserName o Email associati al tuo account e ti sarà inviata una email con nuove credenziali di accesso.</div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <!--
-            <div class="btn-group btn-group-sm">
-                <span class="input-group-addon input-sm">
-                    <button type="button" class="btn btn-default">Username</button>
-                    <button type="button" class="btn btn-default">Email</button>
-                </span>
-            </div>
-                -->
-                                    <div class="input-group">
-                                        <input type="text" class="form-control input-sm">
-                                        <div class="input-group-btn btn-group-sm">
-                                            <a class="btn btn-default" role="button">Invia email</a>
-                                        </div>
+                        </form>
+                        <form name="local.ForgottenPwd" novalidate ng-show="local.showForgottedPwd">
+                            <div class="bs-callout bs-callout-info">Inserisci UserName o Email associati al tuo account e ti sarà inviata una email con nuove credenziali di accesso.</div>
+                            <div class="form-group ">
+                                <div class="col-sm-12 input-group">
+
+                                    <input type="text" name="username" class="form-control input-sm" placeholder="{{labels.username}}" required ng-minlength="4" ng-model="local.usernamePwd">
+                                    <div class="input-group-btn btn-group-sm">
+                                        <button class="btn btn-default" ng-click="actions.retrievePassword()">Invia email</button>
                                     </div>
                                 </div>
                             </div>
+                            <div class="bs-callout bs-callout-danger" ng-show="local.errorsPwd.show">
+                                <button type="button" class="close" ng-click="local.errorsPwd.show=false">&times;</button>
+                                <div ng-bind-html="local.errorsPwd.message"></div>
+                            </div>
 
                         </form>
+
                     </div>
                 </div>
             </div>

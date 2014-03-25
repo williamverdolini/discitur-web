@@ -55,7 +55,12 @@
                     message: ''
                 },
                 showForgottedPwd: false,
-                isCollapsed: true
+                isCollapsed: true,
+                usernamePwd: null,
+                errorsPwd: {
+                    show: false,
+                    message: ''
+                }
             };
 
             $scope.labels = {
@@ -196,6 +201,27 @@
                 },
                 showRetrievePwd: function () {
                     $scope.local.showForgottedPwd = !$scope.local.showForgottedPwd;
+                },
+                retrievePassword: function () {
+                    $scope.local.errorsPwd.show = false;
+                    if ($scope.local.ForgottenPwd.$valid) {
+                        AuthService.retrievePassword({ username: $scope.local.usernamePwd }).then(
+                            function(){alert("riceverai una mail!")},
+                            function (error) {
+                                $scope.local.errorsPwd.message = ""
+                                $scope.local.errorsPwd.message += error.description;
+                                $scope.local.errorsPwd.show = true;
+                            }
+                            )
+                    }
+                    else {
+                        $scope.local.errorsPwd.message = ""
+                        $scope.local.errorsPwd.message += $scope.local.ForgottenPwd.username.$error.required ? $scope.labels.requiredUserName : "";
+                        $scope.local.errorsPwd.message += $scope.local.ForgottenPwd.username.$error.minlength ? $scope.labels.minLengthUserName : "";
+                        //$scope.local.errors.message = _getLabel('usernameNotValid');
+                        $scope.local.errorsPwd.show = true;
+
+                    }
                 }
             }
 

@@ -290,6 +290,34 @@
                         deferred.resolve(_authService.user);
 
                     return deferred.promise;
+                },
+                // retrieve password by Username
+                retrievePassword: function (inputParams) {
+                    DiscUtil.validateInput(
+                        'UserService.retrievePassword', // function name for logging purposes
+                        {                               // hashmap to check inputParameters
+                            username: null
+                        },
+                        inputParams                     // actual input params
+                    );
+
+                    var deferred = $q.defer();
+                    $http.get(DisciturSettings.apiUrl + 'Account/ResetPassword', { params: { UserName: inputParams.username } })
+                        .success(
+                            function (result, status) {
+                                deferred.resolve(result);
+                            })
+                        .error(
+                            function (error, status) {
+                                var _authErr = {
+                                    code: error.error,
+                                    description: error.error_description,
+                                    status: status
+                                }
+                                deferred.reject(_authErr);
+                            });
+                    return deferred.promise;
+
                 }
             }
 
