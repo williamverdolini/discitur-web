@@ -130,12 +130,20 @@
             box-shadow: 0 0 6px #F8B9B7;
         }
 
+        input[ng-click],
+        input[data-ng-click],
+        input[x-ng-click],
+        textarea[ng-click],
+        textarea[data-ng-click],
+        textarea[x-ng-click],
+        label[ng-click],
+        label[data-ng-click],
+        label[x-ng-click],
         a[ng-click],
         a[data-ng-click],
         a[x-ng-click] {
             cursor: pointer;
         }
-
 
         .bs-callout {
             margin: 20px 0;
@@ -183,6 +191,7 @@
             .bs-callout-info h4 {
                 color: #5bc0de;
             }
+
 
         /*
     #lessonGoods {
@@ -336,6 +345,13 @@
         .btn-xs.google-plus-one i {
             bottom: -7px;
         }
+
+
+        .no-margin {
+            margin: 0;
+        }
+
+
     </style>
     <title>{{labels.appTitle}}</title>
 </head>

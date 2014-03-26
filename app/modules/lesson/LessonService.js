@@ -324,12 +324,6 @@
                     );
                     // create deferring result
                     var deferred = $q.defer();
-                    /*
-                    var CB = {
-                        success: function (data) { deferred.resolve(_dataTransfer(data)); },
-                        error: function (data) { deferred.reject("no Lesson for id:" + inputParams.id); }
-                    }
-                    */
                     // Retrieve Async data for lesson id in input        
                     // cache is enabled. Only after modification (Lessonservice.save) the chache is reloaded
                     $http.get(DisciturSettings.apiUrl + 'lesson/' + inputParams.id, {cache: true})
@@ -337,19 +331,11 @@
                             // Success Callback: Data Transfer Object Creation
                             function (data, status, headers, config) {
                                 deferred.resolve(_dataTransfer(data));
-                                /*
-                                if (200 <= status && status < 300)
-                                    CB.success(data);
-                                    //deferred.resolve(_dataTransfer(data));
-                                else
-                                    CB.error(data);
-                                */
                             })
                         .error(
                             // Error Callback
                             function (data, status, headers, config) {
                                 deferred.reject("no Lesson for id:" + inputParams.id);
-                                //CB.error(data);
                             });
 
                     return deferred.promise;

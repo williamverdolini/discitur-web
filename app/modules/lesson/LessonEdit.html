@@ -256,7 +256,7 @@
                                         <div class="col-lg-12">
                                             <ol>
                                                 <li ng-repeat="good in local.lesson.goods | filter:actions.filterByActiveStatus">
-                                                    <wr-input wr-text="good.content" wr-ref="$index" edit-text="actions.editGood(ref)" remove-text="actions.removeGood(ref)"></wr-input>
+                                                    <wr-input wr-text="good.content" wr-ref="$index" edit-text="actions.editGood(ref)" remove-text="actions.removeGood(ref)" wr-class="input-sm" wr-style="width: 80%"></wr-input>
                                                 </li>
                                             </ol>
                                         </div>
@@ -290,7 +290,7 @@
                                         <div class="col-lg-12">
                                             <ol>
                                                 <li ng-repeat="bad in local.lesson.bads | filter:actions.filterByActiveStatus">
-                                                    <wr-input wr-text="bad.content" wr-ref="$index" edit-text="actions.editBad(ref)" remove-text="actions.removeBad(ref)"></wr-input>
+                                                    <wr-input wr-text="bad.content" wr-ref="$index" edit-text="actions.editBad(ref)" remove-text="actions.removeBad(ref)" wr-class="input-sm" wr-style="width: 80%"></wr-input>
                                                 </li>
                                             </ol>
                                         </div>
