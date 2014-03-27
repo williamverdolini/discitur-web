@@ -60,6 +60,10 @@
                 errorsPwd: {
                     show: false,
                     message: ''
+                },
+                sentNewPwd: {
+                    show: false,
+                    message: ''
                 }
             };
 
@@ -206,10 +210,14 @@
                     $scope.local.errorsPwd.show = false;
                     if ($scope.local.ForgottenPwd.$valid) {
                         AuthService.retrievePassword({ username: $scope.local.usernamePwd }).then(
-                            function(){alert("riceverai una mail!")},
+                            function () {
+                                $scope.local.sentNewPwd.message = ""
+                                $scope.local.sentNewPwd.message += "A breve riceverai via mail una nuova Password.";
+                                $scope.local.sentNewPwd.show = true;
+                            },
                             function (error) {
                                 $scope.local.errorsPwd.message = ""
-                                $scope.local.errorsPwd.message += error.description;
+                                $scope.local.errorsPwd.message += "Fatal error!!!"+error.description;
                                 $scope.local.errorsPwd.show = true;
                             }
                             )

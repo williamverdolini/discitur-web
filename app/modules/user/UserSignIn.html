@@ -56,6 +56,10 @@
                                 <button type="button" class="close" ng-click="local.errorsPwd.show=false">&times;</button>
                                 <div ng-bind-html="local.errorsPwd.message"></div>
                             </div>
+                            <div class="bs-callout bs-callout-info" ng-show="local.sentNewPwd.show">
+                                <button type="button" class="close" ng-click="local.sentNewPwd.show=false">&times;</button>
+                                <div ng-bind-html="local.sentNewPwd.message"></div>
+                            </div>
 
                         </form>
 
