@@ -2,12 +2,14 @@
     // Constructor to create User Object
     .factory('UserDTO', function () {
         function UserDTO() {
+            this.userid = null;
             this.name = null;
             this.surname = null;
             this.username = null;
             this.image = null;
             this.email = null;
             this.roles = [];
+            this.isLogged = null;
         }
         return (UserDTO);
     })
@@ -125,7 +127,17 @@
 
                 return deferred.promise;
 
+            };
+            var _userMap = function (user) {
+                var data2api = {};
+                data2api.UserId = user.userid;
+                data2api.Name = user.name;
+                data2api.Surname = user.surname;
+                data2api.UserName = user.username;
+                data2api.Email = user.email;
+                return data2api;
             }
+
 
 
             var _authService = {
@@ -317,8 +329,74 @@
                                 deferred.reject(_authErr);
                             });
                     return deferred.promise;
+                },
+                // changePassword
+                changePassword: function (inputParams) {
+                    DiscUtil.validateInput(
+                        'UserService.changePassword',   // function name for logging purposes
+                        {                               // hashmap to check inputParameters
+                            password: null,
+                            newPassword: null,
+                            confirmPassword: null
+                        },
+                        inputParams                     // actual input params
+                    );
+                    // encode passwords before sending to web api
+                    var encodedInput = {
+                        OldPassword: _encode(inputParams.password),
+                        NewPassword: _encode(inputParams.newPassword),
+                        ConfirmPassword: _encode(inputParams.confirmPassword)
+                    };
+
+                    var deferred = $q.defer();
+                    $http.post(DisciturSettings.apiUrl + 'Account/ChangePassword', encodedInput)
+                        .success(
+                            function (result, status) {
+                                deferred.resolve(result);
+                            })
+                        .error(
+                            function (error, status) {
+                                var _authErr = {
+                                    code: error.Message,
+                                    description: error.ModelState[""][0],
+                                    status: status
+                                }
+                                deferred.reject(_authErr);
+                            });
+                    return deferred.promise;
+
+                },
+                // Update user data
+                update: function (user) {
+                    DiscUtil.validateInput(
+                        'UserService.update',       // function name for logging purposes
+                        new UserDTO(),              // hashmap to check inputParameters e set default values
+                        user                      // actual input params
+                        );
+                    // DTO mappint to API
+                    var _user = _userMap(user);
+                    // create deferring result
+                    var deferred = $q.defer();
+                    // Retrieve Async data for lesson id in input        
+                    $http.put(DisciturSettings.apiUrl + 'User', _user)
+                        .success(
+                            // Success Callback: Data Transfer Object Creation
+                            function (result) {
+                                var _user = _setUserData(result);
+                                //angular.extend(_authService.user, _user);
+                                angular.copy(_user, _authService.user);
+                                deferred.resolve(_authService.user);
+                            })
+                        .error(
+                            // Error Callback
+                            function (data) {
+                                deferred.reject("Error updating user id:" + user.id + " -> " + data);
+                            });
+                    // create deferring result
+                    return deferred.promise;
 
                 }
+
             }
 
             //-------- Singleton Initialization -------

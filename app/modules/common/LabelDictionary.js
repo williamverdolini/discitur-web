@@ -124,8 +124,17 @@
         requiredConfirmPassword: "Conferma Password obbligatoria",
         minLengthConfirmPassword: "inserisci una Conferma Password di almeno 7 caratteri",
         matchConfirmPassword: "Conferma Password non corretta",
-        forgottenPassword: "Password dimenticata?"
-    }
+        forgottenPassword: "Password dimenticata?",
+        changePassword: "Modifica Password",
+        currentPassword: "Password attuale",
+        newPassword: "Nuova password",
+        confirmPassword: "Conferma password",
+        requiredNewPassword: "Nuova Password obbligatoria",
+        minLengthNewPassword: "inserisci una nuova Password di almeno 7 caratteri",
+        changedPassword: "Password aggiornata con successo.",
+        confirm: "Conferma",
+        modify: "Modifica"
+        }
 )
 .value('overrides',
     {

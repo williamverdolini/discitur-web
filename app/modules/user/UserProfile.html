@@ -1,70 +1,165 @@
-﻿<div class="lead row">
+﻿<div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Profilo Utente
             </div>
             <div class="panel-body">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <div class="well well-sm">
-                                <div class="row">
-                                    <div class="col-sm-6 col-md-4">
-                                        <img ng-src="{{local.user.image}}" alt="" class="img-rounded img-responsive" />
-                                    </div>
-                                    <div class="col-sm-6 col-md-8">
-                                        <h2>
-                                            {{local.user.name}} {{local.user.surname}}
-                                        </h2>
-                                        <!--
-                                        <small>
-                                            <cite title="San Francisco, USA">
-                                                San Francisco, USA <i class="glyphicon glyphicon-map-marker">
-                                                </i>
-                                            </cite>
-                                        </small>
-                                        
-                                        <div class="row">
-                                            <div class="col-lg-1">
-                                                <h3><i class="glyphicon glyphicon-user"></i></h3>
-                                            </div>
-                                            <div class="col-lg-11">
-                                                <h3>{{local.user.username}}</h3>
-                                            </div>
+                <div class="lead row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="well well-sm">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-4">
+                                    <img ng-src="{{local.user.image}}" alt="" class="img-rounded img-responsive" />
+                                </div>
+                                <div class="col-sm-6 col-md-8">
+                                    <h2>
+                                        {{local.user.name}} {{local.user.surname}}
+                                    </h2>
+                                    <!--
+        <small>
+            <cite title="San Francisco, USA">
+                San Francisco, USA <i class="glyphicon glyphicon-map-marker">
+                </i>
+            </cite>
+        </small>
+
+        <div class="row">
+            <div class="col-lg-1">
+                <h3><i class="glyphicon glyphicon-user"></i></h3>
+            </div>
+            <div class="col-lg-11">
+                <h3>{{local.user.username}}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-1">
+                <h3><i class="glyphicon glyphicon-envelope"></i></h3>
+            </div>
+            <div class="col-lg-11">
+                <h3><wr-input wr-text="local.user.email" edit-text="actions.editBad(ref)" wr-class="col-lg-8" ></wr-input></h3>
+            </div>
+        </div>
+        -->
+                                    <br />
+                                    <p>
+                                        <i class="glyphicon glyphicon-user"></i>{{local.user.username}}
+                                    </p>
+                                    <!--
+                                        <div>
+                                            <i class="glyphicon glyphicon-envelope"></i>
+                                            <input type="text" ng-model="local.user.email" ng-show="local.edit" />
+                                            <a href="mailto:{{local.user.email}}" ng-show="!local.edit">{{local.user.email}}</a>
+                                            [
+                                            <span class="btn-group">
+                                                <a ng-click="local.edit=!local.edit" style="color:black">
+                                                    <span class="glyphicon glyphicon-pencil" tooltip="{{labels.editTooltip}}"></span>
+                                                </a>
+                                            </span>
+                                            ]
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-1">
-                                                <h3><i class="glyphicon glyphicon-envelope"></i></h3>
-                                            </div>
-                                            <div class="col-lg-11">
-                                                <h3><wr-input wr-text="local.user.email" edit-text="actions.editBad(ref)" wr-class="col-lg-8" ></wr-input></h3>
-                                            </div>
-                                        </div>
+                                    </p>
                                         -->
-                                        <br />
-                                        <p>
-                                            <i class="glyphicon glyphicon-user"></i>{{local.user.username}}
-                                            <br />
-                                            <div>
-                                                <i class="glyphicon glyphicon-envelope"></i>
-                                                <input type="text" ng-model="local.user.email" ng-show="local.edit" />
-                                                <a href="mailto:{{local.user.email}}" ng-show="!local.edit">{{local.user.email}}</a>
-                                                [
-                                                <span class="btn-group">
-                                                    <a ng-click="local.edit=!local.edit" style="color:black">
-                                                        <span class="glyphicon glyphicon-pencil" tooltip="{{labels.editTooltip}}"></span>
-                                                    </a>
-                                                </span>
-                                                ]
-                                            </div>
-                                        </p>
-                                    </div>
                                 </div>
                             </div>
+
+                            <form class="form-horizontal" name="local.UpdateUserForm" novalidate>
+                                <!-- Email-->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">{{labels.email}}</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="email" name="email" ng-model="local.viewedUser.email" required>
+
+                                    </div>
+                                </div>
+                                <!-- Form Validation Error -->
+                                <div class="col-md-offset-4 col-md-5">
+                                    <h5>
+                                        <div class="bs-callout bs-callout-danger" ng-show="local.UpdateUser.errors.show">
+                                            <button type="button" class="close" ng-click="local.UpdateUser.errors.show=false">&times;</button>
+                                            <div ng-bind-html="local.UpdateUser.errors.message"></div>
+                                        </div>
+                                        <div class="bs-callout bs-callout-info" ng-show="local.UpdateUser.success.show">
+                                            <button type="button" class="close" ng-click="local.UpdateUser.success.show=false">&times;</button>
+                                            <div ng-bind-html="local.UpdateUser.success.message"></div>
+                                        </div>
+                                    </h5>
+                                </div>
+                            </form>
+
+
+                        </div>
+                        <div>
+                            <!-- Button -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary" ng-click="actions.updateUser()">{{labels.modify}}</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-md-12">
 
+                        <form class="form-horizontal" name="local.ChangePwdForm" ng-submit="actions.changePassword()" novalidate>
+                            <fieldset>
+
+                                <!-- Form Name -->
+                                <legend>{{labels.changePassword}}</legend>
+
+                                <!-- Password input-->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">{{labels.currentPassword}}</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="password" ng-minlength="7" name="password" ng-model="local.currentPassword" required>
+                                    </div>
+                                </div>
+                                <!-- Password input-->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">{{labels.newPassword}}</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="password" ng-minlength="7" name="newPassword" ng-model="local.newPassword" required>
+
+                                    </div>
+                                </div>
+                                <!-- Confirm Password input-->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">{{labels.confirmPassword}}</label>
+                                    <div class="col-md-5">
+                                        <input class="form-control" type="password" ng-minlength="7" name="confirmPassword" ng-model="local.confirmPassword" pw-check="local.newPassword" required>
+
+                                    </div>
+                                </div>
+                                <!-- Form Validation Error -->
+                                <div class="col-md-offset-4 col-md-5">
+                                    <h5>
+                                        <div class="bs-callout bs-callout-danger" ng-show="local.errors.show">
+                                            <button type="button" class="close" ng-click="local.errors.show=false">&times;</button>
+                                            <div ng-bind-html="local.errors.message"></div>
+                                        </div>
+                                        <div class="bs-callout bs-callout-info" ng-show="local.success.show">
+                                            <button type="button" class="close" ng-click="local.success.show=false">&times;</button>
+                                            <div ng-bind-html="local.success.message"></div>
+                                        </div>
+                                    </h5>
+                                </div>
+                                <!-- Button -->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"></label>
+                                    <div class="col-md-4">
+                                        <button name="singlebutton" class="btn btn-primary">{{labels.confirm}}</button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </form>
+
+                    </div>
+                </div>
 
                 <!--
                 <form class="form-horizontal" name="local.SignupForm" ng-submit="actions.doSignup()" novalidate>
