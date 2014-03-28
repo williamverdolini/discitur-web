@@ -217,7 +217,7 @@
                             },
                             function (error) {
                                 $scope.local.errorsPwd.message = ""
-                                $scope.local.errorsPwd.message += "Fatal error!!!"+error.description;
+                                $scope.local.errorsPwd.message += error.description;
                                 $scope.local.errorsPwd.show = true;
                             }
                             )

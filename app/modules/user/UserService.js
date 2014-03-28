@@ -128,6 +128,7 @@
                 return deferred.promise;
 
             };
+            // mapping user to api
             var _userMap = function (user) {
                 var data2api = {};
                 data2api.UserId = user.userid;
@@ -137,7 +138,6 @@
                 data2api.Email = user.email;
                 return data2api;
             }
-
 
 
             var _authService = {
@@ -322,8 +322,8 @@
                         .error(
                             function (error, status) {
                                 var _authErr = {
-                                    code: error.error,
-                                    description: error.error_description,
+                                    code: error.Message,
+                                    description: error.ModelState[""][0],
                                     status: status
                                 }
                                 deferred.reject(_authErr);
