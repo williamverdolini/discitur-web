@@ -1,14 +1,19 @@
 ﻿<div>
 
-    <input type="text" value="{{wrText}}" ng-model="wrText" ng-show="local.edit" class="input-sm" style="width:80%" />
-    <span ng-show="!local.edit">{{wrText}}</span>
+    <input type="text" value="{{wrText}}" ng-model="wrText" ng-show="local.edit" class="{{local.cssClass}}" style="{{local.cssStyle}}" />
+    <!--<input type="text" value="{{wrText}}" ng-model="wrText" ng-show="local.edit" class="input-sm" style="width:80%" />-->
+    <span ng-show="!local.edit">{{wrText | linky}}</span>
     [
     <div class="btn-group">
-        <span class="glyphicon glyphicon-pencil" ng-click="actions.edit()" tooltip="{{labels.editTooltip}}"></span>
+        <a ng-click="actions.edit()" style="color:black">
+            <span class="glyphicon glyphicon-pencil" tooltip="{{labels.editTooltip}}"></span>
+        </a>
     </div>
-    |
-    <div class="btn-group">
-        <span class="glyphicon glyphicon-remove" ng-click="actions.remove()" tooltip="{{labels.deleteTooltip}}"></span>
+    <span ng-show="local.isDeletable">|</span>
+    <div class="btn-group" ng-show="local.isDeletable">
+        <a ng-click="actions.remove()" style="color:black">
+            <span class="glyphicon glyphicon-remove" tooltip="{{labels.deleteTooltip}}"></span>
+        </a>
     </div>
     ]
 

@@ -12,7 +12,7 @@
                     wrText: '=',
                     wrRef: '=',
                     editText : '&',
-                    removeText: '&'
+                    removeText: '&?'
                 },
                 link: function (scope, element, attrs) {
                     //-------- private methods-------
@@ -27,7 +27,10 @@
 
                     //-------- public properties-------
                     scope.local = {
-                        edit:false
+                        edit: false,
+                        isDeletable: angular.isDefined(attrs.removeText),
+                        cssClass: angular.isDefined(attrs.wrClass) ? attrs.wrClass : '',
+                        cssStyle: angular.isDefined(attrs.wrStyle) ? attrs.wrStyle : ''
                     }
 
                     scope.labels = {

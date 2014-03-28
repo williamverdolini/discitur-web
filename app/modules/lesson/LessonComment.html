@@ -50,7 +50,7 @@
                         <tab heading="{{labels.commentEdit}}">
                             <div class="form-group">
                                 <div class="col-md-12">
-                                    <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.commentText" placeholder="{{labels.commentPlaceholder}}" ng-required="true" ng-click="!local.isLogged ? actions.openSignIn() : true" ng-style="!local.isLogged ? {'background-color':'#F1F1F1'} : {cursor:'text'}"></textarea>
+                                    <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.commentText" placeholder="{{labels.commentPlaceholder}}" ng-required="true" do-sign-in ng-style="!local.isLogged ? {'background-color':'#F1F1F1'} : {cursor:'text'}"></textarea>  <!--ng-click="!local.isLogged ? actions.openSignIn() : true" -->
                                 </div>
                             </div>
                         </tab>
@@ -76,7 +76,7 @@
 
     <!-- New User Comment -->
     <div class="col-md-12" ng-if="local.base">
-        <div class="col-md-12" ng-show="!local.isLogged">{{labels.commentHelp}}</div>
+        <div class="col-md-12 bs-callout bs-callout-info" ng-show="!local.isLogged">{{labels.commentHelp}}</div>
         <div class="col-md-12">
             <form name="local.UserCommentForm" class="form-horizontal" ng-submit="actions.createComment()" novalidate>
                 <tabset>
@@ -84,7 +84,7 @@
                     <tab heading="{{labels.commentEdit}}">
                         <div class="form-group">
                             <div class="col-md-12">
-                                <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.commentText" placeholder="{{labels.commentPlaceholder}}" ng-required="true" ng-click="!local.isLogged ? actions.openSignIn() : true" ng-style="!local.isLogged ? {'background-color':'#F1F1F1'} : {cursor:'text'}"></textarea>
+                                <textarea name="CommentTXT" class="form-control" rows="3" ng-model="local.commentText" placeholder="{{labels.commentPlaceholder}}" ng-required="true" do-sign-in ng-style="!local.isLogged ? {'background-color':'#F1F1F1'} : {cursor:'text'}"></textarea> <!--ng-click="!local.isLogged ? actions.openSignIn() : true" -->
                             </div>
                         </div>
                     </tab>

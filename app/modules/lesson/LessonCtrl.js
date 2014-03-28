@@ -68,6 +68,7 @@
 
             //-------- public methods -------
             $scope.actions = {
+                /*
                 openSignIn: function () {
                     $rootScope.$broadcast('disc.login', $scope.actions)
                 },
@@ -75,6 +76,7 @@
                     //$scope.local.commentText = 'Inserisci il tuo commento'
                     //$scope.local.UserCommentForm.CommentTXT.focus();
                 },
+                */
                 // save User Comment
                 saveComment: function (comment) {
                     // retrieve current form

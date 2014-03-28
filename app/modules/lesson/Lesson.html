@@ -131,7 +131,7 @@
                 <div class="panel-body">
                     <!-- Rating Access/Help Area -->
                     <div class="row" ng-show="!local.user.isLogged">
-                        <label class="bs-callout bs-callout-info col-lg-12" ng-click="actions.openSignIn()">{{labels.ratingtHelp}}</label>
+                        <label class="bs-callout bs-callout-info col-lg-12" do-sign-in>{{labels.ratingtHelp}}</label> <!--ng-click="actions.openSignIn()"-->
                     </div>
                     <!-- User Rating Area -->
                     <div class="row" ng-show="local.user.isLogged && !actions.userHasVoted()">
