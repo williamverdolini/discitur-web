@@ -1,0 +1,232 @@
+﻿        /*
+        body {
+            min-height: 2000px;
+        }
+        .navbar-static-top {
+            margin-bottom: 19px;
+        }
+        */
+        
+        body {
+            padding-top: 80px;
+            /*padding-bottom: 40px;*/
+        }
+
+        .lesson-specs {
+            margin-left: 0px;
+            margin-right: 5px;
+        }
+
+         #lessonSearch {
+            margin-top: 6px;
+        }
+
+        #lessonSearch > div {
+            margin-bottom: 0px;
+        }
+
+        #lessonSearch > p {
+            margin-bottom: 0px;
+            margin-top: 10px;
+            margin-left: 0px;
+        }
+
+        /* let modl dialog to open combobox correctly (angular autocomplete)*/
+        .modal-body {
+            position: static;
+            max-height:450px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        /** Custom Sign-In Modal dialog            */
+        @media screen and (min-width: 768px) {
+            .modal-signin .modal-dialog {
+                width: 80%; 
+            }
+        }
+        
+        .modal-signin .modal-body {
+            max-height:none; 
+        }
+        
+        input:focus:required:invalid:focus, textarea:focus:required:invalid:focus, select:focus:required:invalid:focus {
+            border-color: #E9322D;
+            -webkit-box-shadow: 0 0 6px #F8B9B7;
+            -moz-box-shadow: 0 0 6px #f8b9b7;
+            box-shadow: 0 0 6px #F8B9B7;
+        }
+
+        input[ng-click],
+        input[data-ng-click],
+        input[x-ng-click],
+        textarea[ng-click],
+        textarea[data-ng-click],
+        textarea[x-ng-click],
+        label[ng-click],
+        label[data-ng-click],
+        label[x-ng-click],
+        a[ng-click],
+        a[data-ng-click],
+        a[x-ng-click],
+        .pointer {
+            cursor: pointer;
+        }
+
+        .bs-callout {
+            margin: 20px 0;
+            padding: 20px;
+            border-left: 3px solid #eee;
+        }
+
+            .bs-callout h4 {
+                margin-top: 0;
+                margin-bottom: 5px;
+            }
+
+            .bs-callout p:last-child {
+                margin-bottom: 0;
+            }
+
+            .bs-callout code {
+                background-color: #fff;
+                border-radius: 3px;
+            }
+
+        .bs-callout-danger {
+            background-color: #fdf7f7;
+            border-color: #d9534f;
+        }
+
+            .bs-callout-danger h4 {
+                color: #d9534f;
+            }
+
+        .bs-callout-warning {
+            background-color: #fcf8f2;
+            border-color: #f0ad4e;
+        }
+
+            .bs-callout-warning h4 {
+                color: #f0ad4e;
+            }
+
+        .bs-callout-info {
+            background-color: #f4f8fa;
+            border-color: #5bc0de;
+        }
+
+            .bs-callout-info h4 {
+                color: #5bc0de;
+            }
+
+        .mypanel {
+            background-color: #F5F5F5;
+            -webkit-border-radius: 10px 0 10px 0;
+            -moz-border-radius: 10px 0 10px 0;
+            border-radius: 10px 0 10px 0;
+            padding: 2px;
+            height: 100%;
+            color: #9DA0A4;
+        }
+
+        .mygroup {
+            background-color: #F5F5F5;
+            border: 1px solid #DDD;
+            color: #9DA0A4;
+            -webkit-border-radius: 4px 0 4px 0;
+            -moz-border-radius: 4px 0 4px 0;
+            border-radius: 4px 0 4px 0;
+        }
+
+        .Lesson-Features {
+            border-bottom: 1px solid;
+            margin-bottom: 15px;
+            font-size: smaller;
+        }
+
+        .comment-hr {
+            margin-top: 0px;
+            margin-bottom: 15px;
+        }
+
+        .social-bar {
+            text-align: right;
+            margin: 22px 0;
+            height: 30px;
+            /*overflow: hidden;*/
+            margin: 0;
+            position: absolute;
+            right: 15px;
+            bottom: 12px;
+        }
+
+        /*Special classes for surfingbird */
+        i.surfingbird {
+            max-height: 12px;
+            min-width: 25%;
+        }
+
+        i.surfingbird::before {
+            content: url(http://bootstrap-ru.com/cdn/i/surf.png);
+            position: relative;
+            left: 0px;
+            top: -7px;
+            float: left;
+        }
+
+        /*Google +1 button styles: */
+        .google-plus-one {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .google-plus-one i {
+            position: absolute;
+            left: -4px;
+            bottom: -5px;
+        }
+
+        .google-plus-one span {
+            font-size: 16px;
+            font-weight: 900;
+            line-height: 10px;
+            margin-left: 15px;
+        }
+
+        .btn-sm.google-plus-one span {
+            font-size: 14px;
+        }
+
+        .btn-sm.google-plus-one i {
+            bottom: -3px;
+        }
+
+        .btn-lg.google-plus-one span {
+            font-size: 20px;
+            margin-left: 18px;
+        }
+
+        .btn-lg.google-plus-one i {
+            bottom: -5px;
+        }
+
+        .btn-xs.google-plus-one span {
+            font-size: 12px;
+        }
+
+        .btn-xs.google-plus-one i {
+            bottom: -7px;
+        }
+
+
+        .no-margin {
+            margin: 0;
+        }
+
+        .contribute-panel{
+            min-height: 400px;
+        }
+
