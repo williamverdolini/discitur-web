@@ -60,6 +60,8 @@
         signInTitle: "Accedi a Discitur",
         loginButtom: "Login",
         login: "Login",
+        forgottenPwdHelp: "Inserisci lo UserName associato al tuo account e ti sarà inviata una email con nuove credenziali di accesso.",
+        sendMail: "Invia email",
         //usernameNotValid: "User Name NON valido: inserisci un indirizzo email corretto",
         usernameNotValid: "User Name NON valido",
         register: "Registrati",

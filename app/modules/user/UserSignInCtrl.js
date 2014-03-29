@@ -70,6 +70,8 @@
             $scope.labels = {
                 username: $scope.getLabel('username'),
                 password: $scope.getLabel('password'),
+                forgottenPwdHelp: $scope.getLabel('forgottenPwdHelp'),
+                sendMail: $scope.getLabel('sendMail'),
                 signInTitle: $scope.getLabel('signInTitle'),
                 login: $scope.getLabel('login'),
                 register: $scope.getLabel('register'),
@@ -78,8 +80,6 @@
                 name: $scope.getLabel('name'),
                 surname: $scope.getLabel('surname'),
                 email: $scope.getLabel('email'),
-                username: $scope.getLabel('username'),
-                password: $scope.getLabel('password'),
                 confirmPassword: $scope.getLabel('confirmPassword'),
                 signupButton: $scope.getLabel('signupButton'),
                 requiredUserName: $scope.getLabel('requiredUserName'),
