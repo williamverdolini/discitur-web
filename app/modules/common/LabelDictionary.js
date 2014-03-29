@@ -1,6 +1,7 @@
 ﻿angular.module('Common')
 .value('dictionary',
     {
+        brand: "Discitur (Test)",
         appTitle: "Discitur - Insieme si migliora",
         loading: "Caricamento in corso...",
         lessonTitleHeading: "Titolo della Lezione",
