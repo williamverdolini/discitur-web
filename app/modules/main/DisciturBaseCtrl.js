@@ -1,7 +1,7 @@
 ﻿angular.module('Discitur')
     .factory('DisciturBaseCtrl',
     [
-        'LabelService',
+        //'LabelService',
         function () {
             function DisciturBaseCtrl($scope, LabelService,$location) {
                 //-------- public methods-------
@@ -38,6 +38,7 @@
 
 
             }
+            DisciturBaseCtrl.$inject = ['$scope', 'LabelService', '$location'];
             return (DisciturBaseCtrl);
 
         }

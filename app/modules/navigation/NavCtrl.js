@@ -3,26 +3,19 @@
         '$scope',
         '$rootScope',
         '$location',
-        'LabelService',
-        function ($scope, $rootScope, $location) {
-            /***** label initialization ****/
-            /*
-            _getLabel = function (label) {
-                return LabelService.get('LessonCtrl', label);
-            }
+        'DisciturBaseCtrl',
+        '$injector',
+        function ($scope, $rootScope, $location, DisciturBaseCtrl, $injector) {
+            // inherit Discitur Base Controller
+            $injector.invoke(DisciturBaseCtrl, this, { $scope: $scope });
+
+            //-------- private properties -------
+            $scope._ctrl = 'NavCtrl';
 
             $scope.labels = {
-                specifics: _getLabel('specifics'),
-                discipline: _getLabel('discipline'),
-                school: _getLabel('school'),
-                classroom: _getLabel('classroom'),
-                rating: _getLabel('rating'),
-                content: _getLabel('content'),
-                lessonGoods: _getLabel('lessonGoods'),
-                lessonBads: _getLabel('lessonBads'),
-                conclusion: _getLabel('conclusion')
+                brand: $scope.getLabel('brand')
             };
-            */
+            
             $scope.menu = [
                 { id: 1, title: "Lezioni", route: "/lesson" },
                 {

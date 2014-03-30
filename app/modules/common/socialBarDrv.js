@@ -1,7 +1,6 @@
 ﻿angular.module('Common')
     .directive('socialBar', [
         '$rootScope',
-        //'LabelService',
         'DisciturBaseCtrl',
         '$injector',
         function ($rootScope, DisciturBaseCtrl, $injector) {

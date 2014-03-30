@@ -1,22 +1,23 @@
 ﻿angular.module('disc.user')
     .controller('UserNavBar', [
         '$scope',
-        'LabelService',
         '$state',
         '$modal',
         'AuthService',
-        function ($scope,LabelService,$state,$modal,AuthService) {
+        'DisciturBaseCtrl',
+        '$injector',
+        function ($scope, $state, $modal, AuthService, DisciturBaseCtrl, $injector) {
+            // inherit Discitur Base Controller
+            $injector.invoke(DisciturBaseCtrl, this, { $scope: $scope });
+
             //-------- private properties -------
+            $scope._ctrl = 'UserNavBar';
             var modalInstance;
+            //-------- private methods -------
+
             //-------- public properties ----
             $scope.labels;
             $scope.actions;
-
-            //-------- private methods -------
-            _getLabel = function (label) {
-                return LabelService.get('UserNavBar', label);
-            }
-
             //-------- public methods -------
             $scope.actions = {
                 openSignIn: function (actions) {
@@ -54,10 +55,10 @@
 
             //--------- model initialization ------
             $scope.labels = {
-                userSignIn: _getLabel('userSignIn'),
-                userSignOff: _getLabel('userSignOff'),
-                userProfile: _getLabel('userProfile'),
-                userLessons: _getLabel('userLessons')
+                userSignIn: $scope.getLabel('userSignIn'),
+                userSignOff: $scope.getLabel('userSignOff'),
+                userProfile: $scope.getLabel('userProfile'),
+                userLessons: $scope.getLabel('userLessons')
             };
             // Authentication user data
             $scope.model = {

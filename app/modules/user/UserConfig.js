@@ -8,11 +8,11 @@
         'ui.bootstrap'
     ])
     .config(
-    //[
-    //    '$httpProvider',
-    //    '$stateProvider',
-    //    '$urlRouterProvider', 
-    //    '$uiViewScrollProvider',
+    [
+        '$httpProvider',
+        '$stateProvider',
+        '$urlRouterProvider', 
+        '$uiViewScrollProvider',
         function ($httpProvider, $stateProvider, $urlRouterProvider, $uiViewScrollProvider) {
             $httpProvider.interceptors.push('UserAuthInterceptor');
 
@@ -29,12 +29,12 @@
                     templateUrl: 'modules/user/UserProfile.html',
                     controller: 'UserProfileCtrl',
                     resolve: {
-                        user: function (AuthService) {
+                        user: ['AuthService',function (AuthService) {
                             return AuthService.user;
-                        }
+                        }]
                     }
                 })
 
         }
-    //]
+    ]
     );

@@ -6,7 +6,12 @@
         'disc.user',
         'ui.bootstrap',
     ])
-    .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+    .config(
+    [
+        '$stateProvider',
+        '$urlRouterProvider',
+        '$httpProvider',
+        function ($stateProvider, $urlRouterProvider, $httpProvider) {
         $httpProvider.interceptors.push('LoadingInterceptor');
 
         // For any unmatched url, redirect to HomePage
@@ -60,9 +65,11 @@
                 templateUrl: 'modules/main/site/Contribute.html'
             })
 
-    })
+    }
+    ])
     .constant('DisciturSettings', {
-        apiUrl: 'http://localhost:59739/api/',
+        //apiUrl: 'http://localhost:59739/api/',
+        apiUrl: 'http://www.discitur.somee.com/api/',
         authToken: 'disc.auth.token',
         criptoKey: '7061737323313233',
         viewHelp: 'disc.viewHelp',
