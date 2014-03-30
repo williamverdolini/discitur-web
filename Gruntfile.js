@@ -5,6 +5,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-open');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-karma');
 
@@ -151,20 +153,101 @@ module.exports = function(grunt) {
           'app/styles/app.css'
         ]
       },
+      css: {
+          dest: './app/assets/app.css',
+          src: [
+            //'./app/bower_components/bootstrap/dist/css/bootstrap.min.css',
+            //'./app/bower_components/bootstrap/dist/css/flatly-bootstrap.min.css',
+            './app/css/social-buttons-3.css',
+            './app/css/discitur.css'
+          ]
+      },
 
-      scripts: {
+      libraries: {
+          options: {
+              separator: ';'
+          },
+          dest: './app/assets/libraries.js',
+          src: [
+          './app/bower_components/jquery/jquery.js',
+          './app/bower_components/angular/angular.js',
+          './app/bower_components/angular-resource/angular-resource.js',
+          './app/bower_components/angular-cookies/angular-cookies.js',
+          './app/bower_components/angular-sanitize/angular-sanitize.js',
+          './app/bower_components/angular-bootstrap/ui-bootstrap.min.js',
+          './app/bower_components/angular-ui-router/release/angular-ui-router.js',
+          //'./app/bower_components/tinymce/tinymce.min.js',
+          './app/bower_components/angular-ui-tinymce/src/tinymce.js'
+          ]
+      },
+      app: {
         options: {
           separator: ';'
         },
         dest: './app/assets/app.js',
         src: [
-          'bower_components/angular/angular.js',
-          'bower_components/angular-route/angular-route.js',
-          'bower_components/angularjs-scope.safeapply/src/Scope.SafeApply.js',
-          'app/modules/**/*.js'
+          './app/modules/common/CommonConfig.js',
+          './app/modules/lesson/LessonConfig.js',
+          './app/modules/user/UserConfig.js',
+          './app/modules/common/LabelDictionary.js',
+          './app/modules/common/LabelService.js',
+          './app/modules/common/CommonConfig.js',
+          './app/modules/common/wrInputDrv.js',
+          './app/modules/common/socialBarDrv.js',
+          './app/modules/common/pwCheckDrv.js',
+          './app/modules/lesson/LessonService.js',
+          './app/modules/lesson/LessonCommentDrv.js',
+          './app/modules/lesson/LessonRatingDrv.js',
+          './app/modules/lesson/LessonCtrl.js',
+          './app/modules/lesson/LessonSideBarCtrl.js',
+          './app/modules/lesson/Lesson404Ctrl.js',
+          './app/modules/lesson/LessonListCtrl.js',
+          './app/modules/lesson/LessonSearchCtrl.js',
+          './app/modules/lesson/LessonAdvSearchCtrl.js',
+          './app/modules/lesson/LessonListSideBarCtrl.js',
+          './app/modules/lesson/LessonEditCtrl.js',
+          './app/modules/user/UserService.js',
+          './app/modules/user/UserNavBarCtrl.js',
+          './app/modules/user/UserSignInCtrl.js',
+          './app/modules/user/UserProfileCtrl.js',
+          './app/modules/main/DisciturApp.js',
+          './app/modules/main/doSignInDrv.js',
+          './app/modules/main/DisciturBaseCtrl.js',
+          './app/modules/main/DisciturRootCtrl.js',
+          './app/modules/navigation/NavCtrl.js'
+
+          //'app/modules/**/*.js'
         ]
       }
+    },
+
+    cssmin : {
+        css:{
+            src: './app/assets/app.css',
+            dest: './app/assets/app.min.css'
+        }
+    },
+
+    uglify: {
+        libraries: {
+            files: {
+                './app/assets/libraries.min.js': ['./app/assets/libraries.js']
+            }
+        },
+        app: {
+            options: {
+                mangle: true,
+                beautify: {
+                    ascii_only: true
+                }
+            },
+            files: {
+                './app/assets/app.min.js': ['./app/assets/app.js']
+            }
+        }
     }
+
+
   });
 
 
@@ -197,6 +280,8 @@ module.exports = function(grunt) {
 
   //server daemon
   grunt.registerTask('serve', ['connect:webserver']);
+
+  grunt.registerTask('minifyjs', ['concat:libraries', 'concat:app', 'uglify']);
   
   //grunt.registerTask('test-e2e-local', ['protractor:testLocal']);
   

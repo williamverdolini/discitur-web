@@ -2,16 +2,12 @@
 <html ng-app="Discitur" ng-controller="DisciturRootCtrl" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/flatly-bootstrap.min.css" media="screen">
-    <link rel="stylesheet" href="css/social-buttons-3.css" media="screen">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/discitur.css" media="screen">
-    <!--
-    <link rel="stylesheet" href="css/flatly-bootstrap.min.css" media="screen">
-    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" media="screen">
-    -->
     <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+
+    <!--
     <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
@@ -21,12 +17,20 @@
     <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script type="text/javascript" src="bower_components/tinymce/tinymce.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+    -->
 
-    <!-- endbuild -->
-    <!-- build:js scripts/modules.js -->
-    <!-- endbuild -->
+    <link rel="stylesheet" href="assets/app.min.css" media="screen">
+    <script type="text/javascript" src="bower_components/tinymce/tinymce.min.js"></script>
+    <script type="text/javascript" src="assets/libraries.min.js"></script>
+    <script type="text/javascript" src="assets/app.min.js"></script>
 
+    <!--
+    <link rel="stylesheet" href="css/social-buttons-3.css" media="screen">
+    <link rel="stylesheet" href="css/discitur.css" media="screen">
+    -->
+ 
     <!-- Loading dell'applicazione e delle sue configurazioni di Routing (TO-DO: riorganizzare tramite Require.js)  -->
+    <!--
     <script type="text/javascript" src="modules/common/CommonConfig.js"></script>
     <script type="text/javascript" src="modules/lesson/LessonConfig.js"></script>
     <script type="text/javascript" src="modules/user/UserConfig.js"></script>
@@ -53,24 +57,18 @@
     <script type="text/javascript" src="modules/user/UserSignInCtrl.js"></script>
     <script type="text/javascript" src="modules/user/UserProfileCtrl.js"></script>
 
-    <!--
-        -->
-
-    <!--
-        <script src="modules/main/route.js"></script>
-    -->
     <script type="text/javascript" src="modules/main/DisciturApp.js"></script>
     <script type="text/javascript" src="modules/main/doSignInDrv.js"></script>
     <script type="text/javascript" src="modules/main/DisciturBaseCtrl.js"></script>
     <script type="text/javascript" src="modules/main/DisciturRootCtrl.js"></script>
     <script type="text/javascript" src="modules/navigation/NavCtrl.js"></script>
-
+    -->
     <!--            BACKEND-LESS DEVELOPMENT                      -->
     <!-- Da eliminare man mano che si tolgono i mocks dei servizi -->
-    
+    <!--
     <script type="text/javascript" src="bower_components/angular-mocks/angular-mocks.js"></script>
     <script type="text/javascript" src="../mock/modules/lesson/mocks.js"></script>
-    
+    -->
 
     <title>{{labels.appTitle}}</title>
 </head>
