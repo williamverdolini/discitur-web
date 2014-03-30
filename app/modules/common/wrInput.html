@@ -1,8 +1,8 @@
 ﻿<div>
-
-    <input type="text" value="{{wrText}}" ng-model="wrText" ng-show="local.edit" class="{{local.cssClass}}" style="{{local.cssStyle}}" />
+    
+    <input type="text" ng-model="wrText" ng-show="local.edit" class="{{local.cssClass}}" style="{{local.cssStyle}}" />
     <!--<input type="text" value="{{wrText}}" ng-model="wrText" ng-show="local.edit" class="input-sm" style="width:80%" />-->
-    <span ng-show="!local.edit">{{wrText | linky}}</span>
+    <span ng-show="!local.edit" ng-bind-html="wrText"></span>
     [
     <div class="btn-group">
         <a ng-click="actions.edit()" style="color:black">
