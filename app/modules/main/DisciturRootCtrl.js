@@ -53,7 +53,8 @@
             //-------- public properties -------
             $scope.labels = {
                 appTitle: $scope.getLabel('appTitle'),
-                loading: $scope.getLabel('loading')
+                loading: $scope.getLabel('loading'),
+                testEnv: $scope.getLabel('testEnv')
             };
 
             //------- Global Event Management -------//

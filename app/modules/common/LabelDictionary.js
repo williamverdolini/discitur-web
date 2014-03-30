@@ -1,7 +1,7 @@
 ﻿angular.module('Common')
 .value('dictionary',
     {
-        brand: "Discitur (Test)",
+        brand: "Discitur",
         appTitle: "Discitur - Insieme si migliora",
         loading: "Caricamento in corso...",
         lessonTitleHeading: "Titolo della Lezione",
@@ -136,7 +136,8 @@
         minLengthNewPassword: "inserisci una nuova Password di almeno 7 caratteri",
         changedPassword: "Password aggiornata con successo.",
         confirm: "Conferma",
-        modify: "Modifica"
+        modify: "Modifica",
+        testEnv: "Ambiente di Test"
         }
 )
 .value('overrides',

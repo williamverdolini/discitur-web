@@ -3,6 +3,11 @@
 </div>
 <!-- LOADING MODAL DIALOG -->
     <div class="col-md-3 bs-callout bs-callout-info" style="z-index:2000;position:fixed;left:2%;top:85%" ng-show="$root.$loading"><h3>{{labels.loading}}</h3></div>
+<!-- TEST ENVIRONMENT MODAL DIALOG -->
+    <div class="col-sm-3 col-md-2 col-lg-2 bs-callout bs-callout-warning h5" style="z-index:2000;position:fixed;right:2%;top:90%" ng-show="$root.testEnv">
+        <button type="button" class="close" ng-click="$root.testEnv=false">&times;</button>
+    {{labels.testEnv}}
+</div>
 <!-- CONTENT AREA -->
 <div class="container" ui-view>
 </div>
