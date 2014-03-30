@@ -197,7 +197,7 @@
                 saveLesson: function () {
                     $scope.local.editForm.submitted = true;
                     if ($scope.local.editForm.$valid) {
-                        console.log($scope.local.lesson);
+                        //console.log($scope.local.lesson);
                         $scope.local.lesson.author = $scope.local.user;
                         $scope.local.lesson.lastModifUser = $scope.local.user.username;
 

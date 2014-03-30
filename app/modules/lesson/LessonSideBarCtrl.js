@@ -37,7 +37,7 @@
             //-------- public method -------
             $scope.actions = {
                 editLesson: function () {
-                    console.log(lessonData)
+                    //console.log(lessonData)
                     // set inherit option to false to avoid conflict with parameters in URL set by advancedSearch
                     $state.go('lessonEdit', { lessonId: lessonData.lessonId }, { inherit: false });
                 }
