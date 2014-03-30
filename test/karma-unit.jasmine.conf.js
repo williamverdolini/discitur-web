@@ -24,6 +24,7 @@ module.exports = function(config) {
                 'app/bower_components/angular-bootstrap/ui-bootstrap.js',
                 'app/bower_components/tinymce/tinymce.min.js',
                 'app/bower_components/angular-ui-tinymce/src/tinymce.js',
+                'http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js',
                 //'app/bower_components/angularjs-scope.safeapply/src/Scope.SafeApply.js',
                 //'app/scripts/lib/router.js',
           

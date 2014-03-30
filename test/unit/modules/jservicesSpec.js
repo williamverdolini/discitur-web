@@ -2211,12 +2211,12 @@ describe("Unit - module:User - Testing Services", function () {
         expect(angular.isFunction(_AuthService.getUserInfo)).toBe(true);
     });
 
-    it('Should AuthService.login() accept Object instance', function () {
+    it('Should AuthService.login() accept {username,password} object instance', function () {
         var invalidParamEx;
-
+        debugger;
         //make the call.
         try {
-            var returnedPromise = _AuthService.login({});
+            var returnedPromise = _AuthService.login({ username: null, password: null });
         }
         catch (ex) {
             invalidParamEx = ex;
