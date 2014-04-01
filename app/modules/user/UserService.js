@@ -117,8 +117,8 @@
                     })
                     .error(function (error, status) {
                         var _authErr = {
-                            code: error.error,
-                            description: error.error_description,
+                            code: error.error || "invalid_grant",
+                            description: error.error_description || "The user name or password is incorrect.",
                             status: status
                         }
                         deferred.reject(_authErr);
@@ -278,8 +278,8 @@
                             // Error Callback
                             function (error, status) {
                                 var _authErr = {
-                                    code: error.Message,
-                                    description: error.ModelState[""][0],
+                                    code: error==""? "Error_Registration": error.Message,
+                                    description: error == "" ? "Error on registration, please contact support" : error.ModelState[""][0],
                                     status: status
                                 }
                                 deferred.reject(_authErr);
