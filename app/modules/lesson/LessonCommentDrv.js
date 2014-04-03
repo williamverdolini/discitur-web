@@ -1,4 +1,4 @@
-﻿angular.module('Lesson')
+﻿angular.module('disc.lesson')
     .directive('lessonComment', [
         '$rootScope',
         'LabelService',

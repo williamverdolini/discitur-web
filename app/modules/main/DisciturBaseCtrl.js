@@ -1,4 +1,4 @@
-﻿angular.module('Discitur')
+﻿angular.module('discitur')
     .factory('DisciturBaseCtrl',
     [
         //'LabelService',

@@ -1,18 +1,4 @@
-﻿angular.module('disc.common',
-    [])
-/*
-    .constant('DisciturSettings', {
-        apiUrl: 'http://localhost:59739/api/',
-        //apiUrl: 'http://www.discitur.somee.com/api/',
-        authToken: 'disc.auth.token',
-        criptoKey: '7061737323313233',
-        viewHelp: 'disc.viewHelp',
-        lastLessonsNum: 5,
-        testEnv: true,
-        isInMaintenance: false
-    })
-*/
-/*
+﻿angular.module('disc.common')
     .factory('DiscUtil', ['$cacheFactory', function ($cacheFactory) {
         var _getMessage = function (obj) {
             var _message = "";
@@ -26,6 +12,7 @@
         }
 
         return {
+            // validate service input
             validateInput: function (functionName, validInput, actualInput) {
                 // accept only Object
                 if (angular.isUndefined(actualInput) || !(Object.prototype.toString.call(actualInput) === '[object Object]'))
@@ -48,11 +35,9 @@
                 }
 
             },
+            // cache manager
             cache: $cacheFactory('disciturCache')
-
-
         }
-
 
     }])
     // LoadingInterceptor Intercepor:
@@ -82,4 +67,3 @@
         }
     ])
 
-*/

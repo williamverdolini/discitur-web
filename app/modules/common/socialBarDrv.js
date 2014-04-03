@@ -1,4 +1,4 @@
-﻿angular.module('Common')
+﻿angular.module('disc.common')
     .directive('socialBar', [
         '$rootScope',
         'DisciturBaseCtrl',

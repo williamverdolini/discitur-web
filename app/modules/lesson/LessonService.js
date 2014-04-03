@@ -1,4 +1,4 @@
-﻿angular.module('Lesson')
+﻿angular.module('disc.lesson')
     /*-------------------------------------------------------------------------------
     Vantaggi del DTO:
     - disaccoppiamento tra i dati restituite dal BE e quelli gestiti dal FE

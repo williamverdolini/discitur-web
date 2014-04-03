@@ -1,4 +1,4 @@
-﻿angular.module('Common')
+﻿angular.module('disc.common')
 .value('dictionary',
     {
         brand: "Discitur",
