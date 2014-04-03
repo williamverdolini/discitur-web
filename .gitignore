@@ -5,3 +5,5 @@ dist
 app/bower_components/
 app/data/
 app/assets/
+app/deploy/
+deploy/

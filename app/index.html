@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<html ng-app="Discitur" ng-controller="DisciturRootCtrl" xmlns="http://www.w3.org/1999/xhtml">
+<html ng-app="discitur" ng-controller="DisciturRootCtrl" xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <!--------------------- Styles --------------------------->
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/flatly-bootstrap.min.css" media="screen">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
 
-    <!--
+    <!-- build:style app -->
+    <link rel="stylesheet" href="css/social-buttons-3.css" media="screen">
+    <link rel="stylesheet" href="css/discitur.css" media="screen">
+    <!-- /build -->
+
+    <!--------------------- /Styles --------------------------->
+
+
+
+    <!--------------------- Scripts --------------------------->
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+    <script type="text/javascript" src="bower_components/tinymce/tinymce.min.js"></script>
+
+    <!-- build:script lib -->
     <script type="text/javascript" src="bower_components/jquery/jquery.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="bower_components/angular-resource/angular-resource.js"></script>
@@ -15,27 +29,18 @@
     <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script type="text/javascript" src="bower_components/tinymce/tinymce.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
-    -->
+    <!-- /build -->
 
-    <link rel="stylesheet" href="assets/app.min.css" media="screen">
-    <script type="text/javascript" src="bower_components/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" src="assets/libraries.min.js"></script>
+    <!-- build:script settings -->
+    <script type="text/javascript" src="modules/settings/SettingConfig.js"></script>
+    <!-- /build -->
 
-
-    <!--<script type="text/javascript" src="assets/app.min.js"></script>-->
-
-    <!--
-    <link rel="stylesheet" href="css/social-buttons-3.css" media="screen">
-    <link rel="stylesheet" href="css/discitur.css" media="screen">
-    -->
- 
-    <!-- Loading dell'applicazione e delle sue configurazioni di Routing (TO-DO: riorganizzare tramite Require.js)  -->
-    
+    <!-- build:script app -->
     <script type="text/javascript" src="modules/common/CommonConfig.js"></script>
     <script type="text/javascript" src="modules/lesson/LessonConfig.js"></script>
     <script type="text/javascript" src="modules/user/UserConfig.js"></script>
+    <script type="text/javascript" src="modules/common/UtilService.js"></script>
     <script type="text/javascript" src="modules/common/LabelDictionary.js"></script>
     <script type="text/javascript" src="modules/common/LabelService.js"></script>
     <script type="text/javascript" src="modules/common/wrInputDrv.js"></script>
@@ -52,7 +57,7 @@
     <script type="text/javascript" src="modules/lesson/LessonAdvSearchCtrl.js"></script>
     <script type="text/javascript" src="modules/lesson/LessonListSideBarCtrl.js"></script>
     <script type="text/javascript" src="modules/lesson/LessonEditCtrl.js"></script>
-    
+
     <script type="text/javascript" src="modules/user/UserConfig.js"></script>
     <script type="text/javascript" src="modules/user/UserService.js"></script>
     <script type="text/javascript" src="modules/user/UserNavBarCtrl.js"></script>
@@ -64,14 +69,22 @@
     <script type="text/javascript" src="modules/main/DisciturBaseCtrl.js"></script>
     <script type="text/javascript" src="modules/main/DisciturRootCtrl.js"></script>
     <script type="text/javascript" src="modules/navigation/NavCtrl.js"></script>
-    
+    <!-- /build -->
+
+    <!-- build:remove -->
     <!--            BACKEND-LESS DEVELOPMENT                      -->
     <!-- Da eliminare man mano che si tolgono i mocks dei servizi -->
     <!--
     <script type="text/javascript" src="bower_components/angular-mocks/angular-mocks.js"></script>
     <script type="text/javascript" src="../mock/modules/lesson/mocks.js"></script>
     -->
+    <!-- Loading dell'applicazione e delle sue configurazioni di Routing (TO-DO: riorganizzare tramite Require.js)  -->
 
+    <!-- /build -->
+
+    <!--------------------- /Scripts --------------------------->
+
+    
     <title>{{labels.appTitle}}</title>
 </head>
 <body>
