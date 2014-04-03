@@ -1,15 +1,16 @@
-﻿    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
-                <span class="sr-only">Toggle Navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">{{labels.brand}}</a>
-        </div>
+﻿<div class="container" >
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+            <span class="sr-only">Toggle Navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">{{labels.brand}}</a>
+    </div>
+    <div ng-show="!local.isInMaintenance">
         <div ng-class="{'navbar-collapse' : true, in : !navCollapsed, collapse : true }" ng-style="!navCollapsed?{height:'auto'}:{}">
-            
+
             <!-- User Navigation Bar -->
             <div ng-include="'modules/user/UserNavBar.html'"></div>
             <!-- Main Menù Navigation Bar -->
@@ -25,4 +26,6 @@
             <!-- Search Form Navigation Bar -->
             <div class="container" ng-include="'modules/lesson/LessonSearch.html'"></div>
         </div><!--/.nav-collapse -->
+
     </div>
+</div>

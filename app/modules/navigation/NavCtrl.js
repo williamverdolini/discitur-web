@@ -1,11 +1,12 @@
-﻿angular.module("Discitur")
+﻿angular.module("discitur")
     .controller('NavCtrl', [
         '$scope',
         '$rootScope',
         '$location',
         'DisciturBaseCtrl',
         '$injector',
-        function ($scope, $rootScope, $location, DisciturBaseCtrl, $injector) {
+        'DisciturSettings',
+        function ($scope, $rootScope, $location, DisciturBaseCtrl, $injector, DisciturSettings) {
             // inherit Discitur Base Controller
             $injector.invoke(DisciturBaseCtrl, this, { $scope: $scope });
 
@@ -16,6 +17,9 @@
                 brand: $scope.getLabel('brand')
             };
             
+            $scope.local = {
+                isInMaintenance: DisciturSettings.isInMaintenance
+            }
             $scope.menu = [
                 { id: 1, title: "Lezioni", route: "/lesson" },
                 {
