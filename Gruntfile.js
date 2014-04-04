@@ -223,7 +223,7 @@ module.exports = function(grunt) {
         },
 
         cssmin : {
-            css:{
+            test:{
                 src: './app/assets/app.css',
                 dest: './app/assets/app.min.css'
             }
@@ -387,8 +387,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('minifyjs', ['concat:libraries', 'concat:app', 'uglify']);
 
-  grunt.registerTask('deploy:test', ['clean:test', 'concat:css', 'concat:libraries', 'concat:app', 'uglify', 'copy:test', 'htmlbuild:test', 'hashres:test']);
-  grunt.registerTask('fastdeploy:test', ['clean:testfast', 'concat:css', 'concat:libraries', 'concat:app', 'uglify', 'copy:testfast', 'htmlbuild:test', 'hashres:test']);
+  grunt.registerTask('deploy:test', ['clean:test', 'concat:css', 'concat:libraries', 'concat:app', 'cssmin:test', 'uglify', 'copy:test', 'htmlbuild:test', 'hashres:test']);
+  grunt.registerTask('fastdeploy:test', ['clean:testfast', 'concat:css', 'concat:libraries', 'concat:app', 'cssmin:test', 'uglify', 'copy:testfast', 'htmlbuild:test', 'hashres:test']);
 
   
   //grunt.registerTask('test-e2e-local', ['protractor:testLocal']);
