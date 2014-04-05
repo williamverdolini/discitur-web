@@ -72,6 +72,9 @@
                     //event.preventDefault();
                     return $state.go('404lesson');
                 }
+                return error;
+                //else
+                //    return $state.go(toState);
             });
         }
     ])

@@ -212,6 +212,7 @@ module.exports = function(grunt) {
                     './app/modules/user/UserNavBarCtrl.js',
                     './app/modules/user/UserSignInCtrl.js',
                     './app/modules/user/UserProfileCtrl.js',
+                    './app/modules/user/UserActivationCtrl.js',
                     './app/modules/main/DisciturApp.js',
                     './app/modules/main/doSignInDrv.js',
                     './app/modules/main/DisciturBaseCtrl.js',

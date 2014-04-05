@@ -260,6 +260,8 @@
                                 // server-2-client mapping
                                 var _user = _setUserData(result);
                                 angular.copy(_user, _authService.user);
+                                deferred.resolve(_authService.user);
+                                /*
                                 // load auth token from server 
                                 _loadToken(
                                     {
@@ -272,7 +274,8 @@
                                         function (data) {
                                             deferred.reject(data);
                                         }
-                                    )
+                                    );
+                                */
                             })
                         .error(
                             // Error Callback
@@ -393,6 +396,35 @@
                                 deferred.reject("Error updating user id:" + user.id + " -> " + data);
                             });
                     // create deferring result
+                    return deferred.promise;
+
+                },
+                // Activate user account
+                activate: function (inputParams) {
+                    DiscUtil.validateInput(
+                        'UserService.activate',   // function name for logging purposes
+                        {                         // hashmap to check inputParameters
+                            username: null,
+                            key: null
+                        },
+                        inputParams               // actual input params
+                    );
+
+                    var deferred = $q.defer();
+                    $http.post(DisciturSettings.apiUrl + 'Account/Activate', inputParams)
+                        .success(
+                            function (result, status) {
+                                deferred.resolve(result);
+                            })
+                        .error(
+                            function (error, status) {
+                                var _authErr = {
+                                    code: error.Message,
+                                    //description: error.ModelState[""][0],
+                                    status: status
+                                }
+                                deferred.reject(_authErr);
+                            });
                     return deferred.promise;
 
                 }

@@ -137,7 +137,10 @@
         changedPassword: "Password aggiornata con successo.",
         confirm: "Conferma",
         modify: "Modifica",
-        testEnv: "Ambiente di Test"
+        testEnv: "Ambiente di Test",
+        signupSuccess: 'Registrazione avvenuta con successo. Controlla la tua email ed attiva il tuo account.',
+        activationSuccess: 'Il tuo account è stato attivato. Accedi e inizia a dare il tuo contributo!',
+        activationFailed: 'Il tuo account NON è stato attivato. Controlla la tua mail o contatta il supporto tecnico.'
         }
 )
 .value('overrides',

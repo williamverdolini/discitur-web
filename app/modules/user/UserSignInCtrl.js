@@ -64,7 +64,11 @@
                 sentNewPwd: {
                     show: false,
                     message: ''
+                },
+                SUSuccess: {
+                    show: false
                 }
+
             };
 
             $scope.labels = {
@@ -93,7 +97,8 @@
                 requiredConfirmPassword: $scope.getLabel('requiredConfirmPassword'),
                 minLengthConfirmPassword: $scope.getLabel('minLengthConfirmPassword'),
                 matchConfirmPassword: $scope.getLabel('matchConfirmPassword'),
-                forgottenPassword: $scope.getLabel('forgottenPassword')
+                forgottenPassword: $scope.getLabel('forgottenPassword'),
+                signupSuccess: $scope.getLabel('signupSuccess')
             };
 
             //-------- private methods -------
@@ -159,7 +164,9 @@
                                 password: $scope.local.SUpassword
                             })
                         .then(
-                            _validLoginCB,
+                            function (user) {
+                                $scope.local.SUSuccess.show = true;
+                            },
                             function (error) {
                                 _validationErrors.init();
                                 _validationErrors.addMessage(error.description);

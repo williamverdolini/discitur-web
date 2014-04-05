@@ -114,8 +114,27 @@
                                 <button type="button" class="close" ng-click="local.SUerrors.show=false">&times;</button>
                                 <div ng-bind-html="local.SUerrors.message"></div>
                             </div>
+                            <!--
                             <button class="btn btn-primary pull-right" type="submit">{{labels.signupButton}}</button>
+                            -->
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="control-group pull-right">
+                                        <button class="btn btn-primary" type="submit">{{labels.signupButton}}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </form>
+
+                        <div class="form">
+                            <div class="bs-callout bs-callout-info" ng-show="local.SUSuccess.show">
+                                <button type="button" class="close" ng-click="local.SUSuccess.show=false">&times;</button>
+                                <div ng-bind-html="labels.signupSuccess"></div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

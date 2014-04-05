@@ -23,7 +23,7 @@
 
             $stateProvider
                 .state('userProfile', {
-                    url: 'userProfile',
+                    url: 'user/profile',
                     parent: 'master.1cl',
                     authorized: true,
                     templateUrl: 'modules/user/UserProfile.html',
@@ -32,6 +32,25 @@
                         user: ['AuthService',function (AuthService) {
                             return AuthService.user;
                         }]
+                    }
+                })
+                .state('userActivation', {
+                    url: 'user/activation?username?key',
+                    parent: 'master.1cl',
+                    onEnter: function (activation) {
+                        console.log(activation);
+                    },
+                    onExit: function (activation) {
+                        console.log(activation);
+                    },
+                    templateUrl: 'modules/user/UserActivation.html',
+                    controller: 'UserActivationCtrl',
+                    resolve: {
+                        activation: function (AuthService, $stateParams) {
+                            return AuthService.activate($stateParams).catch(
+                                function (data) { return { notActive: true };}
+                                );
+                        }
                     }
                 })
 
