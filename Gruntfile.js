@@ -197,6 +197,7 @@ module.exports = function(grunt) {
                     './app/modules/common/wrInputDrv.js',
                     './app/modules/common/socialBarDrv.js',
                     './app/modules/common/pwCheckDrv.js',
+                    './app/modules/common/inputServerValidationDrv.js',
                     './app/modules/lesson/LessonService.js',
                     './app/modules/lesson/LessonCommentDrv.js',
                     './app/modules/lesson/LessonRatingDrv.js',
