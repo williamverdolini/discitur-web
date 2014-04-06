@@ -94,6 +94,7 @@
                 requiredSurname: $scope.getLabel('requiredSurname'),
                 requiredEmail: $scope.getLabel('requiredEmail'),
                 validEmail: $scope.getLabel('validEmail'),
+                serverValidationEmail: 'Esiste già un account associato a questo indirizzo email',
                 requiredConfirmPassword: $scope.getLabel('requiredConfirmPassword'),
                 minLengthConfirmPassword: $scope.getLabel('minLengthConfirmPassword'),
                 matchConfirmPassword: $scope.getLabel('matchConfirmPassword'),
@@ -167,9 +168,12 @@
                             function (user) {
                                 $scope.local.SUSuccess.show = true;
                             },
-                            function (error) {
+                            function (errors) {
                                 _validationErrors.init();
-                                _validationErrors.addMessage(error.description);
+                                for (var i = 0; i < errors.length; i++) {
+                                    _validationErrors.addMessage(errors[i].description);
+                                }
+                                //_validationErrors.addMessage(error.description);
                                 $scope.local.SUerrors.message = _validationErrors.message;
                                 $scope.local.SUerrors.show = true;
                             }
@@ -187,6 +191,8 @@
                                 _validationErrors.addMessage($scope.labels.requiredEmail);
                             else if ($scope.local.SignupForm.email.$error.email)
                                 _validationErrors.addMessage($scope.labels.validEmail);
+                            //else if ($scope.local.SignupForm.email.$error.serverCheck)
+                            //    _validationErrors.addMessage($scope.labels.serverValidationEmail);
                             if ($scope.local.SignupForm.username.$error.required)
                                 _validationErrors.addMessage($scope.labels.requiredUserName);
                             else if ($scope.local.SignupForm.username.$error.minlength)
@@ -237,6 +243,10 @@
                         $scope.local.errorsPwd.show = true;
 
                     }
+                },
+                checkEmail: function (email) {
+                    console.log("Controlla a server il valore:" + email);
+                    return AuthService.checkEmail({ email: email });
                 }
             }
 

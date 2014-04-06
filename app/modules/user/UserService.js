@@ -20,7 +20,8 @@
         'DiscUtil',
         'DisciturSettings',
         'UserDTO',
-        function ($http, $q, DiscUtil, DisciturSettings, UserDTO) {
+        'LabelService',
+        function ($http, $q, DiscUtil, DisciturSettings, UserDTO, LabelService) {
             //-------- private methods -------
 
             // encode message with CriptoJS
@@ -116,11 +117,14 @@
                         }
                     })
                     .error(function (error, status) {
+                        var _authErr = LabelService.apiErrorCode(error.error);
+                        /*
                         var _authErr = {
                             code: error.error || "invalid_grant",
                             description: error.error_description || "The user name or password is incorrect.",
                             status: status
                         }
+                        */
                         deferred.reject(_authErr);
                     });
 
@@ -138,7 +142,6 @@
                 data2api.Email = user.email;
                 return data2api;
             }
-
 
             var _authService = {
                 //-------- public properties-------
@@ -261,30 +264,11 @@
                                 var _user = _setUserData(result);
                                 angular.copy(_user, _authService.user);
                                 deferred.resolve(_authService.user);
-                                /*
-                                // load auth token from server 
-                                _loadToken(
-                                    {
-                                        username: inputParams.username,
-                                        password: inputParams.password
-                                    }).then(
-                                        function () {
-                                            deferred.resolve(_authService.user);
-                                        },
-                                        function (data) {
-                                            deferred.reject(data);
-                                        }
-                                    );
-                                */
                             })
                         .error(
                             // Error Callback
                             function (error, status) {
-                                var _authErr = {
-                                    code: error==""? "Error_Registration": error.Message,
-                                    description: error == "" ? "Error on registration, please contact support" : error.ModelState[""][0],
-                                    status: status
-                                }
+                                var _authErr = LabelService.apiError(error);
                                 deferred.reject(_authErr);
                             });
                     return deferred.promise;
@@ -427,8 +411,29 @@
                             });
                     return deferred.promise;
 
-                }
+                },
+                // check fo email existance (NOT USED)
+                checkEmail: function (inputParams) {
+                    DiscUtil.validateInput(
+                        'UserService.checkEmail', // function name for logging purposes
+                        {                         // hashmap to check inputParameters
+                            email: null
+                        },
+                        inputParams               // actual input params
+                    );
 
+                    var deferred = $q.defer();
+                    $http.get(DisciturSettings.apiUrl + 'User/anyEmail', { params: inputParams })
+                        .success(
+                            function (result, status) {
+                                deferred.resolve(!(result=='true'));
+                            })
+                        .error(
+                            function (error, status) {
+                                deferred.resolve(false);
+                            });
+                    return deferred.promise;
+                }
             }
 
             //-------- Singleton Initialization -------

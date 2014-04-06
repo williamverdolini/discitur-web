@@ -144,23 +144,28 @@
         }
 )
 .value('overrides',
-    {
-        'LessonCtrl': {
-            lessonGoods: "Cosa è andato bene",
-            lessonBads: "Cosa è andato male"
-        },
-        'LessonListCtrl': {
-            publishedOn: "Pubblicato il",
-            noLessonFound: "Nessuna Lezione trovata."
-        },
-        'LessonListSideBarCtrl': {
-            newLessonButton: "Nuova Lezione"
-        },
-        'LessonEditCtrl': {
-            saveLessonButton: "Salva la Lezione",
-            deleteLessonButton: "Elimina la Lezione",
-            cancelButton: "Annulla",
-            publicLesson: "Pubblica"
-        }
+{
+    'LessonCtrl': {
+        lessonGoods: "Cosa è andato bene",
+        lessonBads: "Cosa è andato male"
+    },
+    'LessonListCtrl': {
+        publishedOn: "Pubblicato il",
+        noLessonFound: "Nessuna Lezione trovata."
+    },
+    'LessonListSideBarCtrl': {
+        newLessonButton: "Nuova Lezione"
+    },
+    'LessonEditCtrl': {
+        saveLessonButton: "Salva la Lezione",
+        deleteLessonButton: "Elimina la Lezione",
+        cancelButton: "Annulla",
+        publicLesson: "Pubblica"
     }
-)
+})
+.value('errors',
+{
+    discerr01 : 'Username già usato da un altro account',
+    discerr02: 'Email già associata ad un altro account',
+    discerr03: 'Username o password non corretti'
+})
