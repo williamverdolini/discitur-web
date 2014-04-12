@@ -2,14 +2,12 @@
     .controller('UserSignInCtrl', [
         '$scope',
         '$modalInstance',
-        //'LabelService',
         'AuthService',
         'DisciturBaseCtrl',
         '$injector',
         function (
             $scope,
             $modalInstance,
-            //LabelService,
             AuthService,
             DisciturBaseCtrl,
             $injector
@@ -99,15 +97,11 @@
                 minLengthConfirmPassword: $scope.getLabel('minLengthConfirmPassword'),
                 matchConfirmPassword: $scope.getLabel('matchConfirmPassword'),
                 forgottenPassword: $scope.getLabel('forgottenPassword'),
-                signupSuccess: $scope.getLabel('signupSuccess')
+                signupSuccess: $scope.getLabel('signupSuccess'),
+                sentNewPwdEmail: $scope.getLabel('sentNewPwdEmail')
             };
 
             //-------- private methods -------
-            /*
-            var _getLabel = function (label) {
-                return LabelService.get('UserSignInCtrl', label);
-            }
-            */
             var _validLoginCB = function (data) {
                 $scope.local.user = data;
                 $scope.actions.ok();
@@ -140,7 +134,6 @@
                             $scope.local.errors.message = ""
                             $scope.local.errors.message += $scope.local.LoginForm.username.$error.required ? $scope.labels.requiredUserName : "";
                             $scope.local.errors.message += $scope.local.LoginForm.username.$error.minlength ? $scope.labels.minLengthUserName : "";
-                            //$scope.local.errors.message = _getLabel('usernameNotValid');
                             $scope.local.errors.show = true;
                         }
                         if ($scope.local.LoginForm.password.$invalid) {
@@ -173,7 +166,6 @@
                                 for (var i = 0; i < errors.length; i++) {
                                     _validationErrors.addMessage(errors[i].description);
                                 }
-                                //_validationErrors.addMessage(error.description);
                                 $scope.local.SUerrors.message = _validationErrors.message;
                                 $scope.local.SUerrors.show = true;
                             }
@@ -225,7 +217,7 @@
                         AuthService.retrievePassword({ username: $scope.local.usernamePwd }).then(
                             function () {
                                 $scope.local.sentNewPwd.message = ""
-                                $scope.local.sentNewPwd.message += "A breve riceverai via mail una nuova Password.";
+                                $scope.local.sentNewPwd.message += $scope.labels.sentNewPwdEmail;
                                 $scope.local.sentNewPwd.show = true;
                             },
                             function (error) {
@@ -239,9 +231,7 @@
                         $scope.local.errorsPwd.message = ""
                         $scope.local.errorsPwd.message += $scope.local.ForgottenPwd.username.$error.required ? $scope.labels.requiredUserName : "";
                         $scope.local.errorsPwd.message += $scope.local.ForgottenPwd.username.$error.minlength ? $scope.labels.minLengthUserName : "";
-                        //$scope.local.errors.message = _getLabel('usernameNotValid');
                         $scope.local.errorsPwd.show = true;
-
                     }
                 },
                 checkEmail: function (email) {

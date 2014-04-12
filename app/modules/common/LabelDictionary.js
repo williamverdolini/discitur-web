@@ -127,6 +127,7 @@
         requiredConfirmPassword: "Conferma Password obbligatoria",
         minLengthConfirmPassword: "inserisci una Conferma Password di almeno 7 caratteri",
         matchConfirmPassword: "Conferma Password non corretta",
+        sentNewPwdEmail: "A breve riceverai via mail una nuova Password.",
         forgottenPassword: "Password dimenticata?",
         changePassword: "Modifica Password",
         currentPassword: "Password attuale",
@@ -146,8 +147,8 @@
 .value('overrides',
 {
     'LessonCtrl': {
-        lessonGoods: "Cosa è andato bene",
-        lessonBads: "Cosa è andato male"
+        //lessonGoods: "Cosa è andato bene",
+        //lessonBads: "Cosa è andato male"
     },
     'LessonListCtrl': {
         publishedOn: "Pubblicato il",
