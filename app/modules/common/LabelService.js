@@ -13,8 +13,6 @@
         'errors',
         'ErrorDTO',
         function (dictionary, overrides, errors, ErrorDTO) {
-            //console.debug("factory: LabelService Creation");
-
             return {
                 get: function (controller, label) {
                     //console.debug("LabelService.get " + controller + " - " + label)
