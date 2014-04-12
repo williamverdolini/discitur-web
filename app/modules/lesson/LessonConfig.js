@@ -83,7 +83,7 @@
                         }
                     })
                     .state('lessonDetail', {
-                        url: 'lesson/:lessonId',
+                        url: 'lesson/:lessonId/{title}',
                         parent: 'master.2cl',
                         onEnter: function () {
                             console.log("Entering Lesson Detail");
