@@ -12,6 +12,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-hashres');
     grunt.loadNpmTasks('grunt-html-build');
+    grunt.loadNpmTasks('grunt-html-snapshot');
 
     grunt.initConfig({
         shell: {
@@ -350,6 +351,29 @@ module.exports = function(grunt) {
                 // File that refers to above files and needs to be updated with the hashed name
                     dest: 'deploy/test/index.html',
                     }
+        },
+
+
+        htmlSnapshot: {
+            debug: {
+                    options: {
+                        snapshotPath: 'snapshots/',
+                        sitePath: 'http://williamverdolini.github.io/discitur/',
+                        //you can choose a prefix for your snapshots
+                        //by default it's 'snapshot_'
+                        fileNamePrefix: 'sp',
+                        removeScripts: true,
+                        msWaitForPages: 1000,
+                        urls: [
+                          '',
+                          '#/project/backstage',
+                          '#/lesson/10/La-battaglia-di-Hastings-e-una-giornata-al-castello'
+                        ]
+                    }
+            },
+            prod: {
+                    options: {}
+            }
         }
 
 
@@ -392,7 +416,7 @@ module.exports = function(grunt) {
   grunt.registerTask('deploy:test', ['clean:test', 'concat:css', 'concat:libraries', 'concat:app', 'cssmin:test', 'uglify', 'copy:test', 'htmlbuild:test', 'hashres:test']);
   grunt.registerTask('fastdeploy:test', ['clean:testfast', 'concat:css', 'concat:libraries', 'concat:app', 'cssmin:test', 'uglify', 'copy:testfast', 'htmlbuild:test', 'hashres:test']);
 
-  
+  grunt.registerTask('snapshot', ['htmlSnapshot:debug'])
   //grunt.registerTask('test-e2e-local', ['protractor:testLocal']);
   
 };
