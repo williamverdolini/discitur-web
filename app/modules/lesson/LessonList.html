@@ -10,7 +10,8 @@
         <div class="col-md-8">
             <div>
                 <p ng-bind-html="lesson.conclusion"></p>
-                <p><a class="btn btn-default" ng-href="#/lesson/{{lesson.lessonId}}/{{lesson.title | beautyURL}}">{{labels.viewMore}}</a></p>
+                <!--<p><a class="btn btn-default" ng-href="#/lesson/{{lesson.lessonId}}/{{lesson.title | beautyURL}}">{{labels.viewMore}}</a></p>-->
+                <p><a class="btn btn-default" ui-sref="lessonDetail({ lessonId: lesson.lessonId, title: filter('beautyURL')(lesson.title)})">{{labels.viewMore}}</a></p>
             </div>
         </div>
         <div class="col-md-4">

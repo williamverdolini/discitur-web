@@ -2,7 +2,8 @@
     <div class="panel-heading">{{labels.lastLessonsTitle}}</div>
     <ul class="list-group">
         <li class="list-group-item" ng-repeat="lesson in local.lastLessonList">
-            <a href="#/lesson/{{lesson.lessonId}}/{{lesson.title | beautyURL}}">{{lesson.title}}</a>
+            <!--<a href="#/lesson/{{lesson.lessonId}}/{{lesson.title | beautyURL}}">{{lesson.title}}</a>-->
+            <a ui-sref="lessonDetail({ lessonId: lesson.lessonId, title: filter('beautyURL')(lesson.title)})">{{ lesson.title }}</a>            
         </li>
     </ul>
     <!--

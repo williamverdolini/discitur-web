@@ -205,13 +205,13 @@
                             $scope.local.lesson.lessonId = 0;
                             LessonService.create($scope.local.lesson)
                                 .then(function (data) {// success
-                                    $state.go('lessonDetail', { lessonId: data.lessonId }, { inherit: false });
+                                    $state.go('lessonDetail', { lessonId: data.lessonId, title: $scope.filter('beautyURL')(data.title) }, { inherit: false });
                                 })
                         }
                         else {
                             LessonService.update($scope.local.lesson)
                                 .then(function (data) {// success
-                                    $state.go('lessonDetail', { lessonId: data.lessonId }, { inherit: false });
+                                    $state.go('lessonDetail', { lessonId: data.lessonId, title: $scope.filter('beautyURL')(data.title) }, { inherit: false });
                                 })
                         }
 
@@ -221,7 +221,7 @@
                 cancelEditing: function () {
                     // set inherit option to false to avoid conflict with parameters in URL set by advancedSearch
                     if ($scope.local.lesson.lessonId > 0)
-                        $state.go('lessonDetail', { lessonId: lessonData.lessonId }, { inherit: false });
+                        $state.go('lessonDetail', { lessonId: lessonData.lessonId, title: $scope.filter('beautyURL')(lessonData.title) }, { inherit: false });
                     else
                         $state.go('lessonSearch', { keywod: ''}, { inherit: false });
                 },

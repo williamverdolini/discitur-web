@@ -21,13 +21,13 @@
                 isInMaintenance: DisciturSettings.isInMaintenance
             }
             $scope.menu = [
-                { id: 1, title: "Lezioni", route: "/lesson" },
+                { id: 1, title: "Lezioni", route: "/lesson", state: "lessonSearch" },
                 {
-                    id: 2, title: "Il Progetto", route: "/project", subMenu: [
-                        { id: 21, title: "Il Manifesto", route: "/project/mission" },
-                        { id: 22, title: "Chi siamo", route: "/project/About" },
-                        { id: 23, title: "Contribuisci", route: "/project/contribute" },
-                        { id: 24, title: "BackStage", route: "/project/backstage" }
+                    id: 2, title: "Il Progetto", route: "/project", state: "master.1cl.home", subMenu: [
+                        { id: 21, title: "Il Manifesto", route: "/project/mission", state: "master.1cl.mission" },
+                        { id: 23, title: "Contribuisci", route: "/project/contribute", state: "master.1cl.contribute" },
+                        { id: 24, title: "BackStage", route: "/project/backstage", state: "master.1cl.backstage" },
+                        { id: 22, title: "Chi siamo", route: "/project/About", state: "master.1cl.about" }
                     ]
                 }/*,
                 { id: 3, title: "Contatti", route: "/project/contact" }*/
