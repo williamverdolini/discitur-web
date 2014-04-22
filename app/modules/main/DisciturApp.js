@@ -13,7 +13,12 @@
         '$urlRouterProvider',
         '$httpProvider',
         'DisciturSettings',
-        function ($stateProvider, $urlRouterProvider, $httpProvider, DisciturSettings) {
+        '$locationProvider',
+        function ($stateProvider, $urlRouterProvider, $httpProvider, DisciturSettings, $locationProvider) {
+            // for HTML5 mode
+            //$locationProvider.html5Mode(true)
+            // for HashBang mode
+            $locationProvider.html5Mode(false).hashPrefix('!');
             $httpProvider.interceptors.push('LoadingInterceptor');
 
             $stateProvider
@@ -62,21 +67,25 @@
                 .state('master.1cl.mission', {
                     url: 'project/mission',
                     parent: 'master.1cl',
+                    title : 'manifestTitle',
                     templateUrl: 'modules/main/site/Project.html'
                 })
                 .state('master.1cl.about', {
                     url: 'project/About',
                     parent: 'master.1cl',
+                    title: 'aboutTitle',
                     templateUrl: 'modules/main/site/About.html'
                 })
                 .state('master.1cl.backstage', {
                     url: 'project/backstage',
                     parent: 'master.1cl',
+                    title: 'backstageTitle',
                     templateUrl: 'modules/main/site/BackStage.html'
                 })
                 .state('master.1cl.contribute', {
                     url: 'project/contribute',
                     parent: 'master.1cl',
+                    title: 'contributeTitle',
                     templateUrl: 'modules/main/site/Contribute.html'
                 })
 

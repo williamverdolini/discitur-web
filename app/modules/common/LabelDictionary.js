@@ -2,7 +2,7 @@
 .value('dictionary',
     {
         brand: "Discitur",
-        appTitle: "Discitur - Insieme si migliora",
+        appTitle: "Discitur | Insieme si migliora",
         loading: "Caricamento in corso...",
         lessonTitleHeading: "Titolo della Lezione",
         lessonTitle: "Titolo",
@@ -39,7 +39,7 @@
         ratingNotDelete: "Il commento non può essere rimosso dall'Autore della lezione.",
         ratingInput: "Il tuo giudizio: ",
 
-        noLessonIdFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:support@discitur.org'>supporto tecnico</a>",
+        noLessonIdFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:team.discitur@gmail.com'>supporto tecnico</a>",
         viewMore: "Approfondisci >>",
         keywordPlaceholder: "Ricerca la lezione per titolo",
         advKeyword: "Titolo",
@@ -141,7 +141,11 @@
         testEnv: "Ambiente di Test",
         signupSuccess: 'Registrazione avvenuta con successo. Controlla la tua email ed attiva il tuo account.',
         activationSuccess: 'Il tuo account è stato attivato. Accedi e inizia a dare il tuo contributo!',
-        activationFailed: 'Il tuo account NON è stato attivato. Controlla la tua mail o contatta il supporto tecnico.'
+        activationFailed: 'Il tuo account NON è stato attivato. Controlla la tua mail o contatta il supporto tecnico.',
+        manifestTitle: 'Il Manifesto',
+        backstageTitle: 'Il Backstage del progetto',
+        contributeTitle: 'Contribuisci al progetto',
+        aboutTitle: 'Chi siamo'
         }
 )
 .value('overrides',

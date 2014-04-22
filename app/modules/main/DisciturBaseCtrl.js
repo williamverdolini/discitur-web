@@ -3,7 +3,7 @@
     [
         //'LabelService',
         function () {
-            function DisciturBaseCtrl($scope, LabelService,$location) {
+            function DisciturBaseCtrl($scope, LabelService, $location, $rootScope, $filter) {
                 //-------- public methods-------
                 $scope.absUrl = $location.absUrl();
                 $scope.absUrlComponent = encodeURIComponent($scope.absUrl);
@@ -35,10 +35,21 @@
                         _detachStaticWatchers();
                     }
                 })
+                // in order to use filters in Controllers
+                $scope.filter = $filter;
 
+                $scope._labels = {
+                    appTitle : ''
+                }
+
+                $scope._actions = {
+                    setTitle: function (iTitle) {
+                        $rootScope.$broadcast('disc.setTitleEvent', { title: iTitle });
+                    }
+                }
 
             }
-            DisciturBaseCtrl.$inject = ['$scope', 'LabelService', '$location'];
+            DisciturBaseCtrl.$inject = ['$scope', 'LabelService', '$location','$rootScope','$filter'];
             return (DisciturBaseCtrl);
 
         }

@@ -57,9 +57,18 @@
                 testEnv: $scope.getLabel('testEnv')
             };
 
+            /*
+            $rootScope.labels = {
+                appTitle: $scope.getLabel('appTitle')
+            }
+            */
+
             //------- Global Event Management -------//
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 //console.log("$stateChangeStart")
+                // reset title
+                var _cTitle = $scope.getLabel('appTitle') + (toState.title ? ' | ' + $scope.getLabel(toState.title) : '');
+                $scope.labels.appTitle = _cTitle;
                 changeStartCallbacks[0](event, toState, toParams, fromState, fromParams);
             });
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
@@ -76,6 +85,12 @@
                 //else
                 //    return $state.go(toState);
             });
+
+            $scope.$on('disc.setTitleEvent', function (event, args) {
+                if(angular.isDefined(args.title))
+                    $scope.labels.appTitle = $scope.getLabel('appTitle') + ' | '+ args.title;
+            })
+
         }
     ])
 

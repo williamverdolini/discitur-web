@@ -52,8 +52,11 @@
                 comments: $scope.getLabel('comments'),
                 ratings: $scope.getLabel('ratings'),
                 ratingtHelp: $scope.getLabel('ratingtHelp'),
-                notPublished: $scope.getLabel('notPublished')
+                notPublished: $scope.getLabel('notPublished')                
             };
+
+            //$rootScope.labels.appTitle = $scope.getLabel('appTitle') + ' ' + lessonData.title
+            $scope._actions.setTitle(lessonData.title);
 
             $scope.local = {
                 commentText: null,

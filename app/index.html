@@ -2,8 +2,16 @@
 <html ng-app="discitur" ng-controller="DisciturRootCtrl" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <!--------------------- Styles --------------------------->
+    <title ng-bind="labels.appTitle"></title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- build:remove -->
+    <!-- For SEO -->
+    <!-- Allow indexing of pages without hash fragment (useful in html5 mode)-->
+    <!--<meta name="fragment" content="!" />-->
+    <!-- For HTML 5 mode (base href)-->
+    <!--<base href="/web/app/" />-->
+    <!-- /build -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/flatly-bootstrap.min.css" media="screen">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -87,7 +95,6 @@
     <!--------------------- /Scripts --------------------------->
 
     
-    <title>{{labels.appTitle}}</title>
 </head>
 <body>
     <div id="fb-root"></div>
@@ -100,8 +107,10 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
+        js.async = true;
         js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
         fjs.parentNode.insertBefore(js, fjs);
+        
     }(document, 'script', 'facebook-jssdk'));
     </script>
     <script>
