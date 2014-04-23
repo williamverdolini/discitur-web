@@ -38,6 +38,7 @@ module.exports = function(config) {
                 //'app/scripts/app.js',
                 
                 'app/css/flatly-bootstrap.min.css',
+                'app/modules/settings/*.js',
                 'app/modules/common/*.js',
                 'app/modules/user/UserConfig.js',
                 'app/modules/user/*.js',

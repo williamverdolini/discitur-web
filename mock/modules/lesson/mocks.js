@@ -1,4 +1,4 @@
-﻿angular.module('Lesson')
+﻿angular.module('disc.lesson')
     .config(function ($provide) {
         $provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
     })

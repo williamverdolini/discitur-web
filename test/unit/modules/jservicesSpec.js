@@ -8,7 +8,7 @@ describe("Unit - module:Common - Testing Services", function() {
   beforeEach(function (){
     
     //load the module.
-    module('Common');
+      module('disc.common');
     
     //inject your service for testing.
     inject(function (LabelService, dictionary, overrides) {
@@ -43,7 +43,7 @@ describe("Unit - module:Commen - Testing Directive", function () {
 
     beforeEach(function () {
         //load the module.
-        module('Common');
+        module('disc.common');
 
         //inject your service for testing.
         inject(function ($compile, $rootScope, $injector) {
@@ -88,7 +88,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
         beforeEach(function () {
 
             //load the module.
-            module('Lesson');
+            module('disc.lesson');
 
             //inject your service for testing.
             inject(function (LessonService, CommentDTO, RatingDTO, LessonDTO) {
@@ -649,7 +649,7 @@ describe("Unit - module:Lesson - Testing Services", function () {
     // Befaore each test in the suite I inject the modules needed
     beforeEach(function () {
         //load the module.
-      module('Lesson');
+        module('disc.lesson');
 
       //get your service, also get $httpBackend
       //$httpBackend will be a mock, thanks to angular-mocks.js
@@ -2015,7 +2015,7 @@ describe("Unit - module:Lesson - Testing Controllers", function () {
     // Befaore each test in the suite I inject the modules needed
     beforeEach(function () {
         //load the module.
-        module('Lesson');
+        module('disc.lesson');
         //angular.mock.module('Lesson')
 
         //get your service, also get $httpBackend
@@ -2188,6 +2188,7 @@ describe("Unit - module:User - Testing Services", function () {
 
         //load the module.
         module('disc.user');
+        module('disc.settings');
 
         //inject your service for testing.
         inject(function (AuthService) {
