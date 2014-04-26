@@ -1,12 +1,15 @@
 ﻿angular.module('disc.lesson')
     .directive('lessonComment', [
         '$rootScope',
-        'LabelService',
         'LessonService',
         'AuthService',
         'CommentDTO',
         '$timeout',
-        function ($rootScope, LabelService, LessonService, AuthService, CommentDTO, $timeout) {
+        '$location',
+        '$anchorScroll',
+        'DisciturBaseCtrl',
+        '$injector',
+        function ($rootScope, LessonService, AuthService, CommentDTO, $timeout, $location, $anchorScroll, DisciturBaseCtrl, $injector) {
             return {
                 restrict: 'E',
                 templateUrl: 'modules/lesson/LessonComment.html',
@@ -16,15 +19,14 @@
                     comment: '=?',
                     lessonId: '@',
                     addComment: '&',
-                    deleteComment: '&'
+                    deleteComment: '&',
+                    absUrl: '@?',
                 },
                 link: function (scope, element, attrs) {
-                    //-------- private methods-------
-
-                    // call Label Service to get dynamic labels
-                    var _getLabel = function (label) {
-                        return LabelService.get('LessonCtrl', label);
-                    }
+                    // inherit Discitur Base Controller
+                    $injector.invoke(DisciturBaseCtrl, this, { $scope: scope });
+                    //-------- private properties -------
+                    scope._ctrl = 'lessonCommentDrv';
 
                     //-------- private variables-------
                     var form = element.find('form');
@@ -39,21 +41,25 @@
                         sameUser: scope.comment ? (scope.comment.author.username == AuthService.user.username) : false,
                         answer: false,
                         edit: false,
-                        showDeleteCommentErr: false
+                        showDeleteCommentErr: false,
+                        commentIdHtml: angular.isDefined(scope.comment) ? 'l' + scope.lessonId + '-c' + scope.comment.id : null
                     }
 
                     scope.labels = {
-                        comments: _getLabel('comments'),
-                        commentPlaceholder: _getLabel('commentPlaceholder'),
-                        commentHelp: _getLabel('commentHelp'),
-                        commentAnswer: _getLabel('commentAnswer'),
-                        commentEdit: _getLabel('commentEdit'),
-                        commentPreview: _getLabel('commentPreview'),
-                        commentSave: _getLabel('commentSave'),
-                        commentRequired: _getLabel('commentRequired'),
-                        commentNotDelete: _getLabel('commentNotDelete'),
-                        editTooltip: _getLabel('editTooltip'),
-                        deleteTooltip: _getLabel('deleteTooltip')
+                        comments: scope.getLabel('comments'),
+                        commentPlaceholder: scope.getLabel('commentPlaceholder'),
+                        commentHelp: scope.getLabel('commentHelp'),
+                        commentAnswer: scope.getLabel('commentAnswer'),
+                        commentEdit: scope.getLabel('commentEdit'),
+                        commentPreview: scope.getLabel('commentPreview'),
+                        commentSave: scope.getLabel('commentSave'),
+                        commentRequired: scope.getLabel('commentRequired'),
+                        commentNotDelete: scope.getLabel('commentNotDelete'),
+                        editTooltip: scope.getLabel('editTooltip'),
+                        deleteTooltip: scope.getLabel('deleteTooltip'),
+                        commentShare: scope.getLabel('commentShare'),
+                        commentShareClose: scope.getLabel('commentShareClose'),
+                        commentShareTitle: scope.getLabel('commentShareTitle')
                     };
 
                     //-------- public methods-------
@@ -129,7 +135,13 @@
                                 !scope.actions.openSignIn();
                             }
                             scope.local.answer = !scope.local.answer;
+                        },
+                        closeShare : function () {
+                            var _link = jQuery('#share' + scope.local.commentIdHtml);
+                            var _scope = angular.element('#share' + scope.local.commentIdHtml).scope()
+                            _scope.tt_isOpen = false;
                         }
+
                     }
 
                     //-------- Initialization -------
@@ -142,6 +154,12 @@
                             scope.local.sameUser = scope.comment ? (scope.comment.author.username == AuthService.user.username) : false;
                         }
                     );
+
+
+                    var _hash = $location.hash();
+                    if (angular.isDefined(_hash) && _hash === scope.local.commentIdHtml) {
+                        $timeout(function () { $anchorScroll(); }, 300);
+                    }
 
                 }
             }

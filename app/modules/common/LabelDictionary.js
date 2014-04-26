@@ -30,6 +30,9 @@
         commentSave: "Salva",
         commentRequired: "Inserisci almeno un carattere",
         commentNotDelete: "Il commento non può essere rimosso: altri utenti hanno linkato la tua risposta",
+        commentShare: "Condividi",
+        commentShareClose: "Esci",
+        commentShareTitle: "Condividi il link alla risposta",
 
         ratings: "Le Valutazioni",
         ratingPlaceholder: "Se vuoi, commenta il tuo giudizio",

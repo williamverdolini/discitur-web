@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <div class="Lesson-Features col-md-12">
                 <span>{{labels.specifics}}</span>
-                <social-bar css-class="social-bar" abs-url="{{absUrl}}" url-title="{{lesson.title}}"></social-bar>
+                <social-bar css-class="social-bar" url-title="{{lesson.title}}"></social-bar>
             </div>
             <!--<span class="Lesson-Features col-md-12">{{labels.specifics}}</span>-->
             <h4>
@@ -90,7 +90,7 @@
                     <div class="panel-body">
                         <!-- Comment History Area -->
                         <div class="row" ng-repeat-start="comment in lesson.comments | orderBy:['_order']:false">
-                            <lesson-comment comment="comment" lesson-id="{{lesson.lessonId}}" add-comment="actions.addComment(comment)" delete-comment="actions.deleteComment(comment)"></lesson-comment>
+                            <lesson-comment comment="comment" lesson-id="{{lesson.lessonId}}" add-comment="actions.addComment(comment)" delete-comment="actions.deleteComment(comment)" abs-url="{{absUrl}}"></lesson-comment>
                         </div>
                         <hr ng-repeat-end class="comment-hr" />
                         <!-- New Comment Area -->
