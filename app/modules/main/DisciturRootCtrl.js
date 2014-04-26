@@ -57,12 +57,6 @@
                 testEnv: $scope.getLabel('testEnv')
             };
 
-            /*
-            $rootScope.labels = {
-                appTitle: $scope.getLabel('appTitle')
-            }
-            */
-
             //------- Global Event Management -------//
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 //console.log("$stateChangeStart")
