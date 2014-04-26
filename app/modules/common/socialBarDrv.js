@@ -11,8 +11,10 @@
                 transclude: false,
                 scope: {
                     cssClass: '@?',
-                    absUrl: '@',
-                    urlTitle: '@?'
+                    absUrl: '@?',
+                    urlTitle: '@?',
+                    hideFbLike: '@?',
+                    hideGpOne: '@?'
                 },
                 link: function (scope, element, attrs) {
                     // inherit Discitur Base Controller
@@ -31,7 +33,9 @@
                         TWShareHref: null,
                         GPOneHref: null,
                         GPShareHref: null,
-                        LIShareHref: null                        
+                        LIShareHref: null,
+                        showFBLike: angular.isDefined(scope.hideFbLike) ? false : true,
+                        showGPone: angular.isDefined(scope.hideGpOne) ? false : true
                     }
 
                     scope.labels = {
@@ -45,8 +49,8 @@
                     
                     //---------- Initialization --------------
                     scope.local.cssClass =  scope.cssClass || 'social-bar';
-                    scope.local.absUrl= encodeURIComponent(scope.absUrl);
-                    scope.local.urlTitle = encodeURIComponent(scope.urlTitle);
+                    scope.local.absUrl= encodeURIComponent(angular.isDefined(attrs.absUrl) ? attrs.absUrl : scope.absUrl);
+                    scope.local.urlTitle = encodeURIComponent(angular.isDefined(scope.urlTitle) ? scope.urlTitle : scope.absUrl);
                     scope.local.FBShareHref = "http://www.facebook.com/sharer.php?u=" + scope.local.absUrl + (scope.urlTitle ? "&t=" + scope.local.urlTitle : "");
                     scope.local.FBLikeHref= "http://www.facebook.com/plugins/like.php?href=" + scope.local.absUrl;
                     scope.local.TWShareHref = "http://twitter.com/share?url=" + scope.local.absUrl + (scope.urlTitle ? "&text=" + scope.local.urlTitle : "") + "&via=__wilver__";
