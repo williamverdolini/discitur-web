@@ -177,7 +177,8 @@ module.exports = function(grunt) {
                 './app/bower_components/angular-resource/angular-resource.js',
                 './app/bower_components/angular-cookies/angular-cookies.js',
                 './app/bower_components/angular-sanitize/angular-sanitize.js',
-                './app/bower_components/angular-bootstrap/ui-bootstrap.min.js',
+                //'./app/bower_components/angular-bootstrap/ui-bootstrap.min.js',
+                './app/external_components/angular-bootstrap/ui-bootstrap-tpls.js',
                 './app/bower_components/angular-ui-router/release/angular-ui-router.js',
                 //'./app/bower_components/tinymce/tinymce.min.js',
                 './app/bower_components/angular-ui-tinymce/src/tinymce.js'
@@ -269,6 +270,7 @@ module.exports = function(grunt) {
             test: {
                 files: [
                     { expand: true, flatten: false, cwd: 'app/bower_components/', src: ['**'], dest: 'deploy/test/bower_components/' },
+                    { expand: true, flatten: false, cwd: 'app/external_components/', src: ['**'], dest: 'deploy/test/external_components/' },
                     { expand: true, flatten: false, cwd: 'app/img/', src: ['**'], dest: 'deploy/test/img/' },
                     { expand: true, flatten: false, cwd: 'app/masterpages/', src: ['**'], dest: 'deploy/test/masterpages/' },
                     { expand: true, flatten: false, cwd: 'app/template/', src: ['**'], dest: 'deploy/test/template/' },
@@ -282,6 +284,7 @@ module.exports = function(grunt) {
             testfast: {
                 files: [
                     //{ expand: true, flatten: false, cwd: 'app/bower_components/', src: ['**'], dest: 'deploy/test/bower_components/' },
+                    //{ expand: true, flatten: false, cwd: 'app/external_components/', src: ['**'], dest: 'deploy/test/external_components/' },
                     { expand: true, flatten: false, cwd: 'app/img/', src: ['**'], dest: 'deploy/test/img/' },
                     { expand: true, flatten: false, cwd: 'app/masterpages/', src: ['**'], dest: 'deploy/test/masterpages/' },
                     { expand: true, flatten: false, cwd: 'app/template/', src: ['**'], dest: 'deploy/test/template/' },
