@@ -7,6 +7,7 @@
             this.surname = null;
             this.username = null;
             this.image = null;
+            this.thumb = null;
             this.email = null;
             this.roles = [];
             this.isLogged = null;
@@ -21,7 +22,10 @@
         'DisciturSettings',
         'UserDTO',
         'LabelService',
-        function ($http, $q, DiscUtil, DisciturSettings, UserDTO, LabelService) {
+        '$fileUploader',
+        function ($http, $q, DiscUtil, DisciturSettings, UserDTO, LabelService, $fileUploader) {
+            //-------- private variables -------
+            
             //-------- private methods -------
 
             // encode message with CriptoJS
@@ -62,6 +66,7 @@
                 _user.surname = apiData.Surname;
                 _user.username = apiData.UserName || apiData.userName;
                 _user.image = apiData.Picture;
+                _user.thumb = apiData.Thumb || apiData.Picture;
                 _user.email = apiData.Email;
                 _user.isLogged = true;
                 return _user;
@@ -433,6 +438,20 @@
                                 deferred.resolve(false);
                             });
                     return deferred.promise;
+                },
+                // Update User Image
+                updateUserImage: function (item) {
+                    return $fileUploader.uploadItem(item);
+                },
+                // expose Authorizatin Token (BRUTTO!!)
+                getTokenHeader: function () {
+                    var _token = localStorage.getItem(DisciturSettings.authToken)
+                    var res = {};
+                    if (_token)
+                        res = {
+                            Authorization : 'Bearer ' + _token
+                        }
+                    return res;
                 }
             }
 

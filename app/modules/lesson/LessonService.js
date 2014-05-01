@@ -149,7 +149,8 @@
                 comment.level = commentData.Level
                 comment.author.userid = commentData.Author.UserId;
                 comment.author.username = commentData.Author.UserName;
-                comment.author.image = commentData.Author.Picture;
+                //comment.author.image = commentData.Author.Picture;
+                comment.author.image = commentData.Author.Thumb || commentData.Author.Picture;
                 return comment;
             }
             // Lesson Comments array data Transfer
@@ -222,7 +223,8 @@
                 rating.rating = ratingData.Rating;
                 rating.author.userid = ratingData.Author.UserId;
                 rating.author.username = ratingData.Author.UserName;
-                rating.author.image = ratingData.Author.Picture;
+                //rating.author.image = ratingData.Author.Picture;
+                rating.author.image = ratingData.Author.Thumb || ratingData.Author.Picture;
                 rating.version = ratingData.Vers;
                 return rating;
             }
