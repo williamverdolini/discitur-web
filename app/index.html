@@ -13,7 +13,9 @@
     <!--<base href="/web/app/" />-->
     <!-- /build -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen">
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/flatly-bootstrap.min.css" media="screen">
+    <!--<link rel="stylesheet" href="bower_components/angular-jqfile-upload/css/jquery.fileupload.css" media="screen">
+    <link rel="stylesheet" href="bower_components/angular-jqfile-upload/css/jquery.fileupload-ui.css" media="screen">-->
+    <link rel="stylesheet" href="external_components/bootstrap/dist/css/flatly-bootstrap.min.css" media="screen">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
     <!-- build:style app -->
@@ -38,6 +40,17 @@
     <script type="text/javascript" src="external_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+
+    <!--<script type="text/javascript" src="bower_components/blueimp-load-image/js/load-image.min.js"></script>
+    <script type="text/javascript" src="bower_components/blueimp-load-image/js/load-image.js"></script>
+    <script type="text/javascript" src="bower_components/blueimp-load-image/js/load-image-meta.js"></script>
+    <script type="text/javascript" src="bower_components/blueimp-load-image/js/load-image-orientation.js"></script>
+    <script type="text/javascript" src="bower_components/angular-jqfile-upload/dist/uploader.js"></script>-->
+
+
+    <script type="text/javascript" src="bower_components/angular-file-upload/angular-file-upload.js"></script>
+    
+
     <!-- /build -->
 
     <!-- build:script settings -->
@@ -55,6 +68,7 @@
     <script type="text/javascript" src="modules/common/inputServerValidationDrv.js"></script>
     <script type="text/javascript" src="modules/common/socialBarDrv.js"></script>
     <script type="text/javascript" src="modules/common/pwCheckDrv.js"></script>
+    <script type="text/javascript" src="modules/common/ngThumbDrv.js"></script>
     <script type="text/javascript" src="modules/lesson/LessonService.js"></script>
     <script type="text/javascript" src="modules/lesson/LessonCommentDrv.js"></script>
     <script type="text/javascript" src="modules/lesson/LessonRatingDrv.js"></script>
@@ -73,7 +87,7 @@
     <script type="text/javascript" src="modules/user/UserSignInCtrl.js"></script>
     <script type="text/javascript" src="modules/user/UserProfileCtrl.js"></script>
     <script type="text/javascript" src="modules/user/UserActivationCtrl.js"></script>
-
+    <script type="text/javascript" src="modules/user/UserImageCtrl.js"></script>
     <script type="text/javascript" src="modules/main/DisciturApp.js"></script>
     <script type="text/javascript" src="modules/main/doSignInDrv.js"></script>
     <script type="text/javascript" src="modules/main/DisciturBaseCtrl.js"></script>
@@ -94,7 +108,7 @@
 
     <!--------------------- /Scripts --------------------------->
 
-    
+
 </head>
 <body>
     <div id="fb-root"></div>

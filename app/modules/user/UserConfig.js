@@ -5,7 +5,8 @@
         'ngResource',
         'ui.router',
         'ngSanitize',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'angularFileUpload'
     ])
     .config(
     [
@@ -13,7 +14,21 @@
         '$stateProvider',
         '$urlRouterProvider', 
         '$uiViewScrollProvider',
+        //'$fileUploader',
         function ($httpProvider, $stateProvider, $urlRouterProvider, $uiViewScrollProvider) {
+
+            //delete $httpProvider.defaults.headers.common['X-Requested-With'];
+            //// File Upload settings:
+            //angular.extend(fileUploadProvider.defaults, {
+            //    // Enable image resizing, except for Android and Opera,
+            //    // which actually support image resizing, but fail to
+            //    // send Blob objects via XHR requests:
+            //    disableImageResize: /Android(?!.*Chrome)|Opera/
+            //        .test(window.navigator.userAgent),
+            //    //maxFileSize: 10000000,
+            //    acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i
+            //});
+
             $httpProvider.interceptors.push('UserAuthInterceptor');
 
             // to prevent autoscroll (introduced by angular-ui-router 0.2.8 https://github.com/angular-ui/ui-router/releases/tag/0.2.8)
