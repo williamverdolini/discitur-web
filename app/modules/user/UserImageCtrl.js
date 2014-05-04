@@ -27,11 +27,16 @@
             // otherwhise Javascript search properties in parent scope if not exists in this scope
             // very very very important for form validation!! (https://github.com/angular-ui/bootstrap/issues/969)
             $scope.local = {
-
+                item: null
             };
 
             $scope.labels = {
-                //username: $scope.getLabel('username'),
+                userImageTitle: $scope.getLabel('userImageTitle'),
+                userImageChooseFile: $scope.getLabel('userImageChooseFile'),
+                userImageUpload: $scope.getLabel('userImageUpload'),
+                userImageCancel: $scope.getLabel('userImageCancel'),
+                userImageName: $scope.getLabel('userImageName'),
+                userImageSize: $scope.getLabel('userImageSize')
             };
             //-------- private methods -------
 
@@ -42,9 +47,13 @@
                 },
                 cancel: function () {
                     $modalInstance.dismiss('cancel');
+                },
+                clearQueue: function () {
+                    uploader.clearQueue();
+                    $scope.local.item = null;
+                    console.log('uploader.clearQueue');
                 }
             }
-
 
 
             // Creates a uploader
@@ -66,6 +75,7 @@
 
             // REGISTER HANDLERS
             uploader.bind('afteraddingfile', function (event, item) {
+                $scope.local.item = uploader.queue[0];
                 console.info('After adding a file', item);
             });
 
@@ -87,6 +97,10 @@
 
             uploader.bind('success', function (event, xhr, item, response) {
                 console.info('Success', xhr, item, response);
+                $scope.local.item = null;
+                AuthService.getUserInfo().then(function () {
+                    $scope.actions.ok();
+                })
             });
 
             uploader.bind('cancel', function (event, xhr, item) {
@@ -107,9 +121,6 @@
 
             uploader.bind('completeall', function (event, items) {
                 console.info('Complete all', items);
-                AuthService.getUserInfo().then(function () {
-                    $scope.actions.ok();
-                })
             });
 
 
