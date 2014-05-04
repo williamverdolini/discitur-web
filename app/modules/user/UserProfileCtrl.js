@@ -39,7 +39,8 @@
 
             //--------- public properties ------
             $scope.labels = {
-                //userName: $scope.getLabel('userName')
+                userProfileTitle: $scope.getLabel('userProfileTitle'),
+                userProfileImageChange: $scope.getLabel('userProfileImageChange'),
                 email: $scope.getLabel('email'),
                 changePassword: $scope.getLabel('changePassword'),
                 currentPassword: $scope.getLabel('currentPassword'),
@@ -156,28 +157,9 @@
                 changeImage: function () {
                     modalInstance = $modal.open({
                         backdrop: true,
-                        //windowClass: 'modal-signin',
-                        //template: '<div class="container"><div class="row"><img ng-src="{{local.user.image}}" alt="" class="img-rounded img-responsive" /></div><form name="ImgForm" novalidate><div class="form-group"><input type="file" id="ImageData" name="ImageData" onchange="angular.element(this).scope().setFiles(this)" /></div></form></div>',
-                        //template: '<div class="row fileupload-buttonbar"><div class="col-md-12"><ng-upload-form url="//jquery-file-upload.appspot.com/" size-limit="10000000"></ng-upload-form></div></div>',
+                        windowClass: 'modal-image-upload',
                         templateUrl: 'UserImage',
                         controller: 'UserImageCtrl'
-                        //controller: function ($scope, $modalInstance, AuthService) {
-                        //    var prevImage = AuthService.user.image;
-                        //    $scope.local = {
-                        //        user: AuthService.user
-                        //    }
-                        //    $scope.setFiles = function (element) {
-                        //        scope.$apply(function (scope) {
-                        //            console.log('files:', element.files);
-                        //            // Turn the FileList object into an Array
-                        //            scope.files = []
-                        //            for (var i = 0; i < element.files.length; i++) {
-                        //                scope.files.push(element.files[i])
-                        //            }
-                        //            //scope.progressVisible = false
-                        //        });
-                        //    };
-                        //}
                     });
 
                     modalInstance.result.then(function (selectedItem) {

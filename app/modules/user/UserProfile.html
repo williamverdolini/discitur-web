@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Profilo Utente
+                <h2>{{labels.userProfileTitle}}</h2>
             </div>
             <div class="panel-body">
                 <div class="lead row">
@@ -11,7 +11,7 @@
                             <div class="row">
                                 <div class="col-sm-6 col-md-4">
                                     <img ng-src="{{local.user.image}}" alt="" class="img-rounded img-responsive" />
-                                    <a ng-click="actions.changeImage()">cambia</a>
+                                    <a ng-click="actions.changeImage()">{{labels.userProfileImageChange}}</a>
                                     <div ng-include="'modules/user/UserImage.html'"></div>
                                     <!--<ng-upload-form url="//jquery-file-upload.appspot.com/" auto-upload="true" size-limit="10000000"></ng-upload-form>-->
                                     <!--
@@ -132,23 +132,6 @@
 
                     </div>
                 </div>
-
-                <!--
-                <form class="form-horizontal" name="local.SignupForm" ng-submit="actions.doSignup()" novalidate>
-                    <div class="form-group">
-                        <label class="col-sm-5 control-label">pwd{{labels.password}}</label>
-                        <div class="col-sm-7">
-                            <input class="form-control input-sm" type="password" name="password" ng-minlength="7" ng-model="local.SUpassword" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-5 control-label">Coferma{{labels.confirmPassword}}</label>
-                        <div class="col-sm-7">
-                            <input class="form-control input-sm" type="password" name="confirmPassword" ng-minlength="7" ng-model="local.SUconfirmpassword" pw-check="local.SUpassword" required>
-                        </div>
-                    </div>
-                </form>
-                -->
 
             </div>
         </div>
