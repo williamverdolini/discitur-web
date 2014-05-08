@@ -1,19 +1,23 @@
 ﻿angular.module('disc.lesson')
     .controller('Lesson404Ctrl', [
         '$scope',
-        'LabelService',
+        'DisciturBaseCtrl',
+        '$injector',
+        'DisciturSettings',
         function (
             $scope,
-            LabelService) {
-            /***** label initialization ****/
-            _getLabel = function (label) {
-                return LabelService.get('Lesson404Ctrl', label);
-            }
+            DisciturBaseCtrl,
+            $injector,
+            DisciturSettings) {
+            // inherit Discitur Base Controller
+            $injector.invoke(DisciturBaseCtrl, this, { $scope: $scope });
+
+            //-------- private properties -------
+            $scope._ctrl = 'Lesson404Ctrl';
 
             $scope.labels = {
-                noLessonIdFound: _getLabel('noLessonIdFound')
+                noLessonIdFound: $scope.getLabel('noLessonIdFound', DisciturSettings.supportEmail)
             };
             
-            console.log('404 Controller')
         }
     ]);

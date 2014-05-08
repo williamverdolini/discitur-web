@@ -42,7 +42,7 @@
         ratingNotDelete: "Il commento non può essere rimosso dall'Autore della lezione.",
         ratingInput: "Il tuo giudizio: ",
 
-        noLessonIdFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:team.discitur@gmail.com'>supporto tecnico</a>",
+        noLessonIdFound: "Oooops...la Lezione non esiste! <br>Segnalalo al <a href='mailto:<%1%>'>supporto tecnico</a>",
         viewMore: "Approfondisci >>",
         keywordPlaceholder: "Ricerca la lezione per titolo",
         advKeyword: "Titolo",

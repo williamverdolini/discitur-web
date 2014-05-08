@@ -9,7 +9,8 @@
                 $scope.absUrlComponent = encodeURIComponent($scope.absUrl);
                 //-------- public methods-------
                 $scope.getLabel = function (label) {
-                    return LabelService.get($scope._ctrl, label);
+                    var strArguments = [].slice.call(arguments, 1);
+                    return LabelService.get($scope._ctrl, label, strArguments);
                 };
 
 

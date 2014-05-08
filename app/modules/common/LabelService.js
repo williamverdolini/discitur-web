@@ -13,14 +13,25 @@
         'errors',
         'ErrorDTO',
         function (dictionary, overrides, errors, ErrorDTO) {
+            //-------- private methods-------
+            // allow dynamic labels (string with <%1%>, <%2%> can be replaced with arguments)
+            var replaceArgs = function (label, args) {
+                if (angular.isArray(args)) {
+                    for (var j = 0; j < args.length; j++) {
+                        label = label.replace('<%' + (j+1) + '%>', args[j]);
+                    }
+                }
+                return label;
+            }
+
             return {
-                get: function (controller, label) {
+                get: function (controller, label, strArguments) {
                     //console.debug("LabelService.get " + controller + " - " + label)
                     // if exists the overriden label within the Controller is returned 
                     // otherwise the dictionary's label is returned
                     return (overrides[controller] && overrides[controller][label]) ?
-                        overrides[controller][label] :
-                        dictionary[label] || 'Label (' + label + ') not set!';
+                        replaceArgs(overrides[controller][label], strArguments) :
+                        replaceArgs(dictionary[label], strArguments) || 'Label (' + label + ') not set!';
 
                 },
                 apiErrorCode: function (errorCode) {
