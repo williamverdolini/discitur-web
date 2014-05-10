@@ -181,7 +181,8 @@ module.exports = function(grunt) {
                 './app/external_components/angular-bootstrap/ui-bootstrap-tpls.js',
                 './app/bower_components/angular-ui-router/release/angular-ui-router.js',
                 //'./app/bower_components/tinymce/tinymce.min.js',
-                './app/bower_components/angular-ui-tinymce/src/tinymce.js'
+                './app/bower_components/angular-ui-tinymce/src/tinymce.js',
+                './app/bower_components/angular-file-upload/angular-file-upload.js'
                 ]
             },
             app: {
