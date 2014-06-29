@@ -36,6 +36,8 @@
                         // http://angular-ui.github.io/ui-router/site/#/api/ui.router.router.$urlRouter
                         // Continue with the update and state transition if logic allows
                         $urlRouter.sync();
+                        // Force again sync because $location.path() is not updated with "otherwise route"
+                        $urlRouter.sync();
                     });
                     changeStartCallbacks.splice(0, 1);
 
