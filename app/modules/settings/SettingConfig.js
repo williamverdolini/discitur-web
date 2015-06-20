@@ -10,5 +10,6 @@
         lastLessonsNum: 5,
         supportEmail: 'team@disciturweb.com',
         testEnv: false,
-        isInMaintenance: false
+        isInMaintenance: false,
+        cookieNotificationAcceptedKey: 'disc.cookieNotificationAccepted'
     })

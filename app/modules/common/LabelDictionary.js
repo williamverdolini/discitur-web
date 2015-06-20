@@ -156,7 +156,14 @@
         manifestTitle: 'Il Manifesto',
         backstageTitle: 'Il Backstage del progetto',
         contributeTitle: 'Contribuisci al progetto',
-        aboutTitle: 'Chi siamo'
+        aboutTitle: 'Chi siamo',
+        cookiesTitle: 'Utilizzo dei Cookies',
+        cookiesNotificationContent: "<h2>utilizzo dei cookies</h2>"+	
+                                   "<div><p>In questo sito utilizziamo dei cookies per rendere la navigazione più piacevole.</p><p></p>"+
+                                   "<p>Cliccando sul link \"Policy – Cookies e tutela della Privacy\", puoi trovare le informazioni per disattivare l’installazione dei cookies, "+
+                                   "ma in tal caso il sito potrebbe non funzionare correttamente. Continuando a navigare in questo sito acconsenti alla nostra Policy.</p><p></p></div>",
+        cookiesAccept: "OK",
+        cookiesLaw: "Policy – Cookies e tutela della Privacy"
         }
 )
 .value('overrides',

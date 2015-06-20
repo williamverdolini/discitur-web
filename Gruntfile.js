@@ -192,6 +192,7 @@ module.exports = function(grunt) {
                 dest: './app/assets/app.js',
                 src: [
                     './app/modules/common/CommonConfig.js',
+                    './app/modules/common/CookiesNotificationService.js',                    
                     './app/modules/lesson/LessonConfig.js',
                     './app/modules/user/UserConfig.js',
                     './app/modules/common/LabelDictionary.js',
@@ -220,9 +221,11 @@ module.exports = function(grunt) {
                     './app/modules/user/UserActivationCtrl.js',
                     './app/modules/user/UserImageCtrl.js',
                     './app/modules/main/DisciturApp.js',
+                    './app/modules/main/DisciturApp.js',
                     './app/modules/main/doSignInDrv.js',
                     './app/modules/main/DisciturBaseCtrl.js',
                     './app/modules/main/DisciturRootCtrl.js',
+                    './app/modules/main/DisciturCookiesCtrl.js',
                     './app/modules/navigation/NavCtrl.js'
                     //'app/modules/**/*.js'
                 ]

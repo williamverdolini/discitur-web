@@ -56,9 +56,10 @@
             $scope.labels = {
                 appTitle: $scope.getLabel('appTitle'),
                 loading: $scope.getLabel('loading'),
-                testEnv: $scope.getLabel('testEnv')
+                testEnv: $scope.getLabel('testEnv'),
+                cookiesNotificationContent: $scope.getLabel('cookiesNotificationContent')
             };
-
+            
             //------- Global Event Management -------//
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 //console.log("$stateChangeStart")

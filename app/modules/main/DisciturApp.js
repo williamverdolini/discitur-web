@@ -16,9 +16,9 @@
         '$locationProvider',
         function ($stateProvider, $urlRouterProvider, $httpProvider, DisciturSettings, $locationProvider) {
             // for HTML5 mode
-            //$locationProvider.html5Mode(true)
+            $locationProvider.html5Mode(true)
             // for HashBang mode
-            $locationProvider.html5Mode(false).hashPrefix('!');
+            //$locationProvider.html5Mode(false).hashPrefix('!');
             $httpProvider.interceptors.push('LoadingInterceptor');
 
             $stateProvider
@@ -88,7 +88,12 @@
                     title: 'contributeTitle',
                     templateUrl: 'modules/main/site/Contribute.html'
                 })
-
+                .state('master.1cl.cookies', {
+                    url: 'project/cookies',
+                    parent: 'master.1cl',
+                    title: 'cookiesTitle',
+                    templateUrl: 'modules/main/site/CookiePrivacy.html'
+                })
             }
 
     }
@@ -98,5 +103,6 @@
         '$rootScope',
         function (DisciturSettings, $rootScope) {
             $rootScope.testEnv = DisciturSettings.testEnv;
+            $rootScope.isCookiesAccepted = localStorage.getItem(DisciturSettings.cookieNotificationAcceptedKey) || false;
         }
     ])
